@@ -59,7 +59,7 @@ Run `carthage update` to build the framework and drag the built `SteamController
 Everything should work like with MFi controllers. Depending on how your game works, you might not need any changes at all.
 
 * `#import <SteamController/SteamController.h>`.
-* To scan for Steam Controllers, call `[[SteamControllerManager] scanForControllers]`.
+* To scan for Steam Controllers, call `[[SteamControllerManager sharedManager] scanForControllers]`.
 * The framework will post `GCControllerDidConnectNotification` and `GCControllerDidDisconnectNotification`, as with MFi controllers.
 * Connected Steam Controllers will be returned in `[GCController controllers]`.
 * Controllers are a subclass of `GCController` that implements the `extendedGamepad` profile.
