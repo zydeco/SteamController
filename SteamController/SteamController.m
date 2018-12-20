@@ -114,7 +114,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
 }
 
 - (GCGamepad *)gamepad {
-    return nil;
+    return (GCGamepad *)extendedGamepad;
 }
 
 - (GCMicroGamepad *)microGamepad {
