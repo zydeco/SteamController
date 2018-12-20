@@ -8,6 +8,10 @@ For information about how to use a Steam Controller in Bluetoth LE mode, see [St
 
 To run the example project, clone the repo, and run the SteamControllerTestApp target.
 
+![Screenshot](screenshot.png)
+
+In the example app, power on your controller (in BLE or BLE pairing mode) and press Scan. Connected controllers will appear in the list, and the UI will reflect the state of the controller. Tapping on a controller from the list will play the  "identify" melody on that controller.
+
 ## Requirements
 
 * iOS 12 (might work on earlier versions, haven't tested).
@@ -63,7 +67,22 @@ Everything should work like with MFi controllers. Depending on how your game wor
 * The framework will post `GCControllerDidConnectNotification` and `GCControllerDidDisconnectNotification`, as with MFi controllers.
 * Connected Steam Controllers will be returned in `[GCController controllers]`.
 * Controllers are a subclass of `GCController` that implements the `extendedGamepad` profile.
-
+* Buttons on the Steam Controller are mapped to the extended gamepad profile as follows:
+    * Analog stick: d-pad
+    * Trackpads: thumbsticks
+        * They report their position when touched
+        * Return to 0,0 when released
+    * A, B, X, Y: equivalent
+    * Bumpers: L1/R1 shoulder buttons
+    * Triggers: L2/R2 shoulder button/trigger
+    * Start button: pause button
+    * The rest of the inputs are not mapped:
+        * Left/right grip
+        * Gryo
+        * Back
+        * Steam Button
+        * Analog stick click
+        * Trackpad clicks
 
 ## License
 
