@@ -6,18 +6,8 @@
 //  Copyright © 2018 namedfork. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-//! Project version number for SteamController.
-FOUNDATION_EXPORT double SteamControllerVersionNumber;
-
-//! Project version string for SteamController.
-FOUNDATION_EXPORT const unsigned char SteamControllerVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <SteamController/PublicHeader.h>
+#import <GameController/GameController.h>
 #import <SteamController/SteamControllerManager.h>
-
-@import GameController;
 
 @class CBPeripheral;
 

@@ -29,6 +29,10 @@
 		2830165221CC107000E024C9 /* SteamControllerInput.h in Headers */ = {isa = PBXBuildFile; fileRef = 282F528021C98C2400B3A804 /* SteamControllerInput.h */; };
 		2830165321CC107000E024C9 /* SteamControllerInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 282F528121C98C2400B3A804 /* SteamControllerInput.m */; };
 		2830165421CC119200E024C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2838E12720A750AE0027CC92 /* Main.storyboard */; };
+		2830166021CC2A4000E024C9 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2830165F21CC2A4000E024C9 /* GameController.framework */; };
+		2830166121CC2A4400E024C9 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2838E13820A752610027CC92 /* CoreBluetooth.framework */; };
+		2830166321CC2A4A00E024C9 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2830166221CC2A4A00E024C9 /* GameController.framework */; };
+		2830166521CC2A4F00E024C9 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2830166421CC2A4F00E024C9 /* CoreBluetooth.framework */; };
 		2838E12320A750AE0027CC92 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2838E12220A750AE0027CC92 /* AppDelegate.m */; };
 		2838E12B20A750B00027CC92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2838E12A20A750B00027CC92 /* Assets.xcassets */; };
 		2838E12E20A750B00027CC92 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2838E12C20A750B00027CC92 /* LaunchScreen.storyboard */; };
@@ -78,6 +82,9 @@
 		2830160721CC0DE200E024C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2830161621CC0E2900E024C9 /* SteamController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SteamController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2830164421CC100F00E024C9 /* SteamController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SteamController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2830165F21CC2A4000E024C9 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
+		2830166221CC2A4A00E024C9 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.1.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
+		2830166421CC2A4F00E024C9 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.1.sdk/System/Library/Frameworks/CoreBluetooth.framework; sourceTree = DEVELOPER_DIR; };
 		2838E11E20A750AE0027CC92 /* SteamControllerTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SteamControllerTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2838E12120A750AE0027CC92 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2838E12220A750AE0027CC92 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -94,6 +101,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2830166121CC2A4400E024C9 /* CoreBluetooth.framework in Frameworks */,
+				2830166021CC2A4000E024C9 /* GameController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +110,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2830166521CC2A4F00E024C9 /* CoreBluetooth.framework in Frameworks */,
+				2830166321CC2A4A00E024C9 /* GameController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +186,9 @@
 		2838E13720A752600027CC92 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2830166421CC2A4F00E024C9 /* CoreBluetooth.framework */,
+				2830165F21CC2A4000E024C9 /* GameController.framework */,
+				2830166221CC2A4A00E024C9 /* GameController.framework */,
 				2838E13820A752610027CC92 /* CoreBluetooth.framework */,
 			);
 			name = Frameworks;
