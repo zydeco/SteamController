@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2830164321CC100F00E024C9"
-               BuildableName = "SteamController_tvOS.framework"
+               BuildableName = "SteamController.framework"
                BlueprintName = "SteamController-tvOS"
                ReferencedContainer = "container:SteamController.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2830164321CC100F00E024C9"
-            BuildableName = "SteamController_tvOS.framework"
+            BuildableName = "SteamController.framework"
             BlueprintName = "SteamController-tvOS"
             ReferencedContainer = "container:SteamController.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2830164321CC100F00E024C9"
-            BuildableName = "SteamController_tvOS.framework"
+            BuildableName = "SteamController.framework"
             BlueprintName = "SteamController-tvOS"
             ReferencedContainer = "container:SteamController.xcodeproj">
          </BuildableReference>
