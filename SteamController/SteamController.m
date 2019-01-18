@@ -237,7 +237,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
             state.leftTrigger = ButtonToFloat(BUTTON_LEFT_TRIGGER);
             state.rightTrigger = ButtonToFloat(BUTTON_RIGHT_TRIGGER);
         }
-        if ((buttons & BUTTON_START) && controllerPausedHandler) {
+        if ((buttons & BUTTON_STEAM) && controllerPausedHandler) {
             controllerPausedHandler(self);
         }
         // TODO: get iOS 12.1 SDK
