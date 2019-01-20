@@ -98,7 +98,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
 }
 
 - (NSString *)vendorName {
-    return @"Valve Corporation";
+    return @"Steam Controller";
 }
 
 - (dispatch_queue_t)handlerQueue {
