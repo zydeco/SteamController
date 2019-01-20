@@ -98,8 +98,8 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         _steamLeftTrackpadMapping = SteamControllerMappingLeftThumbstick;
         _steamRightTrackpadMapping = SteamControllerMappingRightThumbstick;
         _steamThumbstickMapping = SteamControllerMappingDPad;
-        _steamLeftTrackpadRequiresClick = NO;
-        _steamRightTrackpadRequiresClick = NO;
+        _steamLeftTrackpadRequiresClick = YES;
+        _steamRightTrackpadRequiresClick = YES;
         extendedGamepad = [[SteamControllerExtendedGamepad alloc] initWithController:self];
         self.playerIndex = GCControllerPlayerIndexUnset;
         self.handlerQueue = dispatch_get_main_queue();
@@ -274,6 +274,16 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
             state.leftTrigger = 1.0;
             state.rightTrigger = 1.0;
             state.buttonX = YES;
+        }
+        
+        // Toggle Trackpad Modes
+        
+        if ((buttons & BUTTON_BACK) && (buttons & BUTTON_LEFT_TRACKPAD_CLICK)) {
+            _steamLeftTrackpadRequiresClick = !_steamLeftTrackpadRequiresClick;
+        }
+            
+        if ((buttons & BUTTON_FORWARD) && (buttons & BUTTON_RIGHT_TRACKPAD_CLICK)) {
+            _steamRightTrackpadRequiresClick = !_steamRightTrackpadRequiresClick;
         }
         
         // Feed MFi+ Select via auto-combo
