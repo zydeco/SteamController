@@ -84,7 +84,7 @@ Everything should work like with MFi controllers. Depending on how your game wor
 #### Trackpad Toggles
 - L-Pad Toggle Combo = `L-Pad Click` + `Back`
 - R-Pad Toggle Combo = `R-Pad Click` + `Forward`
-<br><sup> Order is specific if you want to avoid misfiring buttons.</sup<br>
+<br><sup> Order is specific if you want to avoid misfiring buttons.</sup><br>
 
 #### Temporary/Test Mapping (will change later):
 - Back (Select) = MFi+ Combo for Select *(supported in Provenance 1.5: PSX, N64)*
