@@ -234,23 +234,12 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         // TEMP: Test Mapping Start to prefeed MFi+ combo (used in Provenance)
         // TODO: handlers/protocol for extended buttons…
         
-        if (buttons & BUTTON_FORWARD) {
-            state.leftTrigger = 1.0;
-            state.rightTrigger = 1.0;
-            state.leftShoulder = YES;
-            state.rightShoulder = YES;
-            state.buttonX = YES;
-        }
-        
         if (hasTriggers) {
             if (buttons & BUTTON_LEFT_TRIGGER) state.leftTrigger = 1.0;
             if (buttons & BUTTON_RIGHT_TRIGGER) state.rightTrigger = 1.0;
         } else {
             state.leftTrigger = ButtonToFloat(BUTTON_LEFT_TRIGGER);
             state.rightTrigger = ButtonToFloat(BUTTON_RIGHT_TRIGGER);
-        }
-        if ((buttons & BUTTON_STEAM) && controllerPausedHandler) {
-            controllerPausedHandler(self);
         }
         
         if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_LEFT) {
@@ -268,6 +257,33 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         } else {
             state.dpadY = 0.0;
         }
+        
+        // Feed MFi+ Start via auto-combo
+        
+        if (buttons & BUTTON_FORWARD) {
+            state.leftShoulder = YES;
+            state.rightShoulder = YES;
+            state.leftTrigger = 1.0;
+            state.rightTrigger = 1.0;
+            state.buttonX = YES;
+        }
+        
+        // Feed MFi+ Select via auto-combo
+        
+        if (buttons & BUTTON_BACK) {
+            state.leftShoulder = YES;
+            state.rightShoulder = YES;
+            state.leftTrigger = 1.0;
+            state.rightTrigger = 1.0;
+            state.dpadX = 1.0;
+        } else if (!(buttons & BUTTON_LEFT_TRACKPAD_CLICK_LEFT) && !(buttons & BUTTON_LEFT_TRACKPAD_CLICK_RIGHT)) {
+            state.dpadX = 0.0;
+        }
+        
+        if ((buttons & BUTTON_STEAM) && controllerPausedHandler) {
+            controllerPausedHandler(self);
+        }
+    
         
         // DIAGONALS… doesn't work.. need to re-assess…
         // TODO: Transform touch position to dpad sectors, requiring dpad click for dpad direction to be sent
