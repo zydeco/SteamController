@@ -20,6 +20,24 @@ static inline float S16ToFloat(int16_t value) {
     }
 }
 
+static void UpdateStatePad(GCExtendedGamepadSnapShotDataV100* state, SteamControllerMapping pad, float x, float y) {
+    switch (pad) {
+        case SteamControllerMappingLeftThumbstick:
+            state->leftThumbstickX = x;
+            state->leftThumbstickY = y;
+            break;
+        case SteamControllerMappingRightThumbstick:
+            state->rightThumbstickX = x;
+            state->rightThumbstickY = y;
+            break;
+        case SteamControllerMappingDPad:
+            state->dpadX = x;
+            state->dpadY = y;
+        default:
+            break;
+    }
+}
+
 #define BUTTON_BACK 0x001000
 #define BUTTON_STEAM 0x002000
 #define BUTTON_FORWARD 0x004000
@@ -59,6 +77,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     dispatch_queue_t handlerQueue;
     void (^controllerPausedHandler)(GCController *controller);
     BOOL enteringValveMode;
+    uint32_t buttons;
 }
 
 - (instancetype)init {
@@ -76,6 +95,11 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     if ((self = [super init])) {
         _peripheral = peripheral;
         _peripheral.delegate = self;
+        _steamLeftTrackpadMapping = SteamControllerMappingLeftThumbstick;
+        _steamRightTrackpadMapping = SteamControllerMappingRightThumbstick;
+        _steamThumbstickMapping = SteamControllerMappingDPad;
+        _steamLeftTrackpadRequiresClick = NO;
+        _steamRightTrackpadRequiresClick = NO;
         extendedGamepad = [[SteamControllerExtendedGamepad alloc] initWithController:self];
         self.playerIndex = GCControllerPlayerIndexUnset;
         self.handlerQueue = dispatch_get_main_queue();
@@ -221,7 +245,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     GCExtendedGamepadSnapShotDataV100 state = extendedGamepad.state;
     const uint8_t *buf = bytes + 3;
     if (hasButtons) {
-        uint32_t buttons = OSReadBigInt32(buf, -1) & 0xffffff;
+        buttons = OSReadBigInt32(buf, -1) & 0xffffff;
 #define ButtonToFloat(b) ((buttons & b) ? 1.0 : 0.0)
 #define ButtonToBool(b) ((buttons & b) ? YES : NO)
         state.buttonA = ButtonToFloat(BUTTON_A);
@@ -241,23 +265,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
             state.leftTrigger = ButtonToFloat(BUTTON_LEFT_TRIGGER);
             state.rightTrigger = ButtonToFloat(BUTTON_RIGHT_TRIGGER);
         }
-        
-        if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_LEFT) {
-            state.dpadX = -1.0;
-        } else if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_RIGHT) {
-            state.dpadX = 1.0;
-        } else {
-            state.dpadX = 0.0;
-        }
-        
-        if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_UP) {
-            state.dpadY = 1.0;
-        } else if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_DOWN) {
-            state.dpadY = -1.0;
-        } else {
-            state.dpadY = 0.0;
-        }
-        
+
         // Feed MFi+ Start via auto-combo
         
         if (buttons & BUTTON_FORWARD) {
@@ -283,34 +291,6 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         if ((buttons & BUTTON_STEAM) && controllerPausedHandler) {
             controllerPausedHandler(self);
         }
-    
-        
-        // DIAGONALS… doesn't work.. need to re-assess…
-        // TODO: Transform touch position to dpad sectors, requiring dpad click for dpad direction to be sent
-        // TODO: Add toggle for switching from dpad+click to analog input methods
-        
-//        if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_UP & BUTTON_LEFT_TRACKPAD_CLICK_LEFT) {
-//            state.dpadY = 1.0;
-//            state.dpadX = -1.0;
-//        } else if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_UP & BUTTON_LEFT_TRACKPAD_CLICK_RIGHT) {
-//            state.dpadY = 1.0;
-//            state.dpadX = 1.0;
-//        } else {
-//            state.dpadY = 0.0;
-//            state.dpadX = 0.0;
-//        }
-        
-//        if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_DOWN & BUTTON_LEFT_TRACKPAD_CLICK_LEFT) {
-//            state.dpadY = -1.0;
-//            state.dpadX = -1.0;
-//        } else if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_DOWN & BUTTON_LEFT_TRACKPAD_CLICK_RIGHT) {
-//            state.dpadY = -1.0;
-//            state.dpadX = 1.0;
-//        } else {
-//            state.dpadY = 0.0;
-//            state.dpadX = 0.0;
-//        }
-
         // TODO: get iOS 12.1 SDK
 //        newState.leftThumbstickButton = ButtonToBool(BUTTON_LEFT_TRACKPAD_CLICK);
 //        newState.rightThumbstickButton = ButtonToBool(BUTTON_RIGHT_TRACKPAD_CLICK);
@@ -326,34 +306,44 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     }
     
     if (hasStick) {
+        int16_t sx = OSReadLittleInt16(buf, 0);
+        int16_t sy = OSReadLittleInt16(buf, 2);
+        UpdateStatePad(&state, _steamThumbstickMapping, S16ToFloat(sx), S16ToFloat(sy));
+        buf += 4;
+    }
+
+    if (hasLeftTrackpad) {
         int16_t tx = OSReadLittleInt16(buf, 0);
         int16_t ty = OSReadLittleInt16(buf, 2);
-        state.leftThumbstickX = S16ToFloat(tx);
-        state.leftThumbstickY = S16ToFloat(ty);
-        buf += 4;
-    
-//            int16_t sx = OSReadLittleInt16(buf, 0);
-//            int16_t sy = OSReadLittleInt16(buf, 2);
-//            state.dpadX = S16ToFloat(sx);
-//            state.dpadY = S16ToFloat(sy);
-//            buf += 4;
-        
+        if (_steamLeftTrackpadRequiresClick) {
+            if (buttons & BUTTON_LEFT_TRACKPAD_CLICK) {
+                UpdateStatePad(&state, _steamLeftTrackpadMapping, S16ToFloat(tx), S16ToFloat(ty));
+            } else {
+                UpdateStatePad(&state, _steamLeftTrackpadMapping, 0.0, 0.0);
+            }
+        } else {
+            UpdateStatePad(&state, _steamLeftTrackpadMapping, S16ToFloat(tx), S16ToFloat(ty));
         }
-    
-//    if (hasLeftTrackpad) {
-//        int16_t tx = OSReadLittleInt16(buf, 0);
-//        int16_t ty = OSReadLittleInt16(buf, 2);
-//        state.leftThumbstickX = S16ToFloat(tx);
-//        state.leftThumbstickY = S16ToFloat(ty);
-//        buf += 4;
-//    }
+        buf += 4;
+    } else if (_steamLeftTrackpadRequiresClick) {
+        UpdateStatePad(&state, _steamLeftTrackpadMapping, 0.0, 0.0);
+    }
     
     if (hasRightTrackpad) {
         int16_t tx = OSReadLittleInt16(buf, 0);
         int16_t ty = OSReadLittleInt16(buf, 2);
-        state.rightThumbstickX = S16ToFloat(tx);
-        state.rightThumbstickY = S16ToFloat(ty);
+        if (_steamRightTrackpadRequiresClick) {
+            if (buttons & BUTTON_RIGHT_TRACKPAD_CLICK) {
+                UpdateStatePad(&state, _steamRightTrackpadMapping, S16ToFloat(tx), S16ToFloat(ty));
+            } else {
+                UpdateStatePad(&state, _steamRightTrackpadMapping, 0.0, 0.0);
+            }
+        } else {
+            UpdateStatePad(&state, _steamRightTrackpadMapping, S16ToFloat(tx), S16ToFloat(ty));
+        }
         buf += 4;
+    } else if (_steamRightTrackpadRequiresClick) {
+        UpdateStatePad(&state, _steamRightTrackpadMapping, 0.0, 0.0);
     }
     
     extendedGamepad.state = state;
