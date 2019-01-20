@@ -265,16 +265,6 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
             state.leftTrigger = ButtonToFloat(BUTTON_LEFT_TRIGGER);
             state.rightTrigger = ButtonToFloat(BUTTON_RIGHT_TRIGGER);
         }
-
-        // Feed MFi+ Start via auto-combo
-        
-        if (buttons & BUTTON_FORWARD) {
-            state.leftShoulder = YES;
-            state.rightShoulder = YES;
-            state.leftTrigger = 1.0;
-            state.rightTrigger = 1.0;
-            state.buttonX = YES;
-        }
         
         // Toggle Trackpad Modes
         
@@ -286,9 +276,19 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
             _steamRightTrackpadRequiresClick = !_steamRightTrackpadRequiresClick;
         }
         
-        // Feed MFi+ Select via auto-combo
+        // Feed MFi+ [Start] via auto-combo
         
-        if (buttons & BUTTON_BACK) {
+        if ((buttons & BUTTON_FORWARD) && !(buttons & BUTTON_RIGHT_TRACKPAD_CLICK)) {
+            state.leftShoulder = YES;
+            state.rightShoulder = YES;
+            state.leftTrigger = 1.0;
+            state.rightTrigger = 1.0;
+            state.buttonX = YES;
+        }
+        
+        // Feed MFi+ [Select] via auto-combo
+        
+        if ((buttons & BUTTON_BACK) && !(buttons & BUTTON_LEFT_TRACKPAD_CLICK)) {
             state.leftShoulder = YES;
             state.rightShoulder = YES;
             state.leftTrigger = 1.0;
