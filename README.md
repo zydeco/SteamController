@@ -67,22 +67,36 @@ Everything should work like with MFi controllers. Depending on how your game wor
 -  The framework will post `GCControllerDidConnectNotification` and `GCControllerDidDisconnectNotification`, as with MFi controllers.
 - Connected Steam Controllers will be returned in `[GCController controllers]`.
 - Controllers are a subclass of `GCController` that implements the `extendedGamepad` profile.
-- Buttons on the Steam Controller are mapped to the Extended Gamepad profile as follows:
-  - Analog stick: L Thumbstick
-  - Right Trackpad: R Thumbstick <sup>Thumbsticks/Trackpads report positions when touched, return to 0,0 when released.</sup><br>
-  - Left Trackpad: D-Pad 
-  - A, B, X, Y: Equivalent
-  - Bumpers/Shoulders: L1 / R1
-  - Triggers: L2 / R2
-  -  Steam Button: Menu (Pause) Button
+- Core buttons are mapped to Apple's MFi Extended Gamepad Profile
+- Trackpad Modes:
+  1. Button Mode: requires click(s), like d-pad and/or c-buttons
+  2. Trackpad Mode: like analog via touch
 
-- Unmapped:
-  - Left/Right Grip
-  - Gryo
-  - Back (Select)
-  - Forward (Start)
-  - Analog Click (L3)
-  - Trackpad Clicks
+#### Button Mapping:
+- Analog Stick: L-Thumbstick
+- Right Trackpad *(Default)*: R-Thumbstick / C-Buttons *(Requires Click)*
+- Left Trackpad *(Default)*: D-Pad *(Requires Click)*
+- A, B, X, Y: Equivalent
+- Bumpers/Shoulders: L1 / R1
+- Triggers: L2 / R2
+- Steam Button: Menu (Pause) Button
+
+#### Trackpad Toggles
+- L-Pad Toggle Combo = `L-Pad Click` + `Back`
+- R-Pad Toggle Combo = `R-Pad Click` + `Forward`
+<br><sup> Order is specific if you want to avoid misfiring buttons.</sup<br>
+
+#### Temporary/Test Mapping (will change later):
+- Back (Select) = MFi+ Combo for Select *(supported in Provenance 1.5: PSX, N64)*
+- Forward (Start) = MFi+ Combo for Start *(supported in Provenance 1.5: PSX, N64)*
+
+#### (Currently) Unmapped Buttons:
+- Back (Select) *…see above*
+- Forward (Start) *…see above*
+- Left/Right Grip
+- Gryo
+- Analog Click (L3)
+- Trackpad Clicks
 
 ## License
 
