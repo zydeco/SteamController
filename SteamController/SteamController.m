@@ -230,23 +230,15 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         state.buttonY = ButtonToFloat(BUTTON_Y);
         state.leftShoulder = ButtonToFloat(BUTTON_LEFT_BUMPER);
         state.rightShoulder = ButtonToFloat(BUTTON_RIGHT_BUMPER);
-        
-        if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_LEFT) {
-            state.dpadX = -1.0;
-        } else if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_RIGHT) {
-            state.dpadX = 1.0;
-        } else {
-            state.dpadX = 0.0;
-        }
     
         // TEMP: Test Mapping Start to prefeed MFi+ combo (used in Provenance)
         // TODO: handlers/protocol for extended buttons…
         
         if (buttons & BUTTON_FORWARD) {
-            state.leftShoulder = YES;
-            state.rightShoulder = YES;
             state.leftTrigger = 1.0;
             state.rightTrigger = 1.0;
+            state.leftShoulder = YES;
+            state.rightShoulder = YES;
             state.buttonX = YES;
         }
         
@@ -260,6 +252,49 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         if ((buttons & BUTTON_STEAM) && controllerPausedHandler) {
             controllerPausedHandler(self);
         }
+        
+        if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_LEFT) {
+            state.dpadX = -1.0;
+        } else if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_RIGHT) {
+            state.dpadX = 1.0;
+        } else {
+            state.dpadX = 0.0;
+        }
+        
+        if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_UP) {
+            state.dpadY = 1.0;
+        } else if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_DOWN) {
+            state.dpadY = -1.0;
+        } else {
+            state.dpadY = 0.0;
+        }
+        
+        // DIAGONALS… doesn't work.. need to re-assess…
+        // TODO: Transform touch position to dpad sectors, requiring dpad click for dpad direction to be sent
+        // TODO: Add toggle for switching from dpad+click to analog input methods
+        
+//        if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_UP & BUTTON_LEFT_TRACKPAD_CLICK_LEFT) {
+//            state.dpadY = 1.0;
+//            state.dpadX = -1.0;
+//        } else if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_UP & BUTTON_LEFT_TRACKPAD_CLICK_RIGHT) {
+//            state.dpadY = 1.0;
+//            state.dpadX = 1.0;
+//        } else {
+//            state.dpadY = 0.0;
+//            state.dpadX = 0.0;
+//        }
+        
+//        if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_DOWN & BUTTON_LEFT_TRACKPAD_CLICK_LEFT) {
+//            state.dpadY = -1.0;
+//            state.dpadX = -1.0;
+//        } else if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_DOWN & BUTTON_LEFT_TRACKPAD_CLICK_RIGHT) {
+//            state.dpadY = -1.0;
+//            state.dpadX = 1.0;
+//        } else {
+//            state.dpadY = 0.0;
+//            state.dpadX = 0.0;
+//        }
+
         // TODO: get iOS 12.1 SDK
 //        newState.leftThumbstickButton = ButtonToBool(BUTTON_LEFT_TRACKPAD_CLICK);
 //        newState.rightThumbstickButton = ButtonToBool(BUTTON_RIGHT_TRACKPAD_CLICK);
@@ -289,49 +324,13 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         
         }
     
-    
-    if (hasLeftTrackpad) {
-
+//    if (hasLeftTrackpad) {
 //        int16_t tx = OSReadLittleInt16(buf, 0);
 //        int16_t ty = OSReadLittleInt16(buf, 2);
 //        state.leftThumbstickX = S16ToFloat(tx);
 //        state.leftThumbstickY = S16ToFloat(ty);
 //        buf += 4;
-        
-        if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_UP) {
-            state.dpadY = 1.0;
-        } else if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_DOWN) {
-            state.dpadY = -1.0;
-        } else {
-            state.dpadY = 0.0;
-        }
-        
-        if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_UP & BUTTON_LEFT_TRACKPAD_CLICK_LEFT) {
-            state.dpadY = 1.0;
-            state.dpadX = -1.0;
-        } else if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_UP & BUTTON_LEFT_TRACKPAD_CLICK_RIGHT) {
-            state.dpadY = 1.0;
-            state.dpadX = 1.0;
-        } else {
-            state.dpadY = 0.0;
-            state.dpadX = 0.0;
-        }
-        
-        // DIAGONALS… doesn't work.. need to re-assess…
-        // TODO: Transform touch position to dpad sectors, requiring dpad click for dpad direction to be sent
-        // TODO: Add toggle for switching from dpad+click to analog input methods
-        
-        if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_DOWN & BUTTON_LEFT_TRACKPAD_CLICK_LEFT) {
-            state.dpadY = -1.0;
-            state.dpadX = -1.0;
-        } else if (buttons & BUTTON_LEFT_TRACKPAD_CLICK_DOWN & BUTTON_LEFT_TRACKPAD_CLICK_RIGHT) {
-            state.dpadY = -1.0;
-            state.dpadX = 1.0;
-        } else {
-            state.dpadY = 0.0;
-            state.dpadX = 0.0;
-        }
-    }
+//    }
     
     if (hasRightTrackpad) {
         int16_t tx = OSReadLittleInt16(buf, 0);
