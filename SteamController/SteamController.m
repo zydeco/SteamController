@@ -254,10 +254,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         state.buttonY = ButtonToFloat(BUTTON_Y);
         state.leftShoulder = ButtonToFloat(BUTTON_LEFT_BUMPER);
         state.rightShoulder = ButtonToFloat(BUTTON_RIGHT_BUMPER);
-    
-        // TEMP: Test Mapping Start to prefeed MFi+ combo (used in Provenance)
-        // TODO: handlers/protocol for extended buttons…
-        
+
         if (hasTriggers) {
             if (buttons & BUTTON_LEFT_TRIGGER) state.leftTrigger = 1.0;
             if (buttons & BUTTON_RIGHT_TRIGGER) state.rightTrigger = 1.0;
@@ -286,7 +283,10 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
             }
         }
         
-        // Feed MFi+ [Start] via auto-combo
+        // TEMP: Test feeding full MFi+ combos (used in Provenance app) in single button click
+        // TODO: handlers/protocol for extended buttons…
+        
+        // Feed MFi+ [Start] via auto-combo (Temporary PoC)
         
         if ((buttons & BUTTON_FORWARD) && !(buttons & BUTTON_RIGHT_TRACKPAD_CLICK)) {
             state.leftShoulder = YES;
@@ -296,7 +296,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
             state.buttonX = YES;
         }
         
-        // Feed MFi+ [Select] via auto-combo
+        // Feed MFi+ [Select] via auto-combo (Temporary PoC)
         
         if ((buttons & BUTTON_BACK) && (!(buttons & BUTTON_LEFT_TRACKPAD_CLICK) && !(buttons & BUTTON_STICK))) {
             state.leftShoulder = YES;
@@ -311,9 +311,13 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         if ((buttons & BUTTON_STEAM) && controllerPausedHandler) {
             controllerPausedHandler(self);
         }
-        // TODO: get iOS 12.1 SDK
+        
+        // TODO: Awaiting Apple to update SDK / GCExtendedGamepadSnapShotDataV100 struct to include ThumbstickButtons
 //        newState.leftThumbstickButton = ButtonToBool(BUTTON_LEFT_TRACKPAD_CLICK);
 //        newState.rightThumbstickButton = ButtonToBool(BUTTON_RIGHT_TRACKPAD_CLICK);
+//        state.leftThumbstickButton = ButtonToFloat(BUTTON_LEFT_GRIP);
+//        state.leftThumbstickButton = ButtonToFloat(BUTTON_RIGHT_GRIP);
+
         buf += 3;
     }
     
