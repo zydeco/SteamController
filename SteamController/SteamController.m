@@ -97,7 +97,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         _peripheral.delegate = self;
         _steamLeftTrackpadMapping = SteamControllerMappingLeftThumbstick;
         _steamRightTrackpadMapping = SteamControllerMappingRightThumbstick;
-        _steamThumbstickMapping = SteamControllerMappingDPad;
+        _steamThumbstickMapping = SteamControllerMappingLeftThumbstick;
         _steamLeftTrackpadRequiresClick = YES;
         _steamRightTrackpadRequiresClick = YES;
         extendedGamepad = [[SteamControllerExtendedGamepad alloc] initWithController:self];
@@ -276,6 +276,16 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
             _steamRightTrackpadRequiresClick = !_steamRightTrackpadRequiresClick;
         }
         
+        // Toggle Analog Stick Mode
+        
+        if ((buttons & BUTTON_BACK) && (buttons & BUTTON_STICK)) {
+            if (_steamThumbstickMapping == SteamControllerMappingLeftThumbstick) {
+                _steamThumbstickMapping = SteamControllerMappingDPad;
+            } else {
+                _steamThumbstickMapping = SteamControllerMappingLeftThumbstick;
+            }
+        }
+        
         // Feed MFi+ [Start] via auto-combo
         
         if ((buttons & BUTTON_FORWARD) && !(buttons & BUTTON_RIGHT_TRACKPAD_CLICK)) {
@@ -288,7 +298,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         
         // Feed MFi+ [Select] via auto-combo
         
-        if ((buttons & BUTTON_BACK) && !(buttons & BUTTON_LEFT_TRACKPAD_CLICK)) {
+        if ((buttons & BUTTON_BACK) && (!(buttons & BUTTON_LEFT_TRACKPAD_CLICK) && !(buttons & BUTTON_STICK))) {
             state.leftShoulder = YES;
             state.rightShoulder = YES;
             state.leftTrigger = 1.0;
@@ -313,13 +323,6 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         state.leftTrigger = leftTrigger / 255.0;
         state.rightTrigger = rightTrigger / 255.0;
         buf += 2;
-    }
-    
-    if (hasStick) {
-        int16_t sx = OSReadLittleInt16(buf, 0);
-        int16_t sy = OSReadLittleInt16(buf, 2);
-        UpdateStatePad(&state, _steamThumbstickMapping, S16ToFloat(sx), S16ToFloat(sy));
-        buf += 4;
     }
 
     if (hasLeftTrackpad) {
@@ -354,6 +357,13 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         buf += 4;
     } else if (_steamRightTrackpadRequiresClick) {
         UpdateStatePad(&state, _steamRightTrackpadMapping, 0.0, 0.0);
+    }
+    
+    if (hasStick) {
+        int16_t sx = OSReadLittleInt16(buf, 0);
+        int16_t sy = OSReadLittleInt16(buf, 2);
+        UpdateStatePad(&state, _steamThumbstickMapping, S16ToFloat(sx), S16ToFloat(sy));
+        buf += 4;
     }
     
     extendedGamepad.state = state;
