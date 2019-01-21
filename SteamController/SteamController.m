@@ -325,10 +325,17 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         buf += 2;
     }
     
+    BOOL hasUpdatedPads[] = {
+        [SteamControllerMappingDPad] = NO,
+        [SteamControllerMappingLeftThumbstick] = NO,
+        [SteamControllerMappingRightThumbstick] = NO
+    };
+    
     if (hasStick) {
         int16_t sx = OSReadLittleInt16(buf, 0);
         int16_t sy = OSReadLittleInt16(buf, 2);
         UpdateStatePad(&state, _steamThumbstickMapping, S16ToFloat(sx), S16ToFloat(sy));
+        hasUpdatedPads[_steamThumbstickMapping] = YES;
         buf += 4;
     }
 
@@ -338,14 +345,16 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         if (_steamLeftTrackpadRequiresClick) {
             if (buttons & BUTTON_LEFT_TRACKPAD_CLICK) {
                 UpdateStatePad(&state, _steamLeftTrackpadMapping, S16ToFloat(tx), S16ToFloat(ty));
-            } else {
+                hasUpdatedPads[_steamLeftTrackpadMapping] = YES;
+            } else if (!hasUpdatedPads[_steamLeftTrackpadMapping]) {
                 UpdateStatePad(&state, _steamLeftTrackpadMapping, 0.0, 0.0);
             }
         } else {
             UpdateStatePad(&state, _steamLeftTrackpadMapping, S16ToFloat(tx), S16ToFloat(ty));
+            hasUpdatedPads[_steamLeftTrackpadMapping] = YES;
         }
         buf += 4;
-    } else if (_steamLeftTrackpadRequiresClick) {
+    } else if (_steamLeftTrackpadRequiresClick && !hasUpdatedPads[_steamLeftTrackpadMapping]) {
         UpdateStatePad(&state, _steamLeftTrackpadMapping, 0.0, 0.0);
     }
     
@@ -355,14 +364,16 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         if (_steamRightTrackpadRequiresClick) {
             if (buttons & BUTTON_RIGHT_TRACKPAD_CLICK) {
                 UpdateStatePad(&state, _steamRightTrackpadMapping, S16ToFloat(tx), S16ToFloat(ty));
-            } else {
+                hasUpdatedPads[_steamRightTrackpadMapping] = YES;
+            } else if (!hasUpdatedPads[_steamRightTrackpadMapping]) {
                 UpdateStatePad(&state, _steamRightTrackpadMapping, 0.0, 0.0);
             }
         } else {
             UpdateStatePad(&state, _steamRightTrackpadMapping, S16ToFloat(tx), S16ToFloat(ty));
+            hasUpdatedPads[_steamRightTrackpadMapping] = YES;
         }
         buf += 4;
-    } else if (_steamRightTrackpadRequiresClick) {
+    } else if (_steamRightTrackpadRequiresClick && !hasUpdatedPads[_steamRightTrackpadMapping]) {
         UpdateStatePad(&state, _steamRightTrackpadMapping, 0.0, 0.0);
     }
     
