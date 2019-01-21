@@ -82,8 +82,8 @@ Everything should work like with MFi controllers. Depending on how your game wor
 - Steam Button: Menu (Pause) Button
 
 #### Trackpad Toggles
-- L-Pad Toggle Combo = `L-Pad Click` + `Back`
-- R-Pad Toggle Combo = `R-Pad Click` + `Forward`
+- L-Pad Toggle = `◉ L-Pad Click` + `◀︎ Back`
+- R-Pad Toggle = `◉ R-Pad Click` + `▶︎ Forward`
 <br><sup> Order is specific if you want to avoid misfiring buttons.</sup><br>
 
 #### Temporary/Test Mapping (will change later):
