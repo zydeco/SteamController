@@ -69,11 +69,14 @@ Everything should work like with MFi controllers. Depending on how your game wor
 - Controllers are a subclass of `GCController` that implements the `extendedGamepad` profile.
 - Core buttons are mapped to Apple's MFi Extended Gamepad Profile
 - Trackpad Modes:
-  1. Button Mode: requires click(s), like d-pad and/or c-buttons
+  1. Button Mode: requires click(s), like d-pad and/or c-buttons *(Default)*
   2. Trackpad Mode: like analog via touch
+- Stick Modes:
+  1. Analog Mode *(Default)*
+  2. D-Pad Mode
 
 #### Button Mapping:
-- Analog Stick: L-Thumbstick
+- Analog Stick: L-Thumbstick *(Default)*
 - Right Trackpad *(Default)*: R-Thumbstick / C-Buttons *(Requires Click)*
 - Left Trackpad *(Default)*: D-Pad *(Requires Click)*
 - A, B, X, Y: Equivalent
@@ -81,10 +84,11 @@ Everything should work like with MFi controllers. Depending on how your game wor
 - Triggers: L2 / R2
 - Steam Button: Menu (Pause) Button
 
-#### Trackpad Toggles
+#### Trackpad & Stick Mode Toggles
 - L-Pad Toggle = `◉ L-Pad Click` + `◀︎ Back`
 - R-Pad Toggle = `◉ R-Pad Click` + `▶︎ Forward`
-<br><sup> Order is specific if you want to avoid misfiring buttons.</sup><br>
+- Stick Toggle = `◉ Stick Click` + `◀︎ Back`
+<br><sup> Combo order is specific if you want to avoid misfiring buttons.</sup><br>
 
 #### Temporary/Test Mapping (will change later):
 - Back (Select) = MFi+ Combo for Select *(supported in Provenance 1.5: PSX, N64)*
