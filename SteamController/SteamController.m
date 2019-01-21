@@ -324,6 +324,13 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         state.rightTrigger = rightTrigger / 255.0;
         buf += 2;
     }
+    
+    if (hasStick) {
+        int16_t sx = OSReadLittleInt16(buf, 0);
+        int16_t sy = OSReadLittleInt16(buf, 2);
+        UpdateStatePad(&state, _steamThumbstickMapping, S16ToFloat(sx), S16ToFloat(sy));
+        buf += 4;
+    }
 
     if (hasLeftTrackpad) {
         int16_t tx = OSReadLittleInt16(buf, 0);
@@ -357,13 +364,6 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         buf += 4;
     } else if (_steamRightTrackpadRequiresClick) {
         UpdateStatePad(&state, _steamRightTrackpadMapping, 0.0, 0.0);
-    }
-    
-    if (hasStick) {
-        int16_t sx = OSReadLittleInt16(buf, 0);
-        int16_t sy = OSReadLittleInt16(buf, 2);
-        UpdateStatePad(&state, _steamThumbstickMapping, S16ToFloat(sx), S16ToFloat(sy));
-        buf += 4;
     }
     
     extendedGamepad.state = state;
