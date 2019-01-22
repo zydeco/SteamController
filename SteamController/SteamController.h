@@ -23,8 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SteamController : GCController
 
 @property (nonatomic, readonly, retain) CBPeripheral *peripheral;
-@property (nonatomic, assign) SteamControllerMapping steamLeftTrackpadMapping, steamRightTrackpadMapping, steamThumbstickMapping, stickMapping, leftPadMapping;
-@property (nonatomic, assign) BOOL steamLeftTrackpadRequiresClick, steamRightTrackpadRequiresClick, stickIsActive, leftPadIsActive;
+@property (nonatomic, assign) SteamControllerMapping steamLeftTrackpadMapping, steamRightTrackpadMapping, steamThumbstickMapping;
+@property (nonatomic, assign) BOOL steamLeftTrackpadRequiresClick, steamRightTrackpadRequiresClick;
 
 - (instancetype)initWithPeripheral:(CBPeripheral*)peripheral NS_DESIGNATED_INITIALIZER;
 
