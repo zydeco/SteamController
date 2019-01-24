@@ -335,49 +335,51 @@ typedef struct SteamControllerState {
     
     // TEMP: Mode toggles
     // Toggle mode for trackpads
-    if ((state.buttons & BUTTON_BACK) && (state.buttons & BUTTON_LEFT_TRACKPAD_CLICK)) {
-        _steamLeftTrackpadRequiresClick = !_steamLeftTrackpadRequiresClick;
-    }
+    if (hasButtons) {
+        if ((state.buttons & BUTTON_BACK) && (state.buttons & BUTTON_LEFT_TRACKPAD_CLICK)) {
+            _steamLeftTrackpadRequiresClick = !_steamLeftTrackpadRequiresClick;
+        }
+        
+        if ((state.buttons & BUTTON_FORWARD) && (state.buttons & BUTTON_RIGHT_TRACKPAD_CLICK)) {
+            _steamRightTrackpadRequiresClick = !_steamRightTrackpadRequiresClick;
+        }
+        
+        // Toggle Analog Stick Mode
+        if ((state.buttons & BUTTON_BACK) && (state.buttons & BUTTON_STICK)) {
+            if (_steamThumbstickMapping == SteamControllerMappingLeftThumbstick) {
+                _steamThumbstickMapping = SteamControllerMappingDPad;
+            } else {
+                _steamThumbstickMapping = SteamControllerMappingLeftThumbstick;
+            }
+        }
     
-    if ((state.buttons & BUTTON_FORWARD) && (state.buttons & BUTTON_RIGHT_TRACKPAD_CLICK)) {
-        _steamRightTrackpadRequiresClick = !_steamRightTrackpadRequiresClick;
-    }
-    
-    // Toggle Analog Stick Mode
-    if ((state.buttons & BUTTON_BACK) && (state.buttons & BUTTON_STICK)) {
-        if (_steamThumbstickMapping == SteamControllerMappingLeftThumbstick) {
-            _steamThumbstickMapping = SteamControllerMappingDPad;
-        } else {
-            _steamThumbstickMapping = SteamControllerMappingLeftThumbstick;
+        // TEMP: Test feeding full MFi+ combos (used in Provenance app) in single button click
+        // Feed MFi+ [Start] via auto-combo (Temporary PoC)
+        if ((state.buttons & BUTTON_FORWARD) && !(state.buttons & BUTTON_RIGHT_TRACKPAD_CLICK)) {
+            snapshot.leftShoulder = YES;
+            snapshot.rightShoulder = YES;
+            snapshot.leftTrigger = 1.0;
+            snapshot.rightTrigger = 1.0;
+            snapshot.buttonX = YES;
+        }
+        
+        // Feed MFi+ [Select] via auto-combo (Temporary PoC)
+        if ((state.buttons & BUTTON_BACK) && (!(state.buttons & BUTTON_LEFT_TRACKPAD_CLICK) && !(state.buttons & BUTTON_STICK))) {
+            snapshot.leftShoulder = YES;
+            snapshot.rightShoulder = YES;
+            snapshot.leftTrigger = 1.0;
+            snapshot.rightTrigger = 1.0;
+            snapshot.dpadX = 1.0;
+        } else if (!hasUpdatedPads[SteamControllerMappingDPad]) {
+            snapshot.dpadX = 0.0;
+        }
+        
+        // Pause handler
+        if ((state.buttons & BUTTON_STEAM) && controllerPausedHandler) {
+            controllerPausedHandler(self);
         }
     }
-    
-    // TEMP: Test feeding full MFi+ combos (used in Provenance app) in single button click
-    // Feed MFi+ [Start] via auto-combo (Temporary PoC)
-    if ((state.buttons & BUTTON_FORWARD) && !(state.buttons & BUTTON_RIGHT_TRACKPAD_CLICK)) {
-        snapshot.leftShoulder = YES;
-        snapshot.rightShoulder = YES;
-        snapshot.leftTrigger = 1.0;
-        snapshot.rightTrigger = 1.0;
-        snapshot.buttonX = YES;
-    }
-    
-    // Feed MFi+ [Select] via auto-combo (Temporary PoC)
-    if ((state.buttons & BUTTON_BACK) && (!(state.buttons & BUTTON_LEFT_TRACKPAD_CLICK) && !(state.buttons & BUTTON_STICK))) {
-        snapshot.leftShoulder = YES;
-        snapshot.rightShoulder = YES;
-        snapshot.leftTrigger = 1.0;
-        snapshot.rightTrigger = 1.0;
-        snapshot.dpadX = 1.0;
-    } else if (!hasUpdatedPads[SteamControllerMappingDPad]) {
-        snapshot.dpadX = 0.0;
-    }
-    
-    // Pause handler
-    if ((state.buttons & BUTTON_STEAM) && controllerPausedHandler) {
-        controllerPausedHandler(self);
-    }
-    
+
     // Update client
     extendedGamepad.state = snapshot;
 }
