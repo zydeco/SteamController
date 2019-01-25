@@ -86,9 +86,9 @@ Everything should work like with MFi controllers. Depending on how your game wor
 
 #### Trackpad & Stick Mode Toggles
 ```
-L-Pad Toggle = `◉ L-Pad Click` + `◀︎ Back`
-R-Pad Toggle = `◉ R-Pad Click` + `▶︎ Forward`
-Stick Toggle = `◉ Stick Click` + `◀︎ Back`
+L-Pad Toggle = ◉ L-Pad Click + ◀︎ Back
+R-Pad Toggle = ◉ R-Pad Click + ▶︎ Forward
+Stick Toggle = ◉ Stick Click + ◀︎ Back
 ```
 <sup> Combo order is specific if you want to avoid misfiring buttons.</sup><br>
 
