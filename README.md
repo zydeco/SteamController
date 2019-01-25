@@ -85,10 +85,12 @@ Everything should work like with MFi controllers. Depending on how your game wor
 - Steam Button: Menu (Pause) Button
 
 #### Trackpad & Stick Mode Toggles
-- L-Pad Toggle = `◉ L-Pad Click` + `◀︎ Back`
-- R-Pad Toggle = `◉ R-Pad Click` + `▶︎ Forward`
-- Stick Toggle = `◉ Stick Click` + `◀︎ Back`
-<br><sup> Combo order is specific if you want to avoid misfiring buttons.</sup><br>
+```
+L-Pad Toggle = `◉ L-Pad Click` + `◀︎ Back`
+R-Pad Toggle = `◉ R-Pad Click` + `▶︎ Forward`
+Stick Toggle = `◉ Stick Click` + `◀︎ Back`
+```
+<sup> Combo order is specific if you want to avoid misfiring buttons.</sup><br>
 
 #### Temporary/Test Mapping (will change later):
 - Back (Select) = MFi+ Combo for Select *(supported in Provenance 1.5: PSX, N64)*
