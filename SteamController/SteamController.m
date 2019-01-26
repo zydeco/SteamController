@@ -337,20 +337,20 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     if (hasButtons && (state.buttons & SteamControllerButtonSteam)) {
         // Handle steam button combos
         handledSteamCombos |= [self handleSteamButtonCombos:(state.buttons & ~SteamControllerButtonSteam)];
-        return;
     } else if (hasButtons && (previousButtons & SteamControllerButtonSteam)) {
         // Released steam button
         if (handledSteamCombos) {
             [self handleSteamButtonCombos:0];
             handledSteamCombos = NO;
+            // Update client
+            extendedGamepad.state = snapshot;
         } else if (controllerPausedHandler) {
             controllerPausedHandler(self);
-            return;
         }
+    } else if (!(state.buttons & SteamControllerButtonSteam)) {
+        // Update client
+        extendedGamepad.state = snapshot;
     }
-    
-    // Update client
-    extendedGamepad.state = snapshot;
 }
 
 - (BOOL)handleSteamButtonCombos:(uint32_t)buttons {
