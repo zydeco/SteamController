@@ -36,6 +36,7 @@ static void UpdateStatePad(SteamControllerExtendedGamepadSnapshotData* state, St
         case SteamControllerMappingDPad:
             state->dpadX = x;
             state->dpadY = y;
+            state->leftThumbstickButton = button;
             break;
         default:
             break;
