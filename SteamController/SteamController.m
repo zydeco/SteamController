@@ -261,16 +261,16 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     SteamControllerExtendedGamepadSnapshotData snapshot = extendedGamepad.state;
 #define ButtonToFloat(b) ((state.buttons & b) ? 1.0 : 0.0)
 #define ButtonToBool(b) ((state.buttons & b) ? YES : NO)
-    snapshot.buttonA = ButtonToFloat(BUTTON_A);
-    snapshot.buttonB = ButtonToFloat(BUTTON_B);
-    snapshot.buttonX = ButtonToFloat(BUTTON_X);
-    snapshot.buttonY = ButtonToFloat(BUTTON_Y);
-    snapshot.leftShoulder = ButtonToFloat(BUTTON_LEFT_BUMPER);
-    snapshot.rightShoulder = ButtonToFloat(BUTTON_RIGHT_BUMPER);
-    snapshot.leftTrigger = (state.buttons & BUTTON_LEFT_TRIGGER) ? 1.0 : state.leftTrigger / 255.0;
-    snapshot.rightTrigger = (state.buttons & BUTTON_RIGHT_TRIGGER) ? 1.0 : state.rightTrigger / 255.0;
-    snapshot.leftThumbstickButton = (state.buttons & BUTTON_LEFT_GRIP);
-    snapshot.rightThumbstickButton = (state.buttons & BUTTON_RIGHT_GRIP);
+    snapshot.buttonA = ButtonToFloat(SteamControllerButtonA);
+    snapshot.buttonB = ButtonToFloat(SteamControllerButtonB);
+    snapshot.buttonX = ButtonToFloat(SteamControllerButtonX);
+    snapshot.buttonY = ButtonToFloat(SteamControllerButtonY);
+    snapshot.leftShoulder = ButtonToFloat(SteamControllerButtonLeftBumper);
+    snapshot.rightShoulder = ButtonToFloat(SteamControllerButtonRightBumper);
+    snapshot.leftTrigger = (state.buttons & SteamControllerButtonLeftTrigger) ? 1.0 : state.leftTrigger / 255.0;
+    snapshot.rightTrigger = (state.buttons & SteamControllerButtonRightTrigger) ? 1.0 : state.rightTrigger / 255.0;
+    snapshot.leftThumbstickButton = (state.buttons & SteamControllerButtonLeftGrip);
+    snapshot.rightThumbstickButton = (state.buttons & SteamControllerButtonRightGrip);
     
     BOOL hasUpdatedPads[] = {
         [SteamControllerMappingDPad] = NO,
@@ -279,61 +279,42 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     };
     
     if (_steamLeftTrackpadRequiresClick) {
-        if ((state.buttons & BUTTON_LEFT_TRACKPAD_CLICK)) {
-            UpdateStatePad(&snapshot, _steamLeftTrackpadMapping, S16ToFloat(state.leftPad.x), S16ToFloat(state.leftPad.y), (state.buttons & BUTTON_LEFT_GRIP));
+        if ((state.buttons & SteamControllerButtonLeftTrackpadClick)) {
+            UpdateStatePad(&snapshot, _steamLeftTrackpadMapping, S16ToFloat(state.leftPad.x), S16ToFloat(state.leftPad.y), (state.buttons & SteamControllerButtonLeftGrip));
             hasUpdatedPads[_steamLeftTrackpadMapping] = state.leftPad.x || state.leftPad.y;
         } else {
-            UpdateStatePad(&snapshot, _steamLeftTrackpadMapping, 0.0, 0.0, (state.buttons & BUTTON_LEFT_GRIP));
+            UpdateStatePad(&snapshot, _steamLeftTrackpadMapping, 0.0, 0.0, (state.buttons & SteamControllerButtonLeftGrip));
         }
     } else {
-        UpdateStatePad(&snapshot, _steamLeftTrackpadMapping, S16ToFloat(state.leftPad.x), S16ToFloat(state.leftPad.y), (state.buttons & (BUTTON_LEFT_TRACKPAD_CLICK)));
+        UpdateStatePad(&snapshot, _steamLeftTrackpadMapping, S16ToFloat(state.leftPad.x), S16ToFloat(state.leftPad.y), (state.buttons & (SteamControllerButtonLeftTrackpadClick)));
         hasUpdatedPads[_steamLeftTrackpadMapping] = state.leftPad.x || state.leftPad.y;
     }
 
     if (_steamRightTrackpadRequiresClick) {
-        if ((state.buttons & BUTTON_RIGHT_TRACKPAD_CLICK)) {
-            UpdateStatePad(&snapshot, _steamRightTrackpadMapping, S16ToFloat(state.rightPad.x), S16ToFloat(state.rightPad.y), (state.buttons & BUTTON_RIGHT_GRIP));
+        if ((state.buttons & SteamControllerButtonRightTrackpadClick)) {
+            UpdateStatePad(&snapshot, _steamRightTrackpadMapping, S16ToFloat(state.rightPad.x), S16ToFloat(state.rightPad.y), (state.buttons & SteamControllerButtonRightGrip));
             hasUpdatedPads[_steamRightTrackpadMapping] |= state.rightPad.x || state.rightPad.y;
         } else {
-            UpdateStatePad(&snapshot, _steamRightTrackpadMapping, 0.0, 0.0, (state.buttons & BUTTON_RIGHT_GRIP));
+            UpdateStatePad(&snapshot, _steamRightTrackpadMapping, 0.0, 0.0, (state.buttons & SteamControllerButtonRightGrip));
         }
     } else {
-        UpdateStatePad(&snapshot, _steamRightTrackpadMapping, S16ToFloat(state.rightPad.x), S16ToFloat(state.rightPad.y), (state.buttons & (BUTTON_RIGHT_TRACKPAD_CLICK)));
+        UpdateStatePad(&snapshot, _steamRightTrackpadMapping, S16ToFloat(state.rightPad.x), S16ToFloat(state.rightPad.y), (state.buttons & (SteamControllerButtonRightTrackpadClick)));
         hasUpdatedPads[_steamRightTrackpadMapping] |= state.rightPad.x || state.rightPad.y;
     }
 
     if (_steamThumbstickMapping && !hasUpdatedPads[_steamThumbstickMapping]) {
-        UpdateStatePad(&snapshot, _steamThumbstickMapping, S16ToFloat(state.stick.x), S16ToFloat(state.stick.y), (state.buttons & BUTTON_STICK));
+        UpdateStatePad(&snapshot, _steamThumbstickMapping, S16ToFloat(state.stick.x), S16ToFloat(state.stick.y), (state.buttons & SteamControllerButtonStick));
         hasUpdatedPads[_steamThumbstickMapping] = state.stick.x || state.stick.y;
     }
     
     // Ensure grip buttons override thumbstick button state
-    snapshot.leftThumbstickButton |= (state.buttons & BUTTON_LEFT_GRIP);
-    snapshot.rightThumbstickButton |= (state.buttons & BUTTON_RIGHT_GRIP);
+    snapshot.leftThumbstickButton |= (state.buttons & SteamControllerButtonLeftGrip);
+    snapshot.rightThumbstickButton |= (state.buttons & SteamControllerButtonRightGrip);
     
-    // TEMP: Mode toggles
-    // Toggle mode for trackpads
     if (hasButtons) {
-        if ((state.buttons & BUTTON_BACK) && (state.buttons & BUTTON_LEFT_TRACKPAD_CLICK)) {
-            _steamLeftTrackpadRequiresClick = !_steamLeftTrackpadRequiresClick;
-        }
-        
-        if ((state.buttons & BUTTON_FORWARD) && (state.buttons & BUTTON_RIGHT_TRACKPAD_CLICK)) {
-            _steamRightTrackpadRequiresClick = !_steamRightTrackpadRequiresClick;
-        }
-        
-        // Toggle Analog Stick Mode
-        if ((state.buttons & BUTTON_BACK) && (state.buttons & BUTTON_STICK)) {
-            if (_steamThumbstickMapping == SteamControllerMappingLeftThumbstick) {
-                _steamThumbstickMapping = SteamControllerMappingDPad;
-            } else {
-                _steamThumbstickMapping = SteamControllerMappingLeftThumbstick;
-            }
-        }
-    
         // TEMP: Test feeding full MFi+ combos (used in Provenance app) in single button click
         // Feed MFi+ [Start] via auto-combo (Temporary PoC)
-        if ((state.buttons & BUTTON_FORWARD) && !(state.buttons & BUTTON_RIGHT_TRACKPAD_CLICK)) {
+        if (state.buttons & SteamControllerButtonForward) {
             snapshot.leftShoulder = YES;
             snapshot.rightShoulder = YES;
             snapshot.leftTrigger = 1.0;
@@ -342,7 +323,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         }
         
         // Feed MFi+ [Select] via auto-combo (Temporary PoC)
-        if ((state.buttons & BUTTON_BACK) && (!(state.buttons & BUTTON_LEFT_TRACKPAD_CLICK) && !(state.buttons & BUTTON_STICK))) {
+        if (state.buttons & SteamControllerButtonBack) {
             snapshot.leftShoulder = YES;
             snapshot.rightShoulder = YES;
             snapshot.leftTrigger = 1.0;
@@ -353,11 +334,11 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         }
     }
 
-    if (hasButtons && (state.buttons & BUTTON_STEAM)) {
+    if (hasButtons && (state.buttons & SteamControllerButtonSteam)) {
         // Handle steam button combos
-        handledSteamCombos |= [self handleSteamButtonCombos:(state.buttons & ~BUTTON_STEAM)];
+        handledSteamCombos |= [self handleSteamButtonCombos:(state.buttons & ~SteamControllerButtonSteam)];
         return;
-    } else if (hasButtons && (previousButtons & BUTTON_STEAM)) {
+    } else if (hasButtons && (previousButtons & SteamControllerButtonSteam)) {
         // Released steam button
         if (handledSteamCombos) {
             [self handleSteamButtonCombos:0];
@@ -379,7 +360,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     }
     for (uint32_t mask = 0x800000; mask; mask >>= 1) {
         if (changes & mask) {
-            _steamButtonCombinationHandler(mask, buttons & mask);
+            _steamButtonCombinationHandler(self, mask, buttons & mask);
         }
     }
     currentSteamCombos = buttons;
@@ -399,3 +380,55 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
 }
 
 @end
+
+NSString* NSStringFromSteamControllerButton(SteamControllerButton button) {
+    switch (button) {
+        case SteamControllerButtonRightGrip:
+            return @"Right Grip";
+        case SteamControllerButtonLeftTrackpadClick:
+            return @"Left Trackpad Click";
+        case SteamControllerButtonRightTrackpadClick:
+            return @"Right Trackpad Click";
+        case SteamControllerButtonLeftTrackpadTouch:
+            return @"Left Trackpad Touch";
+        case SteamControllerButtonRightTrackpadTouch:
+            return @"Right Trackpad Touch";
+        case SteamControllerButtonStick:
+            return @"Stick Click";
+        case SteamControllerButtonLeftTrackpadClickUp:
+            return @"Left Trackpad Click Up";
+        case SteamControllerButtonLeftTrackpadClickRight:
+            return @"Left Trackpad Click Right";
+        case SteamControllerButtonLeftTrackpadClickLeft:
+            return @"Left Trackpad Click Left";
+        case SteamControllerButtonLeftTrackpadClickDown:
+            return @"LeftTrackpad Click Down";
+        case SteamControllerButtonBack:
+            return @"Back";
+        case SteamControllerButtonSteam:
+            return @"Steam";
+        case SteamControllerButtonForward:
+            return @"Forward";
+        case SteamControllerButtonLeftGrip:
+            return @"Left Grip";
+        case SteamControllerButtonRightTrigger:
+            return @"Right Trigger";
+        case SteamControllerButtonLeftTrigger:
+            return @"Left Trigger";
+        case SteamControllerButtonRightBumper:
+            return @"Right Bumper";
+        case SteamControllerButtonLeftBumper:
+            return @"Left Bumper";
+        case SteamControllerButtonA:
+            return @"A";
+        case SteamControllerButtonB:
+            return @"B";
+        case SteamControllerButtonX:
+            return @"X";
+        case SteamControllerButtonY:
+            return @"Y";
+        default:
+            return [NSString stringWithFormat:@"%06x", button & 0xffffff];
+    }
+}
+
