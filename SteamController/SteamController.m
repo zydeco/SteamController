@@ -58,8 +58,9 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     GCControllerPlayerIndex playerIndex;
     dispatch_queue_t handlerQueue;
     void (^controllerPausedHandler)(GCController *controller);
-    BOOL enteringValveMode;
+    BOOL enteringValveMode, handledSteamCombos;
     SteamControllerState state;
+    uint32_t currentSteamCombos;
 }
 
 - (instancetype)init {
@@ -226,6 +227,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     
     // Update internal state
     const uint8_t *buf = bytes + 3;
+    uint32_t previousButtons = state.buttons;
     if (hasButtons) {
         state.buttons = OSReadBigInt32(buf, -1) & 0xffffff;
         buf += 3;
@@ -349,15 +351,39 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         } else if (!hasUpdatedPads[SteamControllerMappingDPad]) {
             snapshot.dpadX = 0.0;
         }
-        
-        // Pause handler
-        if ((state.buttons & BUTTON_STEAM) && controllerPausedHandler) {
-            controllerPausedHandler(self);
-        }
     }
 
+    if (hasButtons && (state.buttons & BUTTON_STEAM)) {
+        // Handle steam button combos
+        handledSteamCombos |= [self handleSteamButtonCombos:(state.buttons & ~BUTTON_STEAM)];
+        return;
+    } else if (hasButtons && (previousButtons & BUTTON_STEAM)) {
+        // Released steam button
+        if (handledSteamCombos) {
+            [self handleSteamButtonCombos:0];
+            handledSteamCombos = NO;
+        } else if (controllerPausedHandler) {
+            controllerPausedHandler(self);
+            return;
+        }
+    }
+    
     // Update client
     extendedGamepad.state = snapshot;
+}
+
+- (BOOL)handleSteamButtonCombos:(uint32_t)buttons {
+    uint32_t changes = buttons ^ currentSteamCombos;
+    if (changes == 0 || _steamButtonCombinationHandler == nil) {
+        return NO;
+    }
+    for (uint32_t mask = 0x800000; mask; mask >>= 1) {
+        if (changes & mask) {
+            _steamButtonCombinationHandler(mask, buttons & mask);
+        }
+    }
+    currentSteamCombos = buttons;
+    return YES;
 }
 
 #pragma mark - Operations

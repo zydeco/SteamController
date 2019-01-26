@@ -18,6 +18,8 @@ typedef enum : NSUInteger {
     SteamControllerMappingDPad
 } SteamControllerMapping;
 
+typedef void(^SteamControllerButtonHandler)(uint32_t button, BOOL isDown);
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SteamController : GCController
@@ -25,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, retain) CBPeripheral *peripheral;
 @property (nonatomic, assign) SteamControllerMapping steamLeftTrackpadMapping, steamRightTrackpadMapping, steamThumbstickMapping;
 @property (nonatomic, assign) BOOL steamLeftTrackpadRequiresClick, steamRightTrackpadRequiresClick;
+@property (nonatomic, copy, nullable) SteamControllerButtonHandler steamButtonCombinationHandler;
 
 - (instancetype)initWithPeripheral:(CBPeripheral*)peripheral NS_DESIGNATED_INITIALIZER;
 
