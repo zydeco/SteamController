@@ -18,7 +18,7 @@
     SteamControllerButtonInput *leftTrigger, *rightTrigger;
     SteamControllerButtonInput *buttonA, *buttonB, *buttonX, *buttonY;
     __weak SteamController *steamController;
-    GCExtendedGamepadSnapShotDataV100 state;
+    SteamControllerExtendedGamepadSnapshotData state;
     GCExtendedGamepadValueChangedHandler valueChangedHandler;
 }
 
@@ -43,10 +43,19 @@
         buttonB = [SteamControllerButtonInput new];
         buttonX = [SteamControllerButtonInput new];
         buttonY = [SteamControllerButtonInput new];
-        leftThumbstickButton = [SteamControllerButtonInput new];
-        rightThumbstickButton = [SteamControllerButtonInput new];
-        state.version = 0x100;
-        state.size = sizeof(GCExtendedGamepadSnapShotDataV100);
+        if ([GCExtendedGamepad instancesRespondToSelector:@selector(leftThumbstickButton)]) {
+            // runtime supports thumbstick buttons
+            leftThumbstickButton = [SteamControllerButtonInput new];
+            rightThumbstickButton = [SteamControllerButtonInput new];
+            state.version = 0x0101;
+            state.size = 62;
+        } else {
+            leftThumbstickButton = nil;
+            rightThumbstickButton = nil;
+            // pretend to be GCExtendedGamepadSnapShotDataV100
+            state.version = 0x0100;
+            state.size = 60;
+        }
     }
     return self;
 }
@@ -68,7 +77,7 @@
     return [[GCExtendedGamepadSnapshot alloc] initWithController:self.controller snapshotData:snapshotData];
 }
 
-- (void)setState:(GCExtendedGamepadSnapShotDataV100)newState {
+- (void)setState:(SteamControllerExtendedGamepadSnapshotData)newState {
 #define ChangedState(_field) (state._field != newState._field)
 #define UpdateStateValue(_field) if (ChangedState(_field)) { _field.value = newState._field; [self didChangeValueForElement:_field]; }
 #define UpdateStateBool(_field) if (ChangedState(_field)) { _field.value = newState._field ? 1.0 : 0.0; [self didChangeValueForElement:_field]; }
@@ -84,10 +93,8 @@
     UpdateXYValue(dpadX, dpadY, dpad);
     UpdateXYValue(leftThumbstickX, leftThumbstickY, leftThumbstick);
     UpdateXYValue(rightThumbstickX, rightThumbstickY, rightThumbstick);
-    // TODO: iOS 12.1 SDK
-    //UpdateStateBool(leftThumbstickButton);
-    //UpdateStateBool(rightThumbstickButton);
-    
+    UpdateStateBool(leftThumbstickButton);
+    UpdateStateBool(rightThumbstickButton);
     state = newState;
 }
 

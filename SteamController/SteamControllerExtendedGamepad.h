@@ -10,6 +10,44 @@
 #import "SteamController.h"
 #import "SteamControllerInput.h"
 
+#pragma pack(push, 1)
+typedef struct {
+    
+#pragma mark - GCExtendedGamepadSnapshotDataVersion1+
+    uint16_t version;
+    uint16_t size;
+    
+    // Extended gamepad data
+    // Axes in the range [-1.0, 1.0]
+    float dpadX;
+    float dpadY;
+    
+    // Buttons in the range [0.0, 1.0]
+    float buttonA;
+    float buttonB;
+    float buttonX;
+    float buttonY;
+    float leftShoulder;
+    float rightShoulder;
+    
+    // Axes in the range [-1.0, 1.0]
+    float leftThumbstickX;
+    float leftThumbstickY;
+    float rightThumbstickX;
+    float rightThumbstickY;
+    
+    // Buttons in the range [0.0, 1.0]
+    float leftTrigger;
+    float rightTrigger;
+    
+#pragma mark - GCExtendedGamepadSnapshotDataVersion2+
+    // Left and right thumbstick clickable values (0, 1)
+    BOOL leftThumbstickButton;
+    BOOL rightThumbstickButton;
+    
+} SteamControllerExtendedGamepadSnapshotData;
+#pragma pack(pop)
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SteamControllerExtendedGamepad : GCExtendedGamepad
@@ -27,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) SteamControllerButtonInput *rightTrigger;
 @property (nonatomic, readonly, nullable) SteamControllerButtonInput *leftThumbstickButton;
 @property (nonatomic, readonly, nullable) SteamControllerButtonInput *rightThumbstickButton;
-@property (nonatomic, assign) GCExtendedGamepadSnapShotDataV100 state;
+@property (nonatomic, assign) SteamControllerExtendedGamepadSnapshotData state;
 
 - (instancetype)initWithController:(SteamController*)controller;
 

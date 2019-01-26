@@ -64,6 +64,13 @@
     } else if (element == gamepad.rightThumbstick) {
         [self.rightTrackpadView setX:gamepad.rightThumbstick.xAxis.value Y:gamepad.rightThumbstick.yAxis.value];
     }
+    if (@available(iOS 12.1, *)) {
+        if (element == gamepad.leftThumbstickButton) {
+            self.leftTrackpadView.backgroundColor = gamepad.leftThumbstickButton.pressed ? [UIColor darkGrayColor] : [UIColor lightGrayColor];
+        } else if (element == gamepad.rightThumbstickButton) {
+            self.rightTrackpadView.backgroundColor = gamepad.rightThumbstickButton.pressed ? [UIColor darkGrayColor] : [UIColor lightGrayColor];
+        }
+    }
 }
 
 @end

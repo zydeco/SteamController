@@ -21,15 +21,17 @@ static inline float S16ToFloat(int16_t value) {
     }
 }
 
-static void UpdateStatePad(GCExtendedGamepadSnapShotDataV100* state, SteamControllerMapping pad, float x, float y) {
+static void UpdateStatePad(SteamControllerExtendedGamepadSnapshotData* state, SteamControllerMapping pad, float x, float y, BOOL button) {
     switch (pad) {
         case SteamControllerMappingLeftThumbstick:
             state->leftThumbstickX = x;
             state->leftThumbstickY = y;
+            state->leftThumbstickButton = button;
             break;
         case SteamControllerMappingRightThumbstick:
             state->rightThumbstickX = x;
             state->rightThumbstickY = y;
+            state->rightThumbstickButton = button;
             break;
         case SteamControllerMappingDPad:
             state->dpadX = x;
@@ -253,7 +255,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     }
     
     // Update extended gamepad state
-    GCExtendedGamepadSnapShotDataV100 snapshot = extendedGamepad.state;
+    SteamControllerExtendedGamepadSnapshotData snapshot = extendedGamepad.state;
 #define ButtonToFloat(b) ((state.buttons & b) ? 1.0 : 0.0)
 #define ButtonToBool(b) ((state.buttons & b) ? YES : NO)
     snapshot.buttonA = ButtonToFloat(BUTTON_A);
@@ -264,7 +266,8 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     snapshot.rightShoulder = ButtonToFloat(BUTTON_RIGHT_BUMPER);
     snapshot.leftTrigger = (state.buttons & BUTTON_LEFT_TRIGGER) ? 1.0 : state.leftTrigger / 255.0;
     snapshot.rightTrigger = (state.buttons & BUTTON_RIGHT_TRIGGER) ? 1.0 : state.rightTrigger / 255.0;
-    // TODO: iOS 12.1 leftThumbstickButton, rightThumbstickButton */
+    snapshot.leftThumbstickButton = (state.buttons & BUTTON_LEFT_GRIP);
+    snapshot.rightThumbstickButton = (state.buttons & BUTTON_RIGHT_GRIP);
     
     BOOL hasUpdatedPads[] = {
         [SteamControllerMappingDPad] = NO,
@@ -274,32 +277,36 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     
     if (_steamLeftTrackpadRequiresClick) {
         if ((state.buttons & BUTTON_LEFT_TRACKPAD_CLICK)) {
-            UpdateStatePad(&snapshot, _steamLeftTrackpadMapping, S16ToFloat(state.leftPad.x), S16ToFloat(state.leftPad.y));
+            UpdateStatePad(&snapshot, _steamLeftTrackpadMapping, S16ToFloat(state.leftPad.x), S16ToFloat(state.leftPad.y), (state.buttons & BUTTON_LEFT_GRIP));
             hasUpdatedPads[_steamLeftTrackpadMapping] = state.leftPad.x || state.leftPad.y;
         } else {
-            UpdateStatePad(&snapshot, _steamLeftTrackpadMapping, 0.0, 0.0);
+            UpdateStatePad(&snapshot, _steamLeftTrackpadMapping, 0.0, 0.0, (state.buttons & BUTTON_LEFT_GRIP));
         }
     } else {
-        UpdateStatePad(&snapshot, _steamLeftTrackpadMapping, S16ToFloat(state.leftPad.x), S16ToFloat(state.leftPad.y));
+        UpdateStatePad(&snapshot, _steamLeftTrackpadMapping, S16ToFloat(state.leftPad.x), S16ToFloat(state.leftPad.y), (state.buttons & (BUTTON_LEFT_TRACKPAD_CLICK)));
         hasUpdatedPads[_steamLeftTrackpadMapping] = state.leftPad.x || state.leftPad.y;
     }
 
     if (_steamRightTrackpadRequiresClick) {
         if ((state.buttons & BUTTON_RIGHT_TRACKPAD_CLICK)) {
-            UpdateStatePad(&snapshot, _steamRightTrackpadMapping, S16ToFloat(state.rightPad.x), S16ToFloat(state.rightPad.y));
+            UpdateStatePad(&snapshot, _steamRightTrackpadMapping, S16ToFloat(state.rightPad.x), S16ToFloat(state.rightPad.y), (state.buttons & BUTTON_RIGHT_GRIP));
             hasUpdatedPads[_steamRightTrackpadMapping] |= state.rightPad.x || state.rightPad.y;
         } else {
-            UpdateStatePad(&snapshot, _steamRightTrackpadMapping, 0.0, 0.0);
+            UpdateStatePad(&snapshot, _steamRightTrackpadMapping, 0.0, 0.0, (state.buttons & BUTTON_RIGHT_GRIP));
         }
     } else {
-        UpdateStatePad(&snapshot, _steamRightTrackpadMapping, S16ToFloat(state.rightPad.x), S16ToFloat(state.rightPad.y));
+        UpdateStatePad(&snapshot, _steamRightTrackpadMapping, S16ToFloat(state.rightPad.x), S16ToFloat(state.rightPad.y), (state.buttons & (BUTTON_RIGHT_TRACKPAD_CLICK)));
         hasUpdatedPads[_steamRightTrackpadMapping] |= state.rightPad.x || state.rightPad.y;
     }
 
     if (_steamThumbstickMapping && !hasUpdatedPads[_steamThumbstickMapping]) {
-        UpdateStatePad(&snapshot, _steamThumbstickMapping, S16ToFloat(state.stick.x), S16ToFloat(state.stick.y));
+        UpdateStatePad(&snapshot, _steamThumbstickMapping, S16ToFloat(state.stick.x), S16ToFloat(state.stick.y), (state.buttons & BUTTON_STICK));
         hasUpdatedPads[_steamThumbstickMapping] = state.stick.x || state.stick.y;
     }
+    
+    // Ensure grip buttons override thumbstick button state
+    snapshot.leftThumbstickButton |= (state.buttons & BUTTON_LEFT_GRIP);
+    snapshot.rightThumbstickButton |= (state.buttons & BUTTON_RIGHT_GRIP);
     
     // TEMP: Mode toggles
     // Toggle mode for trackpads
