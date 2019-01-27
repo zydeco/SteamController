@@ -7,17 +7,27 @@
 //
 
 #import "SteamControllerInput.h"
+#import "SteamController.h"
 
 @implementation SteamControllerAxisInput
 {
     GCControllerAxisValueChangedHandler valueChangedHandler;
     SteamControllerDirectionPad *directionPad;
+    __weak SteamController *steamController;
     float value;
 }
 
 - (instancetype)initWithDirectionPad:(SteamControllerDirectionPad*)dpad {
     if (self = [super init]) {
         directionPad = dpad;
+        steamController = dpad.steamController;
+    }
+    return self;
+}
+
+- (instancetype)initWithController:(SteamController *)controller {
+    if (self = [super init]) {
+        steamController = controller;
     }
     return self;
 }
@@ -45,7 +55,9 @@
 - (void)setValue:(float)newValue {
     float oldValue = value;
     value = newValue;
-    if (value != oldValue && valueChangedHandler) valueChangedHandler(self, value);
+    if (value != oldValue && valueChangedHandler) dispatch_async(steamController.handlerQueue, ^{
+        self->valueChangedHandler(self, newValue);
+    });
 }
 
 @end
@@ -56,18 +68,30 @@
 {
     GCControllerButtonValueChangedHandler valueChangedHandler, pressedChangedHandler;
     SteamControllerDirectionPad *directionPad;
+    __weak SteamController *steamController;
+    BOOL analog;
     float value;
 }
 
 - (instancetype)initWithDirectionPad:(SteamControllerDirectionPad*)dpad {
     if (self = [super init]) {
         directionPad = dpad;
+        steamController = dpad.steamController;
+        analog = YES;
+    }
+    return self;
+}
+
+- (instancetype)initWithController:(SteamController *)controller analog:(BOOL)isAnalog {
+    if (self = [super init]) {
+        steamController = controller;
+        analog = isAnalog;
     }
     return self;
 }
 
 - (BOOL)isAnalog {
-    return YES;
+    return analog;
 }
 
 - (GCControllerButtonValueChangedHandler)valueChangedHandler {
@@ -99,8 +123,12 @@
     BOOL pressed = newValue > kButtonPressedThreshold;
     float oldValue = value;
     value = newValue;
-    if (value != oldValue && valueChangedHandler) valueChangedHandler(self, value, pressed);
-    if (pressed != wasPressed && pressedChangedHandler) pressedChangedHandler(self, value, pressed);
+    if (value != oldValue && valueChangedHandler) dispatch_async(steamController.handlerQueue, ^{
+        self->valueChangedHandler(self, newValue, pressed);
+    });
+    if (pressed != wasPressed && pressedChangedHandler) dispatch_async(steamController.handlerQueue, ^{
+        self->pressedChangedHandler(self, newValue, pressed);
+    });
 }
 
 - (BOOL)isPressed {
@@ -119,8 +147,9 @@
 @synthesize xAxis, yAxis;
 @synthesize up, down, left, right;
 
-- (instancetype)init {
+- (instancetype)initWithController:(SteamController *)controller {
     if (self = [super init]) {
+        _steamController = controller;
         xAxis = [[SteamControllerAxisInput alloc] initWithDirectionPad:self];
         yAxis = [[SteamControllerAxisInput alloc] initWithDirectionPad:self];
         up = [[SteamControllerButtonInput alloc] initWithDirectionPad:self];
@@ -164,7 +193,9 @@
         [down setValue:0.0];
     }
     
-    if (valueChangedHandler) valueChangedHandler(self, xValue, yValue);
+    if (valueChangedHandler) dispatch_async(_steamController.handlerQueue, ^{
+        self->valueChangedHandler(self, xValue, yValue);
+    });
 }
 
 @end
