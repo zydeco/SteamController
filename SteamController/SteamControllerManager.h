@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSArray<SteamController*> *controllers;
 
 + (instancetype)sharedManager;
++ (BOOL)listenForConnections;
 
 /** Scans for steam controllers in bluetooth mode */
 - (void)scanForControllers;
