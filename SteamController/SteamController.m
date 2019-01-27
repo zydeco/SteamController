@@ -77,7 +77,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     if ((self = [super init])) {
         _peripheral = peripheral;
         _peripheral.delegate = self;
-        _steamLeftTrackpadMapping = SteamControllerMappingLeftThumbstick;
+        _steamLeftTrackpadMapping = SteamControllerMappingDPad;
         _steamRightTrackpadMapping = SteamControllerMappingRightThumbstick;
         _steamThumbstickMapping = SteamControllerMappingLeftThumbstick;
         _steamLeftTrackpadRequiresClick = YES;
