@@ -32,21 +32,21 @@
 - (instancetype)initWithController:(SteamController *)controller {
     if (self = [super init]) {
         steamController = controller;
-        leftThumbstick = [SteamControllerDirectionPad new];
-        rightThumbstick = [SteamControllerDirectionPad new];
-        dpad = [SteamControllerDirectionPad new];
-        leftShoulder = [SteamControllerButtonInput new];
-        rightShoulder = [SteamControllerButtonInput new];
-        leftTrigger = [SteamControllerButtonInput new];
-        rightTrigger = [SteamControllerButtonInput new];
-        buttonA = [SteamControllerButtonInput new];
-        buttonB = [SteamControllerButtonInput new];
-        buttonX = [SteamControllerButtonInput new];
-        buttonY = [SteamControllerButtonInput new];
+        leftThumbstick = [[SteamControllerDirectionPad alloc] initWithController:controller];
+        rightThumbstick = [[SteamControllerDirectionPad alloc] initWithController:controller];
+        dpad = [[SteamControllerDirectionPad alloc] initWithController:controller];
+        leftShoulder = [[SteamControllerButtonInput alloc] initWithController:controller analog:YES];
+        rightShoulder = [[SteamControllerButtonInput alloc] initWithController:controller analog:YES];
+        leftTrigger = [[SteamControllerButtonInput alloc] initWithController:controller analog:YES];
+        rightTrigger = [[SteamControllerButtonInput alloc] initWithController:controller analog:YES];
+        buttonA = [[SteamControllerButtonInput alloc] initWithController:controller analog:YES];
+        buttonB = [[SteamControllerButtonInput alloc] initWithController:controller analog:YES];
+        buttonX = [[SteamControllerButtonInput alloc] initWithController:controller analog:YES];
+        buttonY = [[SteamControllerButtonInput alloc] initWithController:controller analog:YES];
         if ([GCExtendedGamepad instancesRespondToSelector:@selector(leftThumbstickButton)]) {
             // runtime supports thumbstick buttons
-            leftThumbstickButton = [SteamControllerButtonInput new];
-            rightThumbstickButton = [SteamControllerButtonInput new];
+            leftThumbstickButton = [[SteamControllerButtonInput alloc] initWithController:controller analog:NO];
+            rightThumbstickButton = [[SteamControllerButtonInput alloc] initWithController:controller analog:NO];
             state.version = 0x0101;
             state.size = 62;
         } else {
@@ -78,7 +78,9 @@
 }
 
 - (void)setState:(SteamControllerExtendedGamepadSnapshotData)newState {
-#define ChangedState(_field) (state._field != newState._field)
+    SteamControllerExtendedGamepadSnapshotData oldState = state;
+    state = newState;
+#define ChangedState(_field) (oldState._field != newState._field)
 #define UpdateStateValue(_field) if (ChangedState(_field)) { _field.value = newState._field; [self didChangeValueForElement:_field]; }
 #define UpdateStateBool(_field) if (ChangedState(_field)) { _field.value = newState._field ? 1.0 : 0.0; [self didChangeValueForElement:_field]; }
 #define UpdateXYValue(_fieldX, _fieldY, _input) if (ChangedState(_fieldX) || ChangedState(_fieldY)) { [_input setX:newState._fieldX Y:newState._fieldY]; [self didChangeValueForElement:_input]; }
@@ -95,13 +97,12 @@
     UpdateXYValue(rightThumbstickX, rightThumbstickY, rightThumbstick);
     UpdateStateBool(leftThumbstickButton);
     UpdateStateBool(rightThumbstickButton);
-    state = newState;
 }
 
 - (void)didChangeValueForElement:(GCControllerElement*)element {
-    if (valueChangedHandler) {
-        valueChangedHandler(self, element);
-    }
+    if (valueChangedHandler) dispatch_async(steamController.handlerQueue, ^{
+        self->valueChangedHandler(self, element);
+    });
 }
 
 @end

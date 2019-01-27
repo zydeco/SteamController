@@ -19,13 +19,14 @@ typedef struct SteamControllerState {
     uint8_t leftTrigger, rightTrigger;
 } SteamControllerState;
 
-@class SteamControllerDirectionPad;
+@class SteamControllerDirectionPad, SteamController;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SteamControllerButtonInput : GCControllerButtonInput
 
 - (instancetype)initWithDirectionPad:(SteamControllerDirectionPad*)dpad;
+- (instancetype)initWithController:(SteamController *)controller analog:(BOOL)isAnalog;
 - (void)setValue:(float)value;
 
 @end
@@ -33,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SteamControllerAxisInput : GCControllerAxisInput
 
 - (instancetype)initWithDirectionPad:(SteamControllerDirectionPad*)dpad;
+- (instancetype)initWithController:(SteamController *)controller;
 - (void)setValue:(float)value;
 
 @end
@@ -47,6 +49,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) SteamControllerButtonInput *left;
 @property (nonatomic, readonly) SteamControllerButtonInput *right;
 
+@property (nonatomic, readonly, weak) SteamController *steamController;
+
+- (instancetype)initWithController:(SteamController *)controller;
 - (void)setX:(float)x Y:(float)y;
 
 @end
