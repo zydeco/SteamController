@@ -82,7 +82,7 @@
 }
 
 - (void)centralManagerDidUpdateState:(nonnull CBCentralManager *)central {
-    if (central.state == CBManagerStatePoweredOn) {
+    if (central.state == CBCentralManagerStatePoweredOn) {
         [self scanForControllers];
     }
 }
@@ -96,7 +96,7 @@
 }
 
 - (void)scanForControllers {
-    if (centralManager.state == CBManagerStatePoweredOn) {
+    if (centralManager.state == CBCentralManagerStatePoweredOn) {
         [centralManager scanForPeripheralsWithServices:@[controllerServiceUUID] options:nil];
         NSArray *peripherals = [centralManager retrieveConnectedPeripheralsWithServices:@[controllerServiceUUID]];
         for (CBPeripheral *peripheral in peripherals) {
