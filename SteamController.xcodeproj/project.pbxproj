@@ -79,7 +79,7 @@
 		282F528721CABCA300B3A804 /* ControllerTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ControllerTableViewCell.m; sourceTree = "<group>"; };
 		282F528921CAC3F600B3A804 /* XYView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XYView.h; sourceTree = "<group>"; };
 		282F528A21CAC3F600B3A804 /* XYView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYView.m; sourceTree = "<group>"; };
-		2830160721CC0DE200E024C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2830160721CC0DE200E024C9 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		2830161621CC0E2900E024C9 /* SteamController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SteamController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2830164421CC100F00E024C9 /* SteamController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SteamController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2830165F21CC2A4000E024C9 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
@@ -94,6 +94,7 @@
 		2838E12F20A750B00027CC92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2838E13020A750B00027CC92 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2838E13820A752610027CC92 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		283ADD3521FE17EA00760C97 /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +131,8 @@
 		2830160521CC0DE200E024C9 /* SteamController */ = {
 			isa = PBXGroup;
 			children = (
-				2830160721CC0DE200E024C9 /* Info.plist */,
+				2830160721CC0DE200E024C9 /* Info-iOS.plist */,
+				283ADD3521FE17EA00760C97 /* Info-tvOS.plist */,
 				282F527421C6D07700B3A804 /* SteamControllerManager.h */,
 				282F527521C6D07700B3A804 /* SteamControllerManager.m */,
 				282F527721C6F9C600B3A804 /* SteamController.h */,
@@ -420,7 +422,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = SteamController/Info.plist;
+				INFOPLIST_FILE = "SteamController/Info-iOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -450,7 +452,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = SteamController/Info.plist;
+				INFOPLIST_FILE = "SteamController/Info-iOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -479,7 +481,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = SteamController/Info.plist;
+				INFOPLIST_FILE = "SteamController/Info-tvOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -510,7 +512,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = SteamController/Info.plist;
+				INFOPLIST_FILE = "SteamController/Info-tvOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
