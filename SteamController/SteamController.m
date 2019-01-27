@@ -360,7 +360,9 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     }
     for (uint32_t mask = 0x800000; mask; mask >>= 1) {
         if (changes & mask) {
-            _steamButtonCombinationHandler(self, mask, buttons & mask);
+            dispatch_async(handlerQueue, ^{
+                self->_steamButtonCombinationHandler(self, mask, buttons & mask);
+            });
         }
     }
     currentSteamCombos = buttons;
