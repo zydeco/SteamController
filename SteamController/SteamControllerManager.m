@@ -83,6 +83,10 @@ static void didConnectHIDDevice(void *refcon, io_iterator_t iterator) {
         }
     });
     
+    if (!loadedSymbols) {
+        return NO;
+    }
+    
     IONotificationPortRef notificationPort = IONotificationPortCreate(kIOMasterPortDefault);
     CFRunLoopAddSource(CFRunLoopGetCurrent(), IONotificationPortGetRunLoopSource(notificationPort), kCFRunLoopDefaultMode);
     CFMutableDictionaryRef matchingDict = IOServiceMatching("IOHIDUserDevice");
