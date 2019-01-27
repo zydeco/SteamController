@@ -94,9 +94,9 @@ place to support the extra buttons. They are provided for compatibility with Pro
 These combinations are temporary, and will be removed in a future version, once there is an API in
 place to support combinations of steam+button:
 
-- L-Pad Toggle: `◉ L-Pad Click` + `◀︎ Back`: toggles requiring click for input
-- R-Pad Toggle: `◉ R-Pad Click` + `▶︎ Forward`: toggles requiring click for input
-- Stick Toggle: `◉ Stick Click` + `◀︎ Back`: toggles between d-pad and left thumbstick mapping
+- L-Pad Toggle: ◉ L-Pad Click + ◀︎ Back: toggles requiring click for input
+- R-Pad Toggle: ◉ R-Pad Click + ▶︎ Forward: toggles requiring click for input
+- Stick Toggle: ◉ Stick Click + ◀︎ Back: toggles between d-pad and left thumbstick mapping
 <br><sup> Combo order is specific if you want to avoid misfiring buttons.</sup><br>
 
 ## License
