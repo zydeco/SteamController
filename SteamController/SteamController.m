@@ -352,7 +352,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         
         // Pause handler
         if ((state.buttons & BUTTON_STEAM) && controllerPausedHandler) {
-            dispatch_async(handlerQueue, ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
                 self->controllerPausedHandler(self);
             });
         }
