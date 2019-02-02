@@ -12,13 +12,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ `SteamControllerManager` handles the connection and disconnection of Steam Controllers, and inserts connected Steam
+ Controllers into the array of controllers returned by `[GCController controllers]`.
+ */
 @interface SteamControllerManager : NSObject
 
-@property (nonatomic, readonly) NSArray<SteamController*> *controllers;
-
+/** Returns the shared instance of `SteamControllerManager`. */
 + (instancetype)sharedManager;
 
-/** Scans for steam controllers in bluetooth mode */
+/**
+ Returns the currently connected Steam Controllers. Unless you only want to support Steam Controllers, you should
+ use `[GCController controllers]` instead of this property. */
+@property (nonatomic, readonly) NSArray<SteamController*> *controllers;
+
+/**
+ Detects connected and pairing Steam Controllers.
+ If a controller is in pairing mode, this will initiate the pairing process. If it is already paired and connected,
+ it will configure it and post a `GCControllerDidConnectNotification` notification when it's ready. */
 - (void)scanForControllers;
 
 @end

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Classes  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/objc/Section/Classes" class="dashAnchor"></a>
+
+    <a title="Classes  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          SteamController Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/zydeco/SteamController">
+            <img class="header-icon" src="img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">SteamController Reference</a>
+      <img class="carat" src="img/carat.png" />
+      Classes  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/SteamController.html">SteamController</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/SteamControllerManager.html">SteamControllerManager</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/SteamControllerMapping.html">SteamControllerMapping</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            <h1>Classes</h1>
+            <p>The following classes are available globally.</p>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SteamController"></a>
+                    <a name="//apple_ref/objc/Class/SteamController" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SteamController">SteamController</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Steam Controllers are available to an application that links to <code>SteamController.framework</code>. To detect connected
+or pairing Steam Controllers, call <code>scanForControllers</code> on <code><a href="Classes/SteamControllerManager.html">SteamControllerManager</a></code>. Because of the way bluetooth
+accessories communicate with iOS apps, it&rsquo;s not possible to detect the connection automatically using public API,
+so you will need to call <code>scanForControllers</code> accordingly to ensure they&rsquo;re available when needed (e.g. before
+starting a game, after a controller is disconnected).</p>
+
+<p>Once connected, they work in the same way as the native <code>GCGameController</code> from <code>GameController.framework</code>, and
+can be accessed in the same ways:</p>
+
+<ol>
+<li>Querying for the the current array or controllers using <code>[GCController controllers]</code>.</li>
+<li>Registering for Connection/Disconnection notifications from <code>NSNotificationCenter</code>.</li>
+</ol>
+
+<p>Steam Controllers are represented by the <code>SteamController</code> class, a subclass of <code>GCController</code>. It implements the
+<code>GCGamepad</code> and <code>GCExtendedGamepad</code> profiles, and has additional functionality relevant to the Steam Controller:</p>
+
+<ul>
+<li>Changing the mapping of the trackpads and stick.</li>
+<li>Requiring clicking on the trackpads for input to be sent.</li>
+<li>Identifying a controller by playing a tune on it.</li>
+</ul>
+
+                        <a href="Classes/SteamController.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SteamController</span> <span class="p">:</span> <span class="nc">GCController</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SteamController</span> <span class="p">:</span> <span class="kt">GCController</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L49-L77">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SteamControllerManager"></a>
+                    <a name="//apple_ref/objc/Class/SteamControllerManager" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SteamControllerManager">SteamControllerManager</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>SteamControllerManager</code> handles the connection and disconnection of Steam Controllers, and inserts connected Steam
+Controllers into the array of controllers returned by <code>[GCController controllers]</code>.</p>
+
+                        <a href="Classes/SteamControllerManager.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SteamControllerManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SteamControllerManager</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamControllerManager.h#L19-L35">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2019 <a class="link" href="https://github.com/zydeco" target="_blank" rel="external">Jesús A. Álvarez</a>. All rights reserved. (Last updated: 2019-02-02)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

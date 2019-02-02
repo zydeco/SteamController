@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SteamController Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/objc/Class/SteamController" class="dashAnchor"></a>
+
+    <a title="SteamController Class Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          SteamController Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/zydeco/SteamController">
+            <img class="header-icon" src="../img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">SteamController Reference</a>
+      <img class="carat" src="../img/carat.png" />
+      SteamController Class Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/SteamController.html">SteamController</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/SteamControllerManager.html">SteamControllerManager</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SteamControllerMapping.html">SteamControllerMapping</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            <h1>SteamController</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SteamController</span> <span class="p">:</span> <span class="nc">GCController</span></code></pre>
+
+                </div>
+              </div>
+            <p>Steam Controllers are available to an application that links to <code>SteamController.framework</code>. To detect connected
+or pairing Steam Controllers, call <code>scanForControllers</code> on <code><a href="../Classes/SteamControllerManager.html">SteamControllerManager</a></code>. Because of the way bluetooth
+accessories communicate with iOS apps, it&rsquo;s not possible to detect the connection automatically using public API,
+so you will need to call <code>scanForControllers</code> accordingly to ensure they&rsquo;re available when needed (e.g. before
+starting a game, after a controller is disconnected).</p>
+
+<p>Once connected, they work in the same way as the native <code>GCGameController</code> from <code>GameController.framework</code>, and
+can be accessed in the same ways:</p>
+
+<ol>
+<li>Querying for the the current array or controllers using <code>[GCController controllers]</code>.</li>
+<li>Registering for Connection/Disconnection notifications from <code>NSNotificationCenter</code>.</li>
+</ol>
+
+<p>Steam Controllers are represented by the <code>SteamController</code> class, a subclass of <code>GCController</code>. It implements the
+<code>GCGamepad</code> and <code>GCExtendedGamepad</code> profiles, and has additional functionality relevant to the Steam Controller:</p>
+
+<ul>
+<li>Changing the mapping of the trackpads and stick.</li>
+<li>Requiring clicking on the trackpads for input to be sent.</li>
+<li>Identifying a controller by playing a tune on it.</li>
+</ul>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Input%20Mapping"></a>
+                <a name="//apple_ref/objc/Section/Input Mapping" class="dashAnchor"></a>
+                <a href="#/Input%20Mapping">
+                  <h3 class="section-name">Input Mapping</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SteamController(py)steamLeftTrackpadMapping"></a>
+                    <a name="//apple_ref/objc/Property/steamLeftTrackpadMapping" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SteamController(py)steamLeftTrackpadMapping">steamLeftTrackpadMapping</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Mapping of the Steam Controller&rsquo;s left trackpad. Defaults to <code>SteamControllerMappingDPad</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Enums/SteamControllerMapping.html">SteamControllerMapping</a></span> <span class="n">steamLeftTrackpadMapping</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">steamLeftTrackpadMapping</span><span class="p">:</span> <span class="kt"><a href="../Enums/SteamControllerMapping.html">SteamControllerMapping</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L53">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SteamController(py)steamRightTrackpadMapping"></a>
+                    <a name="//apple_ref/objc/Property/steamRightTrackpadMapping" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SteamController(py)steamRightTrackpadMapping">steamRightTrackpadMapping</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Mapping of the Steam Controller&rsquo;s right trackpad. Defaults to <code>SteamControllerMappingRightThumbstick</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Enums/SteamControllerMapping.html">SteamControllerMapping</a></span> <span class="n">steamRightTrackpadMapping</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">steamRightTrackpadMapping</span><span class="p">:</span> <span class="kt"><a href="../Enums/SteamControllerMapping.html">SteamControllerMapping</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L55">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SteamController(py)steamThumbstickMapping"></a>
+                    <a name="//apple_ref/objc/Property/steamThumbstickMapping" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SteamController(py)steamThumbstickMapping">steamThumbstickMapping</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Mapping of the Steam Controller&rsquo;s analog stick. Defaults to <code>SteamControllerMappingLeftThumbstick</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Enums/SteamControllerMapping.html">SteamControllerMapping</a></span> <span class="n">steamThumbstickMapping</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">steamThumbstickMapping</span><span class="p">:</span> <span class="kt"><a href="../Enums/SteamControllerMapping.html">SteamControllerMapping</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L57">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Trackpad%20Configuration"></a>
+                <a name="//apple_ref/objc/Section/Trackpad Configuration" class="dashAnchor"></a>
+                <a href="#/Trackpad%20Configuration">
+                  <h3 class="section-name">Trackpad Configuration</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SteamController(py)steamLeftTrackpadRequiresClick"></a>
+                    <a name="//apple_ref/objc/Property/steamLeftTrackpadRequiresClick" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SteamController(py)steamLeftTrackpadRequiresClick">steamLeftTrackpadRequiresClick</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If <code>YES</code>, the input from the left trackpad will only be sent when it is clicked. Otherwise, input
+will be sent as soon as it&rsquo;s touched. Defaults to <code>YES</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">steamLeftTrackpadRequiresClick</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">steamLeftTrackpadRequiresClick</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L62">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SteamController(py)steamRightTrackpadRequiresClick"></a>
+                    <a name="//apple_ref/objc/Property/steamRightTrackpadRequiresClick" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SteamController(py)steamRightTrackpadRequiresClick">steamRightTrackpadRequiresClick</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If <code>YES</code>, the input from the right trackpad will only be sent when it is clicked. Otherwise, input
+ will be sent as soon as it&rsquo;s touched. Defaults to <code>YES</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">steamRightTrackpadRequiresClick</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">steamRightTrackpadRequiresClick</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L65">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Miscellaneous"></a>
+                <a name="//apple_ref/objc/Section/Miscellaneous" class="dashAnchor"></a>
+                <a href="#/Miscellaneous">
+                  <h3 class="section-name">Miscellaneous</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SteamController(py)peripheral"></a>
+                    <a name="//apple_ref/objc/Property/peripheral" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SteamController(py)peripheral">peripheral</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The CoreBluetooth peripheral associated with this controller.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">retain</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">CBPeripheral</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">peripheral</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">peripheral</span><span class="p">:</span> <span class="kt">CBPeripheral</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L69">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SteamController(im)identify"></a>
+                    <a name="//apple_ref/objc/Method/-identify" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SteamController(im)identify">-identify</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Plays the identify tune on the controller.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">identify</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">identify</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L72">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2019 <a class="link" href="https://github.com/zydeco" target="_blank" rel="external">Jesús A. Álvarez</a>. All rights reserved. (Last updated: 2019-02-02)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>
