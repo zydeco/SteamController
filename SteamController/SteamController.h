@@ -23,33 +23,61 @@ typedef NS_ENUM(NSUInteger, SteamControllerMapping) {
     SteamControllerMappingDPad
 };
 
+/** Represents a physical push button input (or combination thereof) from the Steam Controller.
+ 
+ The values of this enumeration are the same ones used by the controller's bluetooth protocol.
+ */
 typedef NS_OPTIONS(uint32_t, SteamControllerButton) {
+    /// The button on the right underside of the controller.
     SteamControllerButtonRightGrip = 0x000001,
+    /// Press on the left trackpad.
     SteamControllerButtonLeftTrackpadClick = 0x000002,
+    /// Press on the right trackpad.
     SteamControllerButtonRightTrackpadClick = 0x000004,
+    /// Touch on the left trackpad.
     SteamControllerButtonLeftTrackpadTouch = 0x000008,
+    /// Touch on the left trackpad.
     SteamControllerButtonRightTrackpadTouch = 0x000010,
+    /// Press on the analog stick.
     SteamControllerButtonStick = 0x000040,
+    /// Press in the up area of the left trackpad.
     SteamControllerButtonLeftTrackpadClickUp = 0x000100,
+    /// Press in the right area of the left trackpad.
     SteamControllerButtonLeftTrackpadClickRight = 0x000200,
+    /// Press in the left area of the left trackpad.
     SteamControllerButtonLeftTrackpadClickLeft = 0x000400,
+    /// Press in the down area of the left trackpad.
     SteamControllerButtonLeftTrackpadClickDown = 0x000800,
+    /// The left pointing button to the left of the Steam button.
     SteamControllerButtonBack = 0x001000,
+    /// Steam Button. The big round one in the middle of the controller.
     SteamControllerButtonSteam = 0x002000,
+    /// The right pointing button to the right of the Steam button.
     SteamControllerButtonForward = 0x004000,
+    /// The button on the left underside of the controller.
     SteamControllerButtonLeftGrip = 0x008000,
+    /// A full press on the right trigger (the button below the right bumper).
     SteamControllerButtonRightTrigger = 0x010000,
+    /// A full press on the left trigger (the button below the left bumper).
     SteamControllerButtonLeftTrigger = 0x020000,
+    /// The right bumper button, also known as right shoulder button.
     SteamControllerButtonRightBumper = 0x040000,
+    /// The left bumper button, also known as left shoulder button.
     SteamControllerButtonLeftBumper = 0x080000,
+    /// The button marked A on the front of the controller.
     SteamControllerButtonA = 0x800000,
+    /// The button marked B on the front of the controller.
     SteamControllerButtonB = 0x200000,
+    /// The button marked X on the front of the controller.
     SteamControllerButtonX = 0x400000,
+    /// The button marked Y on the front of the controller.
     SteamControllerButtonY = 0x100000
 };
 
+/// Returns a string representing the name of a button.
 NSString* NSStringFromSteamControllerButton(SteamControllerButton button);
 
+/// A block called when a button is pressed or released.
 typedef void(^SteamControllerButtonHandler)(SteamController *controller, SteamControllerButton button, BOOL isDown);
 
 NS_ASSUME_NONNULL_BEGIN
@@ -73,6 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
  - Changing the mapping of the trackpads and stick.
  - Requiring clicking on the trackpads for input to be sent.
  - Identifying a controller by playing a tune on it.
+ - Handling combinations of Steam button + another button.
  
  */
 @interface SteamController : GCController
@@ -95,13 +124,27 @@ will be sent as soon as it's touched. Defaults to `YES`. */
 #pragma mark - Miscellaneous
 /** The CoreBluetooth peripheral associated with this controller. */
 @property (nonatomic, readonly, retain) CBPeripheral *peripheral;
-@property (nonatomic, copy, nullable) SteamControllerButtonHandler steamButtonCombinationHandler;
 
 /** Plays the identify tune on the controller. */
 - (void)identify;
 
 /// :nodoc:
 - (instancetype)initWithPeripheral:(CBPeripheral*)peripheral NS_DESIGNATED_INITIALIZER;
+
+/** Handler for combinations using the Steam button.
+ 
+ If set, this handler will be called on the handler queue when another button is pressed or released
+ in combination with the Steam button:
+ 
+ - When the Steam button is pressed, this handler will be called once for every other button that is
+ currently pressed, with `isDown=YES`.
+ - While the Steam button is held down, this handler will be called whenever the buttons change.
+ - When the Steam button is released, this handler will be called for every other button that was pressed
+ with `isDown=NO`, and the other handlers will be updated to reflect the current state of the buttons. If
+ there were no button presses while the Steam button was down, `controllerPausedHandler` will be called
+ on the main queue.
+ */
+@property (nonatomic, copy, nullable) SteamControllerButtonHandler steamButtonCombinationHandler;
 
 @end
 

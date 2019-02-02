@@ -65,7 +65,26 @@
             <a class="nav-group-name-link" href="../Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/SteamControllerButton.html">SteamControllerButton</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/SteamControllerMapping.html">SteamControllerMapping</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Type Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Type Definitions.html#/c:SteamController.h@T@SteamControllerButtonHandler">SteamControllerButtonHandler</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/c:@F@NSStringFromSteamControllerButton">NSStringFromSteamControllerButton</a>
               </li>
             </ul>
           </li>
@@ -103,6 +122,7 @@ can be accessed in the same ways:</p>
 <li>Changing the mapping of the trackpads and stick.</li>
 <li>Requiring clicking on the trackpads for input to be sent.</li>
 <li>Identifying a controller by playing a tune on it.</li>
+<li>Handling combinations of Steam button + another button.</li>
 </ul>
 
           </div>
@@ -150,7 +170,7 @@ can be accessed in the same ways:</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L53">Show on GitHub</a>
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L111">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -186,7 +206,7 @@ can be accessed in the same ways:</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L55">Show on GitHub</a>
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L113">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -222,7 +242,7 @@ can be accessed in the same ways:</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L57">Show on GitHub</a>
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L115">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -269,7 +289,7 @@ will be sent as soon as it&rsquo;s touched. Defaults to <code>YES</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L62">Show on GitHub</a>
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L119">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -305,7 +325,7 @@ will be sent as soon as it&rsquo;s touched. Defaults to <code>YES</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L65">Show on GitHub</a>
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L122">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -351,7 +371,7 @@ will be sent as soon as it&rsquo;s touched. Defaults to <code>YES</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L69">Show on GitHub</a>
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L126">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -386,7 +406,56 @@ will be sent as soon as it&rsquo;s touched. Defaults to <code>YES</code>.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L72">Show on GitHub</a>
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L129">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)SteamController(py)steamButtonCombinationHandler"></a>
+                    <a name="//apple_ref/objc/Property/steamButtonCombinationHandler" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)SteamController(py)steamButtonCombinationHandler">steamButtonCombinationHandler</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Handler for combinations using the Steam button.</p>
+
+<p>If set, this handler will be called on the handler queue when another button is pressed or released
+ in combination with the Steam button:</p>
+
+<ul>
+<li>When the Steam button is pressed, this handler will be called once for every other button that is
+currently pressed, with <code>isDown=YES</code>.</li>
+<li>While the Steam button is held down, this handler will be called whenever the buttons change.</li>
+<li>When the Steam button is released, this handler will be called for every other button that was pressed
+with <code>isDown=NO</code>, and the other handlers will be updated to reflect the current state of the buttons. If
+there were no button presses while the Steam button was down, <code>controllerPausedHandler</code> will be called
+on the main queue.</li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SteamController.h@T@SteamControllerButtonHandler">SteamControllerButtonHandler</a></span> <span class="n">steamButtonCombinationHandler</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">steamButtonCombinationHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SteamController.h@T@SteamControllerButtonHandler">SteamControllerButtonHandler</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L147">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

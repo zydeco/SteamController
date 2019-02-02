@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Enumerations  Reference</title>
+    <title>Functions  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/objc/Section/Enumerations" class="dashAnchor"></a>
+    <a name="//apple_ref/objc/Section/Functions" class="dashAnchor"></a>
 
-    <a title="Enumerations  Reference"></a>
+    <a title="Functions  Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="index.html">SteamController Reference</a>
       <img class="carat" src="img/carat.png" />
-      Enumerations  Reference
+      Functions  Reference
     </p>
 
     <div class="content-wrapper">
@@ -94,8 +94,8 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Enumerations</h1>
-            <p>The following enumerations are available globally.</p>
+            <h1>Functions</h1>
+            <p>The following functions are available globally.</p>
 
           </div>
         </section>
@@ -107,9 +107,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@E@SteamControllerMapping"></a>
-                    <a name="//apple_ref/objc/Enum/SteamControllerMapping" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@E@SteamControllerMapping">SteamControllerMapping</a>
+                    <a name="/c:@F@NSStringFromSteamControllerButton"></a>
+                    <a name="//apple_ref/objc/Function/NSStringFromSteamControllerButton" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@NSStringFromSteamControllerButton">NSStringFromSteamControllerButton</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -117,63 +117,24 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Represents the mapping of a Steam Controller&rsquo;s trackpad or stick to a GCController thumbstick or directional pad.</p>
+                        <p>Returns a string representing the name of a button.</p>
 
-                        <a href="Enums/SteamControllerMapping.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SteamControllerMapping</span> <span class="p">{}</span></code></pre>
+                          <pre class="highlight objective_c"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">NSStringFromSteamControllerButton</span><span class="p">(</span><span class="n"><a href="Enums/SteamControllerButton.html">SteamControllerButton</a></span> <span class="n">button</span><span class="p">)</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SteamControllerMapping</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="kt">NSStringFromSteamControllerButton</span><span class="p">(</span><span class="n">_</span> <span class="nv">button</span><span class="p">:</span> <span class="kt"><a href="Enums/SteamControllerButton.html">SteamControllerButton</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L15-L24">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@E@SteamControllerButton"></a>
-                    <a name="//apple_ref/objc/Enum/SteamControllerButton" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@E@SteamControllerButton">SteamControllerButton</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Represents a physical push button input (or combination thereof) from the Steam Controller.</p>
-
-<p>The values of this enumeration are the same ones used by the controller&rsquo;s bluetooth protocol.</p>
-
-                        <a href="Enums/SteamControllerButton.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SteamControllerButton</span> <span class="p">{}</span></code></pre>
-
-                        </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SteamControllerButton</span> <span class="p">:</span> <span class="kt">OptionSet</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L30-L75">Show on GitHub</a>
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L78">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
