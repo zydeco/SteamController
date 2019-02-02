@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SteamController  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="SteamController  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          SteamController Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/zydeco/SteamController">
+            <img class="header-icon" src="img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">SteamController Reference</a>
+      <img class="carat" src="img/carat.png" />
+      SteamController  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/SteamController.html">SteamController</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/SteamControllerManager.html">SteamControllerManager</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/SteamControllerMapping.html">SteamControllerMapping</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            
+            <h1 id='steamcontroller' class='heading'>SteamController</h1>
+
+<p>Drop-in support for Steam Controllers for iOS and tvOS.</p>
+
+<p>For information about how to use a Steam Controller in Bluetoth LE mode, see <a href="https://support.steampowered.com/kb_article.php?ref=7728-QESJ-4420#switch">Steam Controller BLE</a>.</p>
+<h2 id='example' class='heading'>Example</h2>
+
+<p>To run the example project, clone the repo, and run the SteamControllerTestApp target.</p>
+
+<p><img src="screenshot.png" alt="Screenshot"></p>
+
+<p>In the example app, power on your controller (in BLE or BLE pairing mode) and press Scan. Connected controllers will appear in the list, and the UI will reflect the state of the controller. Tapping on a controller from the list will play the  <q>identify</q> melody on that controller.</p>
+<h2 id='requirements' class='heading'>Requirements</h2>
+
+<ul>
+<li>iOS 12 (might work on earlier versions, haven&rsquo;t tested).</li>
+<li>Steam Controller with <a href="https://support.steampowered.com/kb_article.php?ref=7728-QESJ-4420#switch">BLE firmware</a>.</li>
+<li>A game supporting MFi controllers using the <code>GameController</code> framework.</li>
+</ul>
+<h2 id='installation' class='heading'>Installation</h2>
+<h3 id='cocoapods' class='heading'>CocoaPods</h3>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Cocoa projects. You can install it with the following command:</p>
+<pre class="highlight shell"><code><span class="nv">$ </span>gem <span class="nb">install </span>cocoapods
+</code></pre>
+
+<p>To integrate SteamController into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'SteamController'</span>
+</code></pre>
+
+<p>Then, run the following command:</p>
+<pre class="highlight shell"><code><span class="nv">$ </span>pod <span class="nb">install</span>
+</code></pre>
+<h3 id='carthage' class='heading'>Carthage</h3>
+
+<p><a href="https://github.com/Carthage/Carthage">Carthage</a> is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.</p>
+
+<p>You can install Carthage with <a href="http://brew.sh/">Homebrew</a> using the following command:</p>
+<pre class="highlight shell"><code><span class="nv">$ </span>brew update
+<span class="nv">$ </span>brew <span class="nb">install </span>carthage
+</code></pre>
+
+<p>To integrate SteamController into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
+<pre class="highlight plaintext"><code>github "zydeco/SteamController"
+</code></pre>
+
+<p>Run <code>carthage update</code> to build the framework and drag the built <code>SteamController.framework</code> into your Xcode project.</p>
+<h2 id='usage' class='heading'>Usage</h2>
+
+<p>Everything should work like with MFi controllers. Depending on how your game works, you might not need any changes at all.</p>
+
+<ul>
+<li><code>#import &lt;SteamController/SteamController.h&gt;</code>.</li>
+<li>To scan for Steam Controllers, call <code>[[SteamControllerManager sharedManager] scanForControllers]</code>.</li>
+<li>The framework will post <code>GCControllerDidConnectNotification</code> and <code>GCControllerDidDisconnectNotification</code>, as with MFi controllers.</li>
+<li>Connected Steam Controllers will be returned in <code>[GCController controllers]</code>.</li>
+<li>Controllers are a subclass of <code>GCController</code> that implements the <code>extendedGamepad</code> profile.</li>
+<li>Core buttons are mapped to Apple&rsquo;s MFi Extended Gamepad Profile.</li>
+<li>Trackpads and stick can be mapped to D-pad and thumbsticks. (see below)</li>
+<li>Trackpads can be set to require click for input (default), or not.</li>
+</ul>
+<h4 id='button-mapping' class='heading'>Button Mapping</h4>
+
+<ul>
+<li>Analog Stick: L-Thumbstick <em>(Default)</em></li>
+<li>Left Trackpad <em>(Default)</em>: D-Pad <em>(Requires Click)</em></li>
+<li>Right Trackpad <em>(Default)</em>: R-Thumbstick / C-Buttons <em>(Requires Click)</em></li>
+<li>A, B, X, Y: Equivalent</li>
+<li>Bumpers/Shoulders: L1 / R1</li>
+<li>Triggers: L2 / R2</li>
+<li>Grip buttons: L3 / R3</li>
+<li>Steam Button: Menu (Pause) Button</li>
+<li>Analog Stick click: L3 <em>(Default)</em></li>
+<li>Trackpad clicks: L3 / R3 (when click is not required for input)</li>
+</ul>
+<h5 id='temporary-button-mappings' class='heading'>Temporary button mappings</h5>
+
+<p>These combinations are temporary, and will be removed in a future version, once there is an API in
+place to support the extra buttons. They are provided for compatibility with Provenance 1.5:</p>
+
+<ul>
+<li>Back: MFi+ Combo for Select <em>(supported in Provenance 1.5: PSX, N64)</em></li>
+<li>Forward: MFi+ Combo for Start <em>(supported in Provenance 1.5: PSX, N64)</em></li>
+</ul>
+<h5 id='trackpad-amp-stick-mode-toggles' class='heading'>Trackpad &amp; Stick Mode Toggles</h5>
+
+<p>These combinations are temporary, and will be removed in a future version, once there is an API in
+place to support combinations of steam+button:</p>
+
+<ul>
+<li>L-Pad Toggle: ◉ L-Pad Click + ◀︎ Back: toggles requiring click for input</li>
+<li>R-Pad Toggle: ◉ R-Pad Click + ▶︎ Forward: toggles requiring click for input</li>
+<li>Stick Toggle: ◉ Stick Click + ◀︎ Back: toggles between d-pad and left thumbstick mapping
+<br><sup> Combo order is specific if you want to avoid misfiring buttons.</sup><br></li>
+</ul>
+<h2 id='license' class='heading'>License</h2>
+
+<p>SteamController is available under the MIT license. See the LICENSE file for more info.</p>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2019 <a class="link" href="https://github.com/zydeco" target="_blank" rel="external">Jesús A. Álvarez</a>. All rights reserved. (Last updated: 2019-02-02)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

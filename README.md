@@ -15,7 +15,7 @@ In the example app, power on your controller (in BLE or BLE pairing mode) and pr
 ## Requirements
 
 - iOS 12 (might work on earlier versions, haven't tested).
-- Steam Controller with [BLE firmware](https://support.steampowered.com/kb_article.php?ref=7728-QESJ-4420#switch)..
+- Steam Controller with [BLE firmware](https://support.steampowered.com/kb_article.php?ref=7728-QESJ-4420#switch).
 - A game supporting MFi controllers using the `GameController` framework.
 
 ## Installation
@@ -69,7 +69,7 @@ Everything should work like with MFi controllers. Depending on how your game wor
 - Controllers are a subclass of `GCController` that implements the `extendedGamepad` profile.
 - Core buttons are mapped to Apple's MFi Extended Gamepad Profile.
 - Trackpads and stick can be mapped to D-pad and thumbsticks. (see below)
-- Trackapds can be set to require click for input (default), or not.
+- Trackpads can be set to require click for input (default), or not.
 
 #### Button Mapping
 - Analog Stick: L-Thumbstick *(Default)*

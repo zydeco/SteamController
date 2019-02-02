@@ -345,7 +345,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
             // Update client
             extendedGamepad.state = snapshot;
         } else if (controllerPausedHandler) {
-            dispatch_async(handlerQueue, ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
                 self->controllerPausedHandler(self);
             });
         }
