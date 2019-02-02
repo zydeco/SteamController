@@ -8,6 +8,7 @@
 
 #import "ControllerTableViewCell.h"
 #import "XYView.h"
+#import "SteamController.h"
 
 @implementation ControllerTableViewCell
 
@@ -24,6 +25,10 @@
 - (void)setController:(GCController *)controller {
     _controller.extendedGamepad.valueChangedHandler = nil;
     _controller.controllerPausedHandler = nil;
+    if ([_controller isKindOfClass:[SteamController class]]) {
+        SteamController *steamController = (SteamController*)_controller;
+        steamController.steamButtonCombinationHandler = nil;
+    }
     _controller = controller;
     controller.extendedGamepad.valueChangedHandler = ^(GCExtendedGamepad * _Nonnull gamepad, GCControllerElement * _Nonnull element) {
         [self didUpdateElement:element inGamepad:gamepad];
@@ -32,6 +37,27 @@
         self.pauseButton.selected = YES;
         [self.pauseButton performSelector:@selector(setSelected:) withObject:nil afterDelay:0.2];
     };
+    if ([controller isKindOfClass:[SteamController class]]) {
+        SteamController *steamController = (SteamController*)controller;
+        steamController.steamButtonCombinationHandler = ^(SteamController *controller, SteamControllerButton button, BOOL isDown) {
+            NSLog(@"Steam combo with button %@ %s", NSStringFromSteamControllerButton(button), isDown?"DOWN":"UP");
+            // Mode toggles
+            if (isDown && button == SteamControllerButtonLeftTrackpadClick) {
+                // toggle left trackpad click to input
+                controller.steamLeftTrackpadRequiresClick = !controller.steamLeftTrackpadRequiresClick;
+            } else if (isDown && button == SteamControllerButtonRightTrackpadClick) {
+                // toggle right trackpad click to input
+                controller.steamRightTrackpadRequiresClick = !controller.steamRightTrackpadRequiresClick;
+            } else if (isDown && button == SteamControllerButtonStick) {
+                // toggle stick mapping between d-pad and left stick
+                if (controller.steamThumbstickMapping == SteamControllerMappingLeftThumbstick) {
+                    controller.steamThumbstickMapping = SteamControllerMappingDPad;
+                } else {
+                    controller.steamThumbstickMapping = SteamControllerMappingLeftThumbstick;
+                }
+            }
+        };
+    }
 }
 
 - (void)didUpdateElement:(GCControllerElement*)element inGamepad:(GCExtendedGamepad*)gamepad {
