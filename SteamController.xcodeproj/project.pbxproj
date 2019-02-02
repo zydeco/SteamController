@@ -38,6 +38,7 @@
 		2838E12E20A750B00027CC92 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2838E12C20A750B00027CC92 /* LaunchScreen.storyboard */; };
 		2838E13120A750B00027CC92 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2838E13020A750B00027CC92 /* main.m */; };
 		2838E13920A752610027CC92 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2838E13820A752610027CC92 /* CoreBluetooth.framework */; };
+		28865A9C22063D500018D4C8 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28865A9B22063D500018D4C8 /* DetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,8 @@
 		2838E13020A750B00027CC92 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2838E13820A752610027CC92 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		283ADD3521FE17EA00760C97 /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
+		28865A9A22063D500018D4C8 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		28865A9B22063D500018D4C8 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +175,8 @@
 				2838E12220A750AE0027CC92 /* AppDelegate.m */,
 				282F528321CABAC100B3A804 /* TableViewController.h */,
 				282F528421CABAC100B3A804 /* TableViewController.m */,
+				28865A9A22063D500018D4C8 /* DetailViewController.h */,
+				28865A9B22063D500018D4C8 /* DetailViewController.m */,
 				282F528621CABCA300B3A804 /* ControllerTableViewCell.h */,
 				282F528721CABCA300B3A804 /* ControllerTableViewCell.m */,
 				282F528921CAC3F600B3A804 /* XYView.h */,
@@ -378,6 +383,7 @@
 				2838E13120A750B00027CC92 /* main.m in Sources */,
 				2838E12320A750AE0027CC92 /* AppDelegate.m in Sources */,
 				282F528521CABAC100B3A804 /* TableViewController.m in Sources */,
+				28865A9C22063D500018D4C8 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

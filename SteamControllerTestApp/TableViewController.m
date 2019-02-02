@@ -10,6 +10,7 @@
 #import "SteamControllerManager.h"
 #import "SteamController.h"
 #import "ControllerTableViewCell.h"
+#import "DetailViewController.h"
 
 @import GameController;
 
@@ -33,6 +34,7 @@
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(didConnectController:) name:GCControllerDidConnectNotification object:nil];
     [nc addObserver:self selector:@selector(didDisconnectController:) name:GCControllerDidDisconnectNotification object:nil];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -48,9 +50,11 @@
 
 - (void)didConnectController:(NSNotification*)notification {
     SteamController *controller = notification.object;
-    [controllers addObject:controller];
-    NSUInteger row = controllers.count - 1;
-    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    if ([controller isKindOfClass:[SteamController class]]) {
+        [controllers addObject:controller];
+        NSUInteger row = controllers.count - 1;
+        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
 }
 
 - (void)didDisconnectController:(NSNotification*)notification {
@@ -79,10 +83,12 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    SteamController *controller = controllers[indexPath.row];
-    [controller identify];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.destinationViewController isKindOfClass:[DetailViewController class]] && [sender isKindOfClass:[UITableViewCell class]]) {
+        DetailViewController *detailViewController = (DetailViewController*)segue.destinationViewController;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        detailViewController.steamController = indexPath ? controllers[indexPath.row] : nil;
+    }
 }
 
 @end
