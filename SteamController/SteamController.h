@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
  Once connected, they work in the same way as the native `GCGameController` from `GameController.framework`, and
  can be accessed in the same ways:
  
- 1. Querying for the the current array or controllers using `[GCController controllers]`.
+ 1. Querying for the the current array of controllers using `[GCController controllers]`.
  2. Registering for Connection/Disconnection notifications from `NSNotificationCenter`.
  
  Steam Controllers are represented by the `SteamController` class, a subclass of `GCController`. It implements the
