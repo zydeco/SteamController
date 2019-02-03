@@ -34,6 +34,7 @@
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(didConnectController:) name:GCControllerDidConnectNotification object:nil];
     [nc addObserver:self selector:@selector(didDisconnectController:) name:GCControllerDidDisconnectNotification object:nil];
+    controllers = [SteamControllerManager sharedManager].controllers.mutableCopy;
     [self.tableView reloadData];
 }
 

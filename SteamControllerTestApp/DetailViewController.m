@@ -19,8 +19,8 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Identify" style:UIBarButtonItemStylePlain target:self action:@selector(identifyController:)];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     _controllerCell.controller = _steamController;
     [_steamController addObserver:self forKeyPath:@"steamLeftTrackpadMapping" options:0 context:NULL];
     [_steamController addObserver:self forKeyPath:@"steamRightTrackpadMapping" options:0 context:NULL];
@@ -28,6 +28,8 @@
     [_steamController addObserver:self forKeyPath:@"steamLeftTrackpadRequiresClick" options:0 context:NULL];
     [_steamController addObserver:self forKeyPath:@"steamRightTrackpadRequiresClick" options:0 context:NULL];
     [_steamController addObserver:self forKeyPath:@"batteryLevel" options:0 context:NULL];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(didDisconnectController:) name:GCControllerDidDisconnectNotification object:_steamController];
     [self updateSettingsDisplay];
 }
 
@@ -39,6 +41,8 @@
     [_steamController removeObserver:self forKeyPath:@"steamLeftTrackpadRequiresClick"];
     [_steamController removeObserver:self forKeyPath:@"steamRightTrackpadRequiresClick"];
     [_steamController removeObserver:self forKeyPath:@"batteryLevel"];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self name:GCControllerDidDisconnectNotification object:_steamController];
     _controllerCell.controller = nil;
 }
 
@@ -46,6 +50,10 @@
     if (object == _steamController) {
         [self updateSettingsDisplay];
     }
+}
+
+- (void)didDisconnectController:(NSNotification*)notification {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)identifyController:(id)sender {
