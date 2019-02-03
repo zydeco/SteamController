@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) SteamController *steamController;
 @property (nonatomic, weak) IBOutlet ControllerTableViewCell *controllerCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *batteryLevelCell;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *leftTrackpadMapping, *rightTrackpadMapping, *stickMapping;
 @property (nonatomic, weak) IBOutlet UISwitch *leftTrackpadRequiresClick, *rightTrackpadRequiresClick;
 

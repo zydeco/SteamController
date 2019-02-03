@@ -125,6 +125,13 @@ will be sent as soon as it's touched. Defaults to `YES`. */
 /** The CoreBluetooth peripheral associated with this controller. */
 @property (nonatomic, readonly, retain) CBPeripheral *peripheral;
 
+/** Battery level (0.0 to 1.0).
+ 
+ This is derived from the voltage reported by the controller, 1.0 meaning 3 volts.
+ This property is KVO-compliant.
+ */
+@property (nonatomic, readonly) float batteryLevel;
+
 /** Plays the identify tune on the controller. */
 - (void)identify;
 

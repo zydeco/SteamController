@@ -195,7 +195,12 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         NSData *value = characteristic.value;
         const uint8_t *bytes = value.bytes;
         if (value.length < 2 || bytes[0] != 0xc0) return; // interesting events start with c0
-        [self didReceiveInput:value];
+        uint16_t packetType = OSReadLittleInt16(bytes, 1);
+        if ((packetType & 0x5000) == 0x5000) {
+            [self didReceiveStatus:value];
+        } else if (packetType & 0x03b0) {
+            [self didReceiveInput:packetType data:value];
+        }
     }
 }
 
@@ -211,19 +216,27 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     [[NSNotificationCenter defaultCenter] postNotificationName:GCControllerDidConnectNotification object:self];
 }
 
-- (void)didReceiveInput:(NSData*)data {
+- (void)didReceiveStatus:(NSData*)data {
+    const uint8_t *bytes = data.bytes;
+    //uint32_t seqn = OSReadLittleInt32(bytes, 4);
+    uint16_t voltage = OSReadLittleInt16(bytes, 12);
+    float level = voltage / 3000.0;
+    if (level != _batteryLevel) {
+        [self willChangeValueForKey:@"batteryLevel"];
+        _batteryLevel = level;
+        [self didChangeValueForKey:@"batteryLevel"];
+    }
+}
+
+- (void)didReceiveInput:(uint16_t)packetType data:(NSData*)data {
     const uint8_t *bytes = data.bytes;
     
-    if (memcmp(bytes, "\xc0\x04\x00\x00", 4) == 0 || memcmp(bytes, "\xc0\x05\x55\x02", 4) == 0) return;
-    //printf("%s\n", data.description.UTF8String);
-    
     // Parse update
-    uint8_t b1 = bytes[1], b2 = bytes[2];
-    BOOL hasButtons = b1 & 0x10;
-    BOOL hasTriggers = b1 & 0x20;
-    BOOL hasStick = b1 & 0x80;
-    BOOL hasLeftTrackpad = b2 & 0x01;
-    BOOL hasRightTrackpad = b2 & 0x02;
+    BOOL hasButtons = packetType & 0x0010;
+    BOOL hasTriggers = packetType & 0x0020;
+    BOOL hasStick = packetType & 0x0080;
+    BOOL hasLeftTrackpad = packetType & 0x0100;
+    BOOL hasRightTrackpad = packetType & 0x0200;
     
     // Update internal state
     const uint8_t *buf = bytes + 3;

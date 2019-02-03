@@ -27,6 +27,7 @@
     [_steamController addObserver:self forKeyPath:@"steamThumbstickMapping" options:0 context:NULL];
     [_steamController addObserver:self forKeyPath:@"steamLeftTrackpadRequiresClick" options:0 context:NULL];
     [_steamController addObserver:self forKeyPath:@"steamRightTrackpadRequiresClick" options:0 context:NULL];
+    [_steamController addObserver:self forKeyPath:@"batteryLevel" options:0 context:NULL];
     [self updateSettingsDisplay];
 }
 
@@ -37,6 +38,7 @@
     [_steamController removeObserver:self forKeyPath:@"steamThumbstickMapping"];
     [_steamController removeObserver:self forKeyPath:@"steamLeftTrackpadRequiresClick"];
     [_steamController removeObserver:self forKeyPath:@"steamRightTrackpadRequiresClick"];
+    [_steamController removeObserver:self forKeyPath:@"batteryLevel"];
     _controllerCell.controller = nil;
 }
 
@@ -56,6 +58,9 @@
     _rightTrackpadMapping.selectedSegmentIndex = _steamController.steamRightTrackpadMapping;
     _rightTrackpadRequiresClick.on = _steamController.steamRightTrackpadRequiresClick;
     _stickMapping.selectedSegmentIndex = _steamController.steamThumbstickMapping;
+    int percent = _steamController.batteryLevel * 100;
+    int millivolts = _steamController.batteryLevel * 3000.0;
+    _batteryLevelCell.detailTextLabel.text = [NSString stringWithFormat:@"%d%% (%d mV)", percent, millivolts];
 }
 
 - (IBAction)updateSetting:(id)sender {
