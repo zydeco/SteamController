@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) IBOutlet XYView *leftTrackpadView, *rightTrackpadView, *dpadView;
 @property (nonatomic, weak) IBOutlet UIButton *leftShoulder, *leftTrigger, *rightShoulder, *rightTrigger;
 @property (nonatomic, weak) IBOutlet UIButton *buttonA, *buttonB, *buttonX, *buttonY, *pauseButton;
+@property (nonatomic, weak) IBOutlet UIButton *backButton, *forwardButton;
 @property (nonatomic, retain, nullable) GCController *controller;
 
 @end

@@ -271,6 +271,8 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     snapshot.rightTrigger = (state.buttons & SteamControllerButtonRightTrigger) ? 1.0 : state.rightTrigger / 255.0;
     snapshot.leftThumbstickButton = (state.buttons & SteamControllerButtonLeftGrip);
     snapshot.rightThumbstickButton = (state.buttons & SteamControllerButtonRightGrip);
+    snapshot.steamBackButton = (state.buttons & SteamControllerButtonBack);
+    snapshot.steamForwardButton = (state.buttons & SteamControllerButtonForward);
     
     BOOL hasUpdatedPads[] = {
         [SteamControllerMappingDPad] = NO,
@@ -311,29 +313,6 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     snapshot.leftThumbstickButton |= (state.buttons & SteamControllerButtonLeftGrip);
     snapshot.rightThumbstickButton |= (state.buttons & SteamControllerButtonRightGrip);
     
-    if (hasButtons) {
-        // TEMP: Test feeding full MFi+ combos (used in Provenance app) in single button click
-        // Feed MFi+ [Start] via auto-combo (Temporary PoC)
-        if (state.buttons & SteamControllerButtonForward) {
-            snapshot.leftShoulder = YES;
-            snapshot.rightShoulder = YES;
-            snapshot.leftTrigger = 1.0;
-            snapshot.rightTrigger = 1.0;
-            snapshot.buttonX = YES;
-        }
-        
-        // Feed MFi+ [Select] via auto-combo (Temporary PoC)
-        if (state.buttons & SteamControllerButtonBack) {
-            snapshot.leftShoulder = YES;
-            snapshot.rightShoulder = YES;
-            snapshot.leftTrigger = 1.0;
-            snapshot.rightTrigger = 1.0;
-            snapshot.dpadX = 1.0;
-        } else if (!hasUpdatedPads[SteamControllerMappingDPad]) {
-            snapshot.dpadX = 0.0;
-        }
-    }
-
     if (hasButtons && (state.buttons & SteamControllerButtonSteam)) {
         // Handle steam button combos
         handledSteamCombos |= [self handleSteamButtonCombos:(state.buttons & ~SteamControllerButtonSteam)];
@@ -436,3 +415,14 @@ NSString* NSStringFromSteamControllerButton(SteamControllerButton button) {
     }
 }
 
+@implementation GCExtendedGamepad (SteamController)
+
+- (GCControllerButtonInput *)steamBackButton {
+    return nil;
+}
+
+- (GCControllerButtonInput *)steamForwardButton {
+    return nil;
+}
+
+@end

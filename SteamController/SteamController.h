@@ -148,6 +148,18 @@ will be sent as soon as it's touched. Defaults to `YES`. */
 
 @end
 
+/**
+ Extension to `GCExtendedGamepad` to support additional buttons in the Steam Controller.
+ 
+ For a non-steam controller, the additional buttons will return `nil`.
+*/
+@interface GCExtendedGamepad (SteamController)
+/// The left pointing button to the left of the Steam button.
+@property (nonatomic, readonly, nullable) GCControllerButtonInput *steamBackButton;
+/// The right pointing button to the right of the Steam button.
+@property (nonatomic, readonly, nullable) GCControllerButtonInput *steamForwardButton;
+@end
+
 NS_ASSUME_NONNULL_END
 
 

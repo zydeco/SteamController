@@ -17,6 +17,7 @@
     SteamControllerButtonInput *leftThumbstickButton, *rightThumbstickButton;
     SteamControllerButtonInput *leftTrigger, *rightTrigger;
     SteamControllerButtonInput *buttonA, *buttonB, *buttonX, *buttonY;
+    SteamControllerButtonInput *steamBackButton, *steamForwardButton;
     __weak SteamController *steamController;
     SteamControllerExtendedGamepadSnapshotData state;
     GCExtendedGamepadValueChangedHandler valueChangedHandler;
@@ -27,6 +28,7 @@
 @synthesize leftTrigger, rightTrigger;
 @synthesize buttonA, buttonB, buttonX, buttonY;
 @synthesize leftThumbstickButton, rightThumbstickButton;
+@synthesize steamBackButton, steamForwardButton;
 @synthesize state;
 
 - (instancetype)initWithController:(SteamController *)controller {
@@ -56,6 +58,8 @@
             state.version = 0x0100;
             state.size = 60;
         }
+        steamBackButton = [[SteamControllerButtonInput alloc] initWithController:controller analog:NO];
+        steamForwardButton = [[SteamControllerButtonInput alloc] initWithController:controller analog:NO];
     }
     return self;
 }
@@ -97,6 +101,8 @@
     UpdateXYValue(rightThumbstickX, rightThumbstickY, rightThumbstick);
     UpdateStateBool(leftThumbstickButton);
     UpdateStateBool(rightThumbstickButton);
+    UpdateStateBool(steamBackButton);
+    UpdateStateBool(steamForwardButton);
 }
 
 - (void)didChangeValueForElement:(GCControllerElement*)element {

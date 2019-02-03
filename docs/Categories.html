@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Functions  Reference</title>
+    <title>Categories  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/objc/Section/Functions" class="dashAnchor"></a>
+    <a name="//apple_ref/objc/Section/Categories" class="dashAnchor"></a>
 
-    <a title="Functions  Reference"></a>
+    <a title="Categories  Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="index.html">SteamController Reference</a>
       <img class="carat" src="img/carat.png" />
-      Functions  Reference
+      Categories  Reference
     </p>
 
     <div class="content-wrapper">
@@ -102,8 +102,8 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Functions</h1>
-            <p>The following functions are available globally.</p>
+            <h1>Categories</h1>
+            <p>The following categories are available globally.</p>
 
           </div>
         </section>
@@ -115,9 +115,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@F@NSStringFromSteamControllerButton"></a>
-                    <a name="//apple_ref/objc/Function/NSStringFromSteamControllerButton" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@F@NSStringFromSteamControllerButton">NSStringFromSteamControllerButton</a>
+                    <a name="/c:objc(cy)GCExtendedGamepad@SteamController"></a>
+                    <a name="//apple_ref/objc/Extension/GCExtendedGamepad(SteamController)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cy)GCExtendedGamepad@SteamController">GCExtendedGamepad(SteamController)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -125,24 +125,22 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns a string representing the name of a button.</p>
+                        <p>Extension to <code>GCExtendedGamepad</code> to support additional buttons in the Steam Controller.</p>
 
+<p>For a non-steam controller, the additional buttons will return <code>nil</code>.</p>
+
+                        <a href="Categories/GCExtendedGamepad(SteamController).html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">NSStringFromSteamControllerButton</span><span class="p">(</span><span class="n"><a href="Enums/SteamControllerButton.html">SteamControllerButton</a></span> <span class="n">button</span><span class="p">)</span></code></pre>
-
-                        </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="kt">NSStringFromSteamControllerButton</span><span class="p">(</span><span class="n">_</span> <span class="nv">button</span><span class="p">:</span> <span class="kt"><a href="Enums/SteamControllerButton.html">SteamControllerButton</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="o">!</span></code></pre>
+                          <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">GCExtendedGamepad</span> <span class="p">(</span><span class="nl">SteamController</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L78">Show on GitHub</a>
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L156-L161">Show on GitHub</a>
                       </div>
                     </section>
                   </div>

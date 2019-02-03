@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>SteamControllerManager Class Reference</title>
+    <title>GCExtendedGamepad(SteamController) Category Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/objc/Class/SteamControllerManager" class="dashAnchor"></a>
+    <a name="//apple_ref/objc/Extension/GCExtendedGamepad(SteamController)" class="dashAnchor"></a>
 
-    <a title="SteamControllerManager Class Reference"></a>
+    <a title="GCExtendedGamepad(SteamController) Category Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">SteamController Reference</a>
       <img class="carat" src="../img/carat.png" />
-      SteamControllerManager Class Reference
+      GCExtendedGamepad(SteamController) Category Reference
     </p>
 
     <div class="content-wrapper">
@@ -102,15 +102,16 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>SteamControllerManager</h1>
+            <h1>GCExtendedGamepad(SteamController)</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SteamControllerManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+                  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">GCExtendedGamepad</span> <span class="p">(</span><span class="nl">SteamController</span><span class="p">)</span></code></pre>
 
                 </div>
               </div>
-            <p><code>SteamControllerManager</code> handles the connection and disconnection of Steam Controllers, and inserts connected Steam
-Controllers into the array of controllers returned by <code>[GCController controllers]</code>.</p>
+            <p>Extension to <code>GCExtendedGamepad</code> to support additional buttons in the Steam Controller.</p>
+
+<p>For a non-steam controller, the additional buttons will return <code>nil</code>.</p>
 
           </div>
         </section>
@@ -122,9 +123,9 @@ Controllers into the array of controllers returned by <code>[GCController contro
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)SteamControllerManager(cm)sharedManager"></a>
-                    <a name="//apple_ref/objc/Method/+sharedManager" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)SteamControllerManager(cm)sharedManager">+sharedManager</a>
+                    <a name="/c:objc(cs)GCExtendedGamepad(py)steamBackButton"></a>
+                    <a name="//apple_ref/objc/Property/steamBackButton" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GCExtendedGamepad(py)steamBackButton">steamBackButton</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -132,24 +133,25 @@ Controllers into the array of controllers returned by <code>[GCController contro
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns the shared instance of <code>SteamControllerManager</code>.</p>
+                        <p>The left pointing button to the left of the Steam button.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">sharedManager</span><span class="p">;</span></code></pre>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">GCControllerButtonInput</span> <span class="o">*</span><span class="n">steamBackButton</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">shared</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">steamBackButton</span><span class="p">:</span> <span class="kt">GCControllerButtonInput</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamControllerManager.h#L22">Show on GitHub</a>
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L158">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -157,9 +159,9 @@ Controllers into the array of controllers returned by <code>[GCController contro
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)SteamControllerManager(py)controllers"></a>
-                    <a name="//apple_ref/objc/Property/controllers" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)SteamControllerManager(py)controllers">controllers</a>
+                    <a name="/c:objc(cs)GCExtendedGamepad(py)steamForwardButton"></a>
+                    <a name="//apple_ref/objc/Property/steamForwardButton" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GCExtendedGamepad(py)steamForwardButton">steamForwardButton</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -167,62 +169,25 @@ Controllers into the array of controllers returned by <code>[GCController contro
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns the currently connected Steam Controllers. Unless you only want to support Steam Controllers, you should
-use <code>[GCController controllers]</code> instead of this property.</p>
+                        <p>The right pointing button to the right of the Steam button.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SteamController.html">SteamController</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">controllers</span><span class="p">;</span></code></pre>
+                          <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">GCControllerButtonInput</span> <span class="o">*</span><span class="n">steamForwardButton</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">controllers</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SteamController.html">SteamController</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">steamForwardButton</span><span class="p">:</span> <span class="kt">GCControllerButtonInput</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamControllerManager.h#L27">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(cs)SteamControllerManager(im)scanForControllers"></a>
-                    <a name="//apple_ref/objc/Method/-scanForControllers" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)SteamControllerManager(im)scanForControllers">-scanForControllers</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Detects connected and pairing Steam Controllers.
-If a controller is in pairing mode, this will initiate the pairing process. If it is already paired and connected,
-it will configure it and post a <code>GCControllerDidConnectNotification</code> notification when it&rsquo;s ready.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">scanForControllers</span><span class="p">;</span></code></pre>
-
-                        </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">scanForControllers</span><span class="p">()</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamControllerManager.h#L33">Show on GitHub</a>
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L160">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
