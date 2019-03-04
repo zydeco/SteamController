@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) IBOutlet UITableViewCell *batteryLevelCell;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *leftTrackpadMapping, *rightTrackpadMapping, *stickMapping;
 @property (nonatomic, weak) IBOutlet UISwitch *leftTrackpadRequiresClick, *rightTrackpadRequiresClick;
+@property (nonatomic, weak) IBOutlet UISegmentedControl *modeSwitch;
 
 @end
 

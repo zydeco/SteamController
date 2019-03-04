@@ -74,6 +74,7 @@
     int percent = _steamController.batteryLevel * 100;
     int millivolts = _steamController.batteryLevel * 3000.0;
     _batteryLevelCell.detailTextLabel.text = [NSString stringWithFormat:@"%d%% (%d mV)", percent, millivolts];
+    _modeSwitch.selectedSegmentIndex = _steamController.steamControllerMode;
 }
 
 - (IBAction)updateSetting:(id)sender {
@@ -87,6 +88,8 @@
         _steamController.steamLeftTrackpadRequiresClick = _leftTrackpadRequiresClick.on;
     } else if (sender == _rightTrackpadRequiresClick) {
         _steamController.steamRightTrackpadRequiresClick = _rightTrackpadRequiresClick.on;
+    } else if (sender == _modeSwitch) {
+        _steamController.steamControllerMode = _modeSwitch.selectedSegmentIndex;
     }
 }
 

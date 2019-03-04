@@ -83,6 +83,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         _steamThumbstickMapping = SteamControllerMappingLeftThumbstick;
         _steamLeftTrackpadRequiresClick = YES;
         _steamRightTrackpadRequiresClick = YES;
+        _steamControllerMode = SteamControllerModeKeyboardAndMouse; // default on connection
         memset(&state, 0, sizeof(state));
         extendedGamepad = [[SteamControllerExtendedGamepad alloc] initWithController:self];
         self.playerIndex = GCControllerPlayerIndexUnset;
@@ -141,6 +142,24 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     controllerPausedHandler = newHandler;
 }
 
+- (void)setSteamControllerMode:(SteamControllerMode)steamControllerMode {
+    NSData *packet = nil;
+    switch (steamControllerMode) {
+        case SteamControllerModeGameController:
+            packet = [NSData dataWithBytes:"\xC0\x87\x03\x08\x07\x00" length:6];
+            break;
+        case SteamControllerModeKeyboardAndMouse:
+            packet = [NSData dataWithBytes:"\xC0\x87\x03\x08\x00\x00" length:6];
+            break;
+        default:
+            break;
+    }
+    if (packet) {
+        [_peripheral writeValue:packet forCharacteristic:reportCharacteristic type:CBCharacteristicWriteWithResponse];
+    }
+    _steamControllerMode = steamControllerMode;
+}
+
 #pragma mark - CBPeripheralDelegate
 
 - (void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error {
@@ -165,14 +184,9 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverDescriptorsForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     if ([characteristic.UUID isEqual:SteamControllerReportCharacteristicUUID]) {
         reportCharacteristic = characteristic;
-        [self enterValveMode];
+        enteringValveMode = YES;
+        self.steamControllerMode = SteamControllerModeGameController;
     }
-}
-
-- (void)enterValveMode {
-    enteringValveMode = YES;
-    NSData *enterValveMode = [NSData dataWithBytes:"\xC0\x87\x03\x08\x07\x00" length:6];
-    [_peripheral writeValue:enterValveMode forCharacteristic:reportCharacteristic type:CBCharacteristicWriteWithResponse];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {

@@ -23,6 +23,30 @@ typedef NS_ENUM(NSUInteger, SteamControllerMapping) {
     SteamControllerMappingDPad
 };
 
+/** Represents a Steam Controller's behaviour. This allows changing between Game Controller emulation (the default),
+ and keyboard/mouse.
+
+ In Keyboard/Mouse mode, the controls are mapped to the following keys:
+ * **Left trackpad**: arrows
+ * **Analog stick**: arrows
+ * **Analog stick button**: F4
+ * **A**: return
+ * **B**: escape
+ * **Back**: tab
+ * **Forward**: escape
+ * **Left grip**: F7
+ * **Right grip**: F9
+ * **Left bumper**: space
+ * **Right bumper**: F9
+ 
+ Other controls are not mapped to keys. */
+typedef NS_ENUM(NSUInteger, SteamControllerMode) {
+    /// The controller behaves as an MFi Game Controller.
+    SteamControllerModeGameController,
+    /// The controller behaves as a keyboard and mouse.
+    SteamControllerModeKeyboardAndMouse
+};
+
 /** Represents a physical push button input (or combination thereof) from the Steam Controller.
  
  The values of this enumeration are the same ones used by the controller's bluetooth protocol.
@@ -113,6 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) SteamControllerMapping steamRightTrackpadMapping;
 /** Mapping of the Steam Controller's analog stick. Defaults to `SteamControllerMappingLeftThumbstick`. */
 @property (nonatomic, assign) SteamControllerMapping steamThumbstickMapping;
+
 #pragma mark - Trackpad Configuration
 /** If `YES`, the input from the left trackpad will only be sent when it is clicked. Otherwise, input
 will be sent as soon as it's touched. Defaults to `YES`. */
@@ -152,6 +177,11 @@ will be sent as soon as it's touched. Defaults to `YES`. */
  on the main queue.
  */
 @property (nonatomic, copy, nullable) SteamControllerButtonHandler steamButtonCombinationHandler;
+
+/** Sets the mode of the controller.
+ 
+ Defaults to SteamControllerModeGameController. */
+@property (nonatomic, assign) SteamControllerMode steamControllerMode;
 
 @end
 

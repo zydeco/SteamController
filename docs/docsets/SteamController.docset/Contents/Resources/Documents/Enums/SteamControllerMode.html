@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>SteamControllerMapping Enumeration Reference</title>
+    <title>SteamControllerMode Enumeration Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/objc/Enum/SteamControllerMapping" class="dashAnchor"></a>
+    <a name="//apple_ref/objc/Enum/SteamControllerMode" class="dashAnchor"></a>
 
-    <a title="SteamControllerMapping Enumeration Reference"></a>
+    <a title="SteamControllerMode Enumeration Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">SteamController Reference</a>
       <img class="carat" src="../img/carat.png" />
-      SteamControllerMapping Enumeration Reference
+      SteamControllerMode Enumeration Reference
     </p>
 
     <div class="content-wrapper">
@@ -105,14 +105,33 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>SteamControllerMapping</h1>
+            <h1>SteamControllerMode</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SteamControllerMapping</span> <span class="p">{}</span></code></pre>
+                  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SteamControllerMode</span> <span class="p">{}</span></code></pre>
 
                 </div>
               </div>
-            <p>Represents the mapping of a Steam Controller&rsquo;s trackpad or stick to a GCController thumbstick or directional pad.</p>
+            <p>Represents a Steam Controller&rsquo;s behaviour. This allows changing between Game Controller emulation (the default),
+ and keyboard/mouse.</p>
+
+<p>In Keyboard/Mouse mode, the controls are mapped to the following keys:</p>
+
+<ul>
+<li><strong>Left trackpad</strong>: arrows</li>
+<li><strong>Analog stick</strong>: arrows</li>
+<li><strong>Analog stick button</strong>: F4</li>
+<li><strong>A</strong>: return</li>
+<li><strong>B</strong>: escape</li>
+<li><strong>Back</strong>: tab</li>
+<li><strong>Forward</strong>: escape</li>
+<li><strong>Left grip</strong>: F7</li>
+<li><strong>Right grip</strong>: F9</li>
+<li><strong>Left bumper</strong>: space</li>
+<li><strong>Right bumper</strong>: F9</li>
+</ul>
+
+<p>Other controls are not mapped to keys.</p>
 
           </div>
         </section>
@@ -124,9 +143,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@E@SteamControllerMapping@SteamControllerMappingNone"></a>
-                    <a name="//apple_ref/objc/Case/SteamControllerMappingNone" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@E@SteamControllerMapping@SteamControllerMappingNone">SteamControllerMappingNone</a>
+                    <a name="/c:@E@SteamControllerMode@SteamControllerModeGameController"></a>
+                    <a name="//apple_ref/objc/Case/SteamControllerModeGameController" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@SteamControllerMode@SteamControllerModeGameController">SteamControllerModeGameController</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -134,24 +153,24 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Not mapped to anything.</p>
+                        <p>The controller behaves as an MFi Game Controller.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="n">SteamControllerMappingNone</span></code></pre>
+                          <pre class="highlight objective_c"><code><span class="n">SteamControllerModeGameController</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="k">none</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">gameController</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L17">Show on GitHub</a>
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L45">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -159,9 +178,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@E@SteamControllerMapping@SteamControllerMappingLeftThumbstick"></a>
-                    <a name="//apple_ref/objc/Case/SteamControllerMappingLeftThumbstick" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@E@SteamControllerMapping@SteamControllerMappingLeftThumbstick">SteamControllerMappingLeftThumbstick</a>
+                    <a name="/c:@E@SteamControllerMode@SteamControllerModeKeyboardAndMouse"></a>
+                    <a name="//apple_ref/objc/Case/SteamControllerModeKeyboardAndMouse" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@SteamControllerMode@SteamControllerModeKeyboardAndMouse">SteamControllerModeKeyboardAndMouse</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -169,94 +188,24 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Mapped to the left thumbstick.</p>
+                        <p>The controller behaves as a keyboard and mouse.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="n">SteamControllerMappingLeftThumbstick</span></code></pre>
+                          <pre class="highlight objective_c"><code><span class="n">SteamControllerModeKeyboardAndMouse</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">leftThumbstick</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">keyboardAndMouse</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L19">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@E@SteamControllerMapping@SteamControllerMappingRightThumbstick"></a>
-                    <a name="//apple_ref/objc/Case/SteamControllerMappingRightThumbstick" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@E@SteamControllerMapping@SteamControllerMappingRightThumbstick">SteamControllerMappingRightThumbstick</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Mapped to the right thumbstick.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="n">SteamControllerMappingRightThumbstick</span></code></pre>
-
-                        </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">rightThumbstick</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L21">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@E@SteamControllerMapping@SteamControllerMappingDPad"></a>
-                    <a name="//apple_ref/objc/Case/SteamControllerMappingDPad" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@E@SteamControllerMapping@SteamControllerMappingDPad">SteamControllerMappingDPad</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Mapped to the directional pad.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight objective_c"><code><span class="n">SteamControllerMappingDPad</span></code></pre>
-
-                        </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">dPad</span> <span class="o">=</span> <span class="mi">3</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L23">Show on GitHub</a>
+                        <a href="https://github.com/zydeco/SteamController/tree/master/SteamController/SteamController.h#L47">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
