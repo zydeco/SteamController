@@ -183,6 +183,8 @@ will be sent as soon as it's touched. Defaults to `YES`. */
  Defaults to SteamControllerModeGameController. */
 @property (nonatomic, assign) SteamControllerMode steamControllerMode;
 
+@property (nonatomic, assign) BOOL steamGyroscopeEnabled;
+
 @end
 
 /**

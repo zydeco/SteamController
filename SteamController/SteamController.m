@@ -160,6 +160,15 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     _steamControllerMode = steamControllerMode;
 }
 
+- (void)setSteamGyroscopeEnabled:(BOOL)steamGyroscopeEnabled {
+    uint8_t packet[] = "\xC0\x87\x0f\x18\x00\x00\x31\x02\x00\x08\x07\x00\x07\x07\x00\x30\x00\x00\x2e";
+    if (steamGyroscopeEnabled) {
+        packet[16] = 0x14;
+    }
+    _steamGyroscopeEnabled = steamGyroscopeEnabled;
+    [_peripheral writeValue:[NSData dataWithBytes:packet length:19] forCharacteristic:reportCharacteristic type:CBCharacteristicWriteWithResponse];
+}
+
 #pragma mark - CBPeripheralDelegate
 
 - (void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error {
@@ -212,7 +221,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         uint16_t packetType = OSReadLittleInt16(bytes, 1);
         if ((packetType & 0x5000) == 0x5000) {
             [self didReceiveStatus:value];
-        } else if (packetType & 0x03b0) {
+        } else if (packetType & 0x1bb0) {
             [self didReceiveInput:packetType data:value];
         }
     }
@@ -251,6 +260,8 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     BOOL hasStick = packetType & 0x0080;
     BOOL hasLeftTrackpad = packetType & 0x0100;
     BOOL hasRightTrackpad = packetType & 0x0200;
+    BOOL hasGyroPitchYawRoll = packetType & 0x0800;
+    BOOL hasGyroQuaternion = packetType & 0x1000;
     
     // Update internal state
     const uint8_t *buf = bytes + 3;
@@ -282,6 +293,21 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         state.rightPad.x = OSReadLittleInt16(buf, 0);
         state.rightPad.y = OSReadLittleInt16(buf, 2);
         buf += 4;
+    }
+    
+    if (hasGyroPitchYawRoll) {
+        state.gyro.pitch = OSReadLittleInt(buf, 0);
+        state.gyro.yaw = OSReadLittleInt(buf, 2);
+        state.gyro.roll = OSReadLittleInt(buf, 4);
+        buf += 6;
+    }
+    
+    if (hasGyroQuaternion) {
+        state.gyro.q1 = OSReadLittleInt(buf, 0);
+        state.gyro.q2 = OSReadLittleInt(buf, 2);
+        state.gyro.q3 = OSReadLittleInt(buf, 4);
+        state.gyro.q4 = OSReadLittleInt(buf, 6);
+        buf += 8;
     }
     
     // Update extended gamepad state

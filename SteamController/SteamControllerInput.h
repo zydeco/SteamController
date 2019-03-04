@@ -13,10 +13,16 @@ typedef struct SteamPadState {
     int16_t x, y;
 } SteamPadState;
 
+typedef struct SteamGyroscopeState {
+    int16_t pitch, yaw, roll;
+    int16_t q1, q2, q3, q4;
+} SteamGyroscopeState;
+
 typedef struct SteamControllerState {
     uint32_t buttons;
     SteamPadState leftPad, rightPad, stick;
     uint8_t leftTrigger, rightTrigger;
+    SteamGyroscopeState gyro;
 } SteamControllerState;
 
 @class SteamControllerDirectionPad, SteamController;
