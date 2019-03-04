@@ -19,6 +19,11 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Identify" style:UIBarButtonItemStylePlain target:self action:@selector(identifyController:)];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self updateSettingsDisplay];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     _controllerCell.controller = _steamController;
