@@ -188,7 +188,9 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     if ([characteristic.UUID isEqual:SteamControllerReportCharacteristicUUID]) {
         reportCharacteristic = characteristic;
         self.steamControllerMode = _steamControllerMode;
-        [[NSNotificationCenter defaultCenter] postNotificationName:GCControllerDidConnectNotification object:self];
+        [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:)
+                                                               withObject:[NSNotification notificationWithName:GCControllerDidConnectNotification object:self]
+                                                            waitUntilDone:NO];
     }
 }
 
@@ -223,7 +225,9 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
 }
 
 - (void)didDisconnect {
-    [[NSNotificationCenter defaultCenter] postNotificationName:GCControllerDidDisconnectNotification object:self];
+    [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:)
+                                                           withObject:[NSNotification notificationWithName:GCControllerDidDisconnectNotification object:self]
+                                                        waitUntilDone:NO];
 }
 
 - (void)didReceiveStatus:(NSData*)data {
