@@ -11,6 +11,7 @@
 
 @import CoreBluetooth;
 @import ObjectiveC.runtime;
+@import Darwin.POSIX.dlfcn;
 
 @interface SteamController (Private)
 - (void)didConnect;
@@ -127,3 +128,78 @@
 }
 
 @end
+
+
+#pragma mark - IOKit
+
+#ifndef STEAMCONTROLLER_NO_IOKIT
+typedef mach_port_t    io_object_t;
+typedef io_object_t    io_connect_t;
+typedef io_object_t    io_enumerator_t;
+typedef io_object_t    io_iterator_t;
+typedef io_object_t    io_registry_entry_t;
+typedef io_object_t    io_service_t;
+typedef char           io_name_t[128];
+typedef struct IONotificationPort *IONotificationPortRef;
+static IONotificationPortRef (*IONotificationPortCreate)(mach_port_t masterPort);
+#define kIOMasterPortDefault 0
+static CFMutableDictionaryRef (*IOServiceMatching)(const char *name);
+static CFRunLoopSourceRef (*IONotificationPortGetRunLoopSource)(IONotificationPortRef notify);
+typedef void (*IOServiceMatchingCallback)(void *refcon, io_iterator_t iterator);
+static kern_return_t (*IOServiceAddMatchingNotification)(IONotificationPortRef notifyPort, const io_name_t notificationType, CFDictionaryRef matching CF_RELEASES_ARGUMENT, IOServiceMatchingCallback callback, void *refCon, io_iterator_t *notification);
+static io_object_t (*IOIteratorNext)(io_iterator_t iterator);
+static kern_return_t (*IOObjectRelease)(io_object_t object);
+
+static void didConnectHIDDevice(void *refcon, io_iterator_t iterator) {
+    io_object_t obj;
+    while ((obj = IOIteratorNext(iterator))) {
+        IOObjectRelease(obj);
+    };
+    // delay scanning so disconnected notifications fire first
+    [[SteamControllerManager sharedManager] performSelector:@selector(scanForControllers) withObject:nil afterDelay:0.01];
+}
+
+@implementation SteamControllerManager (IOKit)
+
++ (BOOL)listenForConnections {
+    static dispatch_once_t onceToken;
+    static BOOL loadedSymbols = NO;
+    dispatch_once(&onceToken, ^{
+        void * IOKit = dlopen("/System/Library/Frameworks/IOKit.framework/IOKit", RTLD_NOLOAD);
+        if (IOKit) {
+#define LoadSymbol(sym) sym = dlsym(IOKit, #sym); if (!sym) {dlclose(IOKit); return;}
+            LoadSymbol(IONotificationPortCreate);
+            LoadSymbol(IOServiceMatching);
+            LoadSymbol(IONotificationPortGetRunLoopSource);
+            LoadSymbol(IOServiceAddMatchingNotification);
+            LoadSymbol(IOIteratorNext);
+            LoadSymbol(IOObjectRelease);
+            dlclose(IOKit);
+            loadedSymbols = YES;
+        }
+    });
+    
+    if (!loadedSymbols) {
+        return NO;
+    }
+    
+    IONotificationPortRef notificationPort = IONotificationPortCreate(kIOMasterPortDefault);
+    CFRunLoopAddSource(CFRunLoopGetCurrent(), IONotificationPortGetRunLoopSource(notificationPort), kCFRunLoopDefaultMode);
+    CFMutableDictionaryRef matchingDict = IOServiceMatching("IOHIDUserDevice");
+    io_iterator_t portIterator = 0;
+    kern_return_t result = IOServiceAddMatchingNotification(notificationPort,
+                                                            "IOServicePublish",
+                                                            matchingDict,
+                                                            didConnectHIDDevice,
+                                                            NULL,
+                                                            &portIterator);
+    if (result == KERN_SUCCESS) {
+        didConnectHIDDevice(NULL, portIterator);
+        return YES;
+    }
+    return NO;
+}
+
+@end
+
+#endif
