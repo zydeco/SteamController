@@ -58,7 +58,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     GCControllerPlayerIndex playerIndex;
     dispatch_queue_t handlerQueue;
     void (^controllerPausedHandler)(GCController *controller);
-    BOOL enteringValveMode, handledSteamCombos;
+    BOOL handledSteamCombos;
     SteamControllerState state;
     uint32_t currentSteamCombos;
 }
@@ -83,7 +83,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         _steamThumbstickMapping = SteamControllerMappingLeftThumbstick;
         _steamLeftTrackpadRequiresClick = YES;
         _steamRightTrackpadRequiresClick = YES;
-        _steamControllerMode = SteamControllerModeKeyboardAndMouse; // default on connection
+        _steamControllerMode = SteamControllerModeGameController; // will set on connection
         memset(&state, 0, sizeof(state));
         extendedGamepad = [[SteamControllerExtendedGamepad alloc] initWithController:self];
         self.playerIndex = GCControllerPlayerIndexUnset;
@@ -143,6 +143,10 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
 }
 
 - (void)setSteamControllerMode:(SteamControllerMode)steamControllerMode {
+    _steamControllerMode = steamControllerMode;
+    if (reportCharacteristic == nil) {
+        return; // will do after discovering characteristic
+    }
     NSData *packet = nil;
     switch (steamControllerMode) {
         case SteamControllerModeGameController:
@@ -157,7 +161,6 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     if (packet) {
         [_peripheral writeValue:packet forCharacteristic:reportCharacteristic type:CBCharacteristicWriteWithResponse];
     }
-    _steamControllerMode = steamControllerMode;
 }
 
 #pragma mark - CBPeripheralDelegate
@@ -184,16 +187,13 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverDescriptorsForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
     if ([characteristic.UUID isEqual:SteamControllerReportCharacteristicUUID]) {
         reportCharacteristic = characteristic;
-        enteringValveMode = YES;
-        self.steamControllerMode = SteamControllerModeGameController;
+        self.steamControllerMode = _steamControllerMode;
+        [[NSNotificationCenter defaultCenter] postNotificationName:GCControllerDidConnectNotification object:self];
     }
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
-    if ([characteristic.UUID isEqual:SteamControllerReportCharacteristicUUID] && error == nil && enteringValveMode) {
-        enteringValveMode = NO;
-        [self didEnterValveMode];
-    }
+    
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
@@ -224,10 +224,6 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
 
 - (void)didDisconnect {
     [[NSNotificationCenter defaultCenter] postNotificationName:GCControllerDidDisconnectNotification object:self];
-}
-
-- (void)didEnterValveMode {
-    [[NSNotificationCenter defaultCenter] postNotificationName:GCControllerDidConnectNotification object:self];
 }
 
 - (void)didReceiveStatus:(NSData*)data {
@@ -384,6 +380,10 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
 }
 
 - (void)playTune:(uint8_t)tune {
+    if (reportCharacteristic == nil) {
+        // ignore
+        return;
+    }
     char command[] = "\xC0\xB6\x04\x04\x00\x00\x00";
     command[3] = (tune & 0xf);
     [_peripheral writeValue:[NSData dataWithBytes:command length:7] forCharacteristic:reportCharacteristic type:CBCharacteristicWriteWithResponse];
