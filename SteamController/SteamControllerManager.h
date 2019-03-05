@@ -35,13 +35,15 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 #ifndef STEAMCONTROLLER_NO_IOKIT
-@interface SteamControllerManager (IOKit)
-
-/** Listens for controller connections.
+/// Implements listening for controller connections over bluetooth using IOKit.
+@interface SteamControllerManager (Listening)
+/** Starts listening for controller connections.
  
- This enables controllers to be detected automatically when they connect/reconnect, without calling `scanForControllers`.
+ You should call this method in your app delegate's `application:didFinishLaunchingWithOptions:` method.
+ 
+ This enables controllers to be detected automatically when they connect/reconnect, without having to call `scanForControllers`.
  This feature calls IOKit functions dynamically, which is private API on iOS/tvOS, it can be excluded from the build by
- passing `-DSTEAMCONTROLLER_NO_IOKIT` to the compiler.
+ passing `-DSTEAMCONTROLLER_NO_IOKIT` to the compiler, or using the `SteamController/no-iokit` subspec in your Podfile.
  */
 + (BOOL)listenForConnections;
 @end

@@ -159,7 +159,7 @@ static void didConnectHIDDevice(void *refcon, io_iterator_t iterator) {
     [[SteamControllerManager sharedManager] performSelector:@selector(scanForControllers) withObject:nil afterDelay:0.01];
 }
 
-@implementation SteamControllerManager (IOKit)
+@implementation SteamControllerManager (Listening)
 
 + (BOOL)listenForConnections {
     static dispatch_once_t onceToken;
