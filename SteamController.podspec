@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'SteamController'
-  s.version          = '1.0.3'
+  s.version          = '1.1'
   s.summary          = 'Support Steam Controller in BLE mode.'
   s.description      = <<-DESC
 Drop-in support for Steam Controllers in iOS/tvOS games.
@@ -15,7 +15,16 @@ Drop-in support for Steam Controllers in iOS/tvOS games.
   s.ios.deployment_target = '9.0'
   s.tvos.deployment_target = '9.0'
 
-  s.source_files = 'SteamController/*'
   s.public_header_files = 'SteamController/*.h'
   s.frameworks = 'GameController', 'CoreBluetooth'
+  
+  s.default_subspec = 'default'
+  s.subspec 'default' do |ss|
+    ss.source_files = 'SteamController/*'
+  end
+  
+  s.subspec 'no-iokit' do |ss|
+    ss.source_files = 'SteamController/*'
+    ss.compiler_flags = '-DSTEAMCONTROLLER_NO_IOKIT'
+  end
 end
