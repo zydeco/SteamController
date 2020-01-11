@@ -84,21 +84,10 @@ Everything should work like with MFi controllers. Depending on how your game wor
 - Analog Stick click: L3 *(Default)*
 - Trackpad clicks: L3 / R3 (when click is not required for input)
 
-##### Temporary button mappings
-These combinations are temporary, and will be removed in a future version, once there is an API in
-place to support the extra buttons. They are provided for compatibility with Provenance 1.5:
-
-- Back: MFi+ Combo for Select *(supported in Provenance 1.5: PSX, N64)*
-- Forward: MFi+ Combo for Start *(supported in Provenance 1.5: PSX, N64)*
-
-##### Trackpad & Stick Mode Toggles
-These combinations are temporary, and will be removed in a future version, once there is an API in
-place to support combinations of steam+button:
-
-- L-Pad Toggle: ◉ L-Pad Click + ◀︎ Back: toggles requiring click for input
-- R-Pad Toggle: ◉ R-Pad Click + ▶︎ Forward: toggles requiring click for input
-- Stick Toggle: ◉ Stick Click + ◀︎ Back: toggles between d-pad and left thumbstick mapping
-<br><sup> Combo order is specific if you want to avoid misfiring buttons.</sup><br>
+##### Back and Forward buttons
+These buttons don't exist on MFi gamepads, so they are added as a class extension to `GCExtendedGamepad`.
+- Back: `steamBackButton` on `GCExtendedGamepad`
+- Forward: `steamForwardButton` on `GCExtendedGamepad`
 
 ## License
 
