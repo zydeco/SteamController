@@ -9,7 +9,14 @@
 #import "SteamController.h"
 #import "SteamControllerInput.h"
 #import "SteamControllerExtendedGamepad.h"
+
+#ifndef STEAMCONTROLLER_NO_PRIVATE_API
+static void (*GSEventResetIdleTimer)(void);
+static void fakeGSEventResetIdleTimer() {};
+#endif
+
 @import CoreBluetooth;
+@import Darwin.POSIX.dlfcn;
 
 static inline float S16ToFloat(int16_t value) {
     if (value == 0) {
@@ -61,6 +68,13 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     BOOL handledSteamCombos;
     SteamControllerState state;
     uint32_t currentSteamCombos;
+}
+
++ (void)load {
+    GSEventResetIdleTimer = dlsym(RTLD_DEFAULT, "GSEventResetIdleTimer");
+    if (GSEventResetIdleTimer == NULL) {
+        GSEventResetIdleTimer = fakeGSEventResetIdleTimer;
+    }
 }
 
 - (instancetype)init {
@@ -339,6 +353,11 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     // Ensure grip buttons override thumbstick button state
     snapshot.leftThumbstickButton |= (state.buttons & SteamControllerButtonLeftGrip);
     snapshot.rightThumbstickButton |= (state.buttons & SteamControllerButtonRightGrip);
+    
+    // Reset idle timer
+#ifndef STEAMCONTROLLER_NO_PRIVATE_API
+    GSEventResetIdleTimer();
+#endif
     
     if (hasButtons && (state.buttons & SteamControllerButtonSteam)) {
         // Handle steam button combos
