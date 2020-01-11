@@ -99,10 +99,10 @@ typedef NS_OPTIONS(uint32_t, SteamControllerButton) {
 };
 
 /// Returns a string representing the name of a button.
-NSString* NSStringFromSteamControllerButton(SteamControllerButton button);
+NSString* _Nonnull NSStringFromSteamControllerButton(SteamControllerButton button);
 
 /// A block called when a button is pressed or released.
-typedef void(^SteamControllerButtonHandler)(SteamController *controller, SteamControllerButton button, BOOL isDown);
+typedef void(^SteamControllerButtonHandler)(SteamController * _Nonnull controller, SteamControllerButton button, BOOL isDown);
 
 NS_ASSUME_NONNULL_BEGIN
 
