@@ -23,8 +23,8 @@ Drop-in support for Steam Controllers in iOS/tvOS games.
     ss.source_files = 'SteamController/*'
   end
   
-  s.subspec 'no-iokit' do |ss|
+  s.subspec 'no-private-api' do |ss|
     ss.source_files = 'SteamController/*'
-    ss.compiler_flags = '-DSTEAMCONTROLLER_NO_IOKIT'
+    ss.compiler_flags = '-DSTEAMCONTROLLER_NO_PRIVATE_API'
   end
 end

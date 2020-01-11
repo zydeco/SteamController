@@ -132,7 +132,7 @@
 
 #pragma mark - IOKit
 
-#ifndef STEAMCONTROLLER_NO_IOKIT
+#ifndef STEAMCONTROLLER_NO_PRIVATE_API
 typedef mach_port_t    io_object_t;
 typedef io_object_t    io_connect_t;
 typedef io_object_t    io_enumerator_t;

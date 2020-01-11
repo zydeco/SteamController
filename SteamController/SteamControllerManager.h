@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#ifndef STEAMCONTROLLER_NO_IOKIT
+#ifndef STEAMCONTROLLER_NO_PRIVATE_API
 /// Implements listening for controller connections over bluetooth using IOKit.
 @interface SteamControllerManager (Listening)
 /** Starts listening for controller connections.
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  This enables controllers to be detected automatically when they connect/reconnect, without having to call `scanForControllers`.
  This feature calls IOKit functions dynamically, which is private API on iOS/tvOS, it can be excluded from the build by
- passing `-DSTEAMCONTROLLER_NO_IOKIT` to the compiler, or using the `SteamController/no-iokit` subspec in your Podfile.
+ passing `-DSTEAMCONTROLLER_NO_PRIVATE_API` to the compiler, or using the `SteamController/no-private-api` subspec in your Podfile.
  */
 + (BOOL)listenForConnections;
 @end
