@@ -14,9 +14,10 @@ In the example app, power on your controller (in BLE or BLE pairing mode) and pr
 
 ## Requirements
 
-- iOS 12 (might work on earlier versions, haven't tested).
+- iOS 12 or later (not tested on earlier versions).
 - Steam Controller with [BLE firmware](https://support.steampowered.com/kb_article.php?ref=7728-QESJ-4420#switch).
 - A game supporting MFi controllers using the `GameController` framework.
+- Starting on iOS 13, your app's Info.plist needs a `NSBluetoothAlwaysUsageDescription` key with a description of how it uses bluetooth.
 
 ## Installation
 
