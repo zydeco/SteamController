@@ -71,10 +71,12 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
 }
 
 + (void)load {
+#ifndef STEAMCONTROLLER_NO_PRIVATE_API
     GSEventResetIdleTimer = dlsym(RTLD_DEFAULT, "GSEventResetIdleTimer");
     if (GSEventResetIdleTimer == NULL) {
         GSEventResetIdleTimer = fakeGSEventResetIdleTimer;
     }
+#endif
 }
 
 - (instancetype)init {

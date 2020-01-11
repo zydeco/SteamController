@@ -15,16 +15,17 @@ Drop-in support for Steam Controllers in iOS/tvOS games.
   s.ios.deployment_target = '9.0'
   s.tvos.deployment_target = '9.0'
 
-  s.public_header_files = 'SteamController/*.h'
   s.frameworks = 'GameController', 'CoreBluetooth'
   
   s.default_subspec = 'default'
   s.subspec 'default' do |ss|
     ss.source_files = 'SteamController/*'
+    ss.public_header_files = 'SteamController/*.h'
   end
   
   s.subspec 'no-private-api' do |ss|
-    ss.source_files = 'SteamController/*'
     ss.compiler_flags = '-DSTEAMCONTROLLER_NO_PRIVATE_API'
+    ss.source_files = 'SteamController/*'
+    ss.public_header_files = 'SteamController/*.h'
   end
 end
