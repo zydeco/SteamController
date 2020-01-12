@@ -69,6 +69,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) SteamControllerButtonInput *rightTrigger;
 @property (nonatomic, readonly, nullable) SteamControllerButtonInput *leftThumbstickButton;
 @property (nonatomic, readonly, nullable) SteamControllerButtonInput *rightThumbstickButton;
+@property (nonatomic, readonly, nullable) SteamControllerButtonInput *buttonOptions;
+@property (nonatomic, readonly, nullable) SteamControllerButtonInput *buttonMenu;
 @property (nonatomic, readonly, nullable) SteamControllerButtonInput *steamBackButton;
 @property (nonatomic, readonly, nullable) SteamControllerButtonInput *steamForwardButton;
 @property (nonatomic, assign) SteamControllerExtendedGamepadSnapshotData state;

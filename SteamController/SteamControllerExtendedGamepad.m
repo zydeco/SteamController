@@ -113,4 +113,12 @@
     });
 }
 
+- (SteamControllerButtonInput *)buttonOptions {
+    return steamBackButton;
+}
+
+- (SteamControllerButtonInput *)buttonMenu {
+    return steamForwardButton;
+}
+
 @end
