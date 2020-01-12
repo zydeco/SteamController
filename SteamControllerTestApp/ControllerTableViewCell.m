@@ -89,11 +89,22 @@
         [self.leftTrackpadView setX:gamepad.leftThumbstick.xAxis.value Y:gamepad.leftThumbstick.yAxis.value];
     } else if (element == gamepad.rightThumbstick) {
         [self.rightTrackpadView setX:gamepad.rightThumbstick.xAxis.value Y:gamepad.rightThumbstick.yAxis.value];
-    } else if (element == gamepad.steamBackButton) {
-        self.backButton.selected = gamepad.steamBackButton.pressed;
-    } else if (element == gamepad.steamForwardButton) {
-        self.forwardButton.selected = gamepad.steamForwardButton.pressed;
     }
+    
+    if (@available(iOS 13, *)) {
+        if (element == gamepad.buttonOptions) {
+            self.backButton.selected = gamepad.buttonOptions.pressed;
+        } else if (element == gamepad.buttonMenu) {
+            self.forwardButton.selected = gamepad.buttonMenu.pressed;
+        }
+    } else {
+        if (element == gamepad.steamBackButton) {
+            self.backButton.selected = gamepad.steamBackButton.pressed;
+        } else if (element == gamepad.steamForwardButton) {
+            self.forwardButton.selected = gamepad.steamForwardButton.pressed;
+        }
+    }
+    
     if (@available(iOS 12.1, *)) {
         if (element == gamepad.leftThumbstickButton) {
             self.leftTrackpadView.backgroundColor = gamepad.leftThumbstickButton.pressed ? [UIColor darkGrayColor] : [UIColor lightGrayColor];
