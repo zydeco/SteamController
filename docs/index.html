@@ -116,7 +116,7 @@
 
 <p><img src="screenshot.png" alt="Screenshot"></p>
 
-<p>In the example app, power on your controller (in BLE or BLE pairing mode) and press Scan. Connected controllers will appear in the list, and the UI will reflect the state of the controller. Tapping on a controller from the list will play the  &ldquo;identify&rdquo; melody on that controller.</p>
+<p>In the example app, power on your controller (in BLE or BLE pairing mode) and press Scan. Connected controllers will appear in the list, and the UI will reflect the state of the controller. Tapping on a controller from the list will open the settings view for that controller, where you can also see the battery level, and change its configuration (seen above).</p>
 <h2 id='requirements' class='heading'>Requirements</h2>
 
 <ul>
@@ -159,10 +159,15 @@
 
 <ul>
 <li><code>#import &lt;SteamController/SteamController.h&gt;</code>.</li>
-<li>To scan for Steam Controllers, call <code>[[SteamControllerManager sharedManager] scanForControllers]</code>.</li>
-<li>The framework will post <code>GCControllerDidConnectNotification</code> and <code>GCControllerDidDisconnectNotification</code>, as with MFi controllers.</li>
+<li>To listen for steam controllers, either:
+
+<ul>
+<li>Call <code>[SteamControllerManager listenForConnections]</code> when your app starts (uses private IOKit API).</li>
+<li>Call <code>[[SteamControllerManager sharedManager] scanForControllers]</code> when you want to scan for controllers.</li>
+</ul></li>
+<li>The framework will post <code>GCControllerDidConnectNotification</code> and <code>GCControllerDidDisconnectNotification</code>, as with native controllers.</li>
 <li>Connected Steam Controllers will be returned in <code>[GCController controllers]</code>.</li>
-<li>Controllers are a subclass of <code>GCController</code> that implements the <code>extendedGamepad</code> profile.</li>
+<li>Steam Controllers are a subclass of <code>GCController</code> (<code><a href="Classes/SteamController.html">SteamController</a></code>) that implements the <code>extendedGamepad</code> profile.</li>
 <li>Core buttons are mapped to Apple&rsquo;s MFi Extended Gamepad Profile.</li>
 <li>Trackpads and stick can be mapped to D-pad and thumbsticks. (see below)</li>
 <li>Trackpads can be set to require click for input (default), or not.</li>
@@ -170,28 +175,35 @@
 <h4 id='button-mapping' class='heading'>Button Mapping</h4>
 
 <ul>
-<li>Analog Stick: L-Thumbstick <em>(Default)</em></li>
-<li>Left Trackpad <em>(Default)</em>: D-Pad <em>(Requires Click)</em></li>
-<li>Right Trackpad <em>(Default)</em>: R-Thumbstick / C-Buttons <em>(Requires Click)</em></li>
+<li>Analog Stick: L-Thumbstick</li>
+<li>Left Trackpad: D-Pad <em>(Requires Click)</em></li>
+<li>Right Trackpad: R-Thumbstick / C-Buttons <em>(Requires Click)</em></li>
 <li>A, B, X, Y: Equivalent</li>
 <li>Bumpers/Shoulders: L1 / R1</li>
 <li>Triggers: L2 / R2</li>
 <li>Grip buttons: L3 / R3</li>
-<li>Steam Button: Menu (Pause) Button</li>
+<li>Steam Button: Pause handler and combinations via <code>steamButtonCombinationHandler</code></li>
 <li>Analog Stick click: L3 <em>(Default)</em></li>
 <li>Trackpad clicks: L3 / R3 (when click is not required for input)</li>
+<li>Back: Options button</li>
+<li>Forward: Menu button</li>
 </ul>
-<h5 id='back-and-forward-buttons' class='heading'>Back and Forward buttons</h5>
+<h5 id='alternate-mapping-for-backward-compatibility' class='heading'>Alternate mapping for backward compatibility:</h5>
 
-<p>These buttons don&rsquo;t exist on MFi gamepads, so they are added as a class extension to <code>GCExtendedGamepad</code>.</p>
+<p>Since options and menu buttons were added in iOS 13, back and forward are also added as a class extension to <code>GCExtendedGamepad</code>.</p>
 
 <ul>
-<li>Back: <code>steamBackButton</code> on <code>GCExtendedGamepad</code></li>
-<li>Forward: <code>steamForwardButton</code> on <code>GCExtendedGamepad</code></li>
+<li>Back: <code>steamBackButton</code></li>
+<li>Forward: <code>steamForwardButton</code></li>
 </ul>
+<h4 id='controller-configuration' class='heading'>Controller Configuration</h4>
+
+<p>The <code><a href="Classes/SteamController.html">SteamController</a></code> class has some additional properties to customise its configuration.
+See the <a href="https://namedfork.net/SteamController/Classes/SteamController.html">documentation</a> for more info.
+These are available as GUI options in the example app.</p>
 <h2 id='license' class='heading'>License</h2>
 
-<p>SteamController is available under the MIT license. See the LICENSE file for more info.</p>
+<p>The SteamController framework is available under the MIT license. See the LICENSE file for more info.</p>
 
           </div>
         </section>
@@ -200,7 +212,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="https://github.com/zydeco" target="_blank" rel="external">Jesús A. Álvarez</a>. All rights reserved. (Last updated: 2020-01-11)</p>
+      <p>&copy; 2020 <a class="link" href="https://github.com/zydeco" target="_blank" rel="external">Jesús A. Álvarez</a>. All rights reserved. (Last updated: 2020-01-12)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
