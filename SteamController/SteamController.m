@@ -183,6 +183,10 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     }
 }
 
+- (BOOL)isSnapshot {
+    return NO;
+}
+
 #pragma mark - CBPeripheralDelegate
 
 - (void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error {
@@ -416,6 +420,16 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     char command[] = "\xC0\xB6\x04\x04\x00\x00\x00";
     command[3] = (tune & 0xf);
     [_peripheral writeValue:[NSData dataWithBytes:command length:7] forCharacteristic:reportCharacteristic type:CBCharacteristicWriteWithResponse];
+}
+
+- (GCController *)capture {
+    if (@available(iOS 13.0, tvOS 13.0, *)) {
+        GCController *controller = [GCController controllerWithExtendedGamepad];
+        [controller.extendedGamepad setStateFromExtendedGamepad:extendedGamepad];
+        return controller;
+    } else {
+        return nil;
+    }
 }
 
 @end

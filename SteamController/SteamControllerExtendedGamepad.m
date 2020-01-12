@@ -121,4 +121,8 @@
     return steamForwardButton;
 }
 
+- (void)setStateFromExtendedGamepad:(GCExtendedGamepad *)extendedGamepad {
+    // ignore
+}
+
 @end
