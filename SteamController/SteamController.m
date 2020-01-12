@@ -126,6 +126,10 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
     return @"Steam Controller";
 }
 
+- (NSString *)productCategory {
+    return @"Steam";
+}
+
 - (dispatch_queue_t)handlerQueue {
     return handlerQueue;
 }
