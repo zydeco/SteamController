@@ -41,6 +41,7 @@ typedef struct {
     float rightTrigger;
     
 #pragma mark - GCExtendedGamepadSnapshotDataVersion2+
+    BOOL supportsClickableThumbsticks;
     // Left and right thumbstick clickable values (0, 1)
     BOOL leftThumbstickButton;
     BOOL rightThumbstickButton;

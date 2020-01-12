@@ -51,12 +51,14 @@
             rightThumbstickButton = [[SteamControllerButtonInput alloc] initWithController:controller analog:NO];
             state.version = 0x0101;
             state.size = 62;
+            state.supportsClickableThumbsticks = YES;
         } else {
             leftThumbstickButton = nil;
             rightThumbstickButton = nil;
             // pretend to be GCExtendedGamepadSnapShotDataV100
             state.version = 0x0100;
             state.size = 60;
+            state.supportsClickableThumbsticks = NO;
         }
         steamBackButton = [[SteamControllerButtonInput alloc] initWithController:controller analog:NO];
         steamForwardButton = [[SteamControllerButtonInput alloc] initWithController:controller analog:NO];
