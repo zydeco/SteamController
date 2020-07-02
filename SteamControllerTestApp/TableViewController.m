@@ -20,7 +20,7 @@
 
 @implementation TableViewController
 {
-    NSMutableArray<GCController*> *controllers;
+    NSMutableArray* controllers;
 }
 
 - (void)viewDidLoad {
@@ -29,24 +29,28 @@
     controllers = [NSMutableArray arrayWithCapacity:1];
 }
 
+- (void)reloadData {
+    [self.tableView reloadData];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(didConnectController:) name:GCControllerDidConnectNotification object:nil];
-    [nc addObserver:self selector:@selector(didDisconnectController:) name:GCControllerDidDisconnectNotification object:nil];
+    [nc addObserver:self selector:@selector(didConnectDevice:) name:GCControllerDidConnectNotification object:nil];
+    [nc addObserver:self selector:@selector(didDisconnectDevice:) name:GCControllerDidDisconnectNotification object:nil];
 
     if (@available(iOS 14.0, *)) {
-        [nc addObserver:self selector:@selector(controllerDidBecomeCurrent:) name:GCControllerDidBecomeCurrentNotification object:nil];
-        [nc addObserver:self selector:@selector(controllerDidBecomeNonCurrent:) name:GCControllerDidStopBeingCurrentNotification object:nil];
-        
-        [nc addObserver:self selector:@selector(didConnectKeyboard:) name:GCKeyboardDidConnectNotification object:nil];
-        [nc addObserver:self selector:@selector(didDisconnectKeyboard:) name:GCKeyboardDidDisconnectNotification object:nil];
+        [nc addObserver:self selector:@selector(didConnectDevice:) name:GCKeyboardDidConnectNotification object:nil];
+        [nc addObserver:self selector:@selector(didDisconnectDevice:) name:GCKeyboardDidDisconnectNotification object:nil];
 
-        [nc addObserver:self selector:@selector(didConnectMouse:) name:GCMouseDidConnectNotification object:nil];
-        [nc addObserver:self selector:@selector(didDisconnectMouse:) name:GCMouseDidDisconnectNotification object:nil];
-        
-        [nc addObserver:self selector:@selector(mouseDidBecomeCurrent:) name:GCMouseDidBecomeCurrentNotification object:nil];
-        [nc addObserver:self selector:@selector(mouseDidBecomeNonCurrent:) name:GCMouseDidStopBeingCurrentNotification object:nil];
+        [nc addObserver:self selector:@selector(didConnectDevice:) name:GCMouseDidConnectNotification object:nil];
+        [nc addObserver:self selector:@selector(didDisconnectDevice:) name:GCMouseDidDisconnectNotification object:nil];
+
+        [nc addObserver:self selector:@selector(deviceDidBecomeCurrent:) name:GCControllerDidBecomeCurrentNotification object:nil];
+        [nc addObserver:self selector:@selector(deviceDidBecomeNonCurrent:) name:GCControllerDidStopBeingCurrentNotification object:nil];
+
+        [nc addObserver:self selector:@selector(deviceDidBecomeCurrent:) name:GCMouseDidBecomeCurrentNotification object:nil];
+        [nc addObserver:self selector:@selector(deviceDidBecomeNonCurrent:) name:GCMouseDidStopBeingCurrentNotification object:nil];
     }
 
 #ifdef STEAMCONTROLLER_NO_PRIVATE_API
@@ -61,6 +65,14 @@
     controllers = GCController.controllers.mutableCopy;
     [controllers addObjectsFromArray:SteamControllerManager.sharedManager.controllers];
 #endif
+    if (@available(iOS 14.0, *)) {
+        for (GCMouse* mouse in GCMouse.mice) {
+            [controllers addObject:mouse];
+        }
+        for (GCKeyboard* keyboard in @[GCKeyboard.coalescedKeyboard]) {
+            [controllers addObject:keyboard];
+        }
+    }
     [self.tableView reloadData];
 
     if (controllers.count == 0) {
@@ -79,97 +91,41 @@
     [[SteamControllerManager sharedManager] scanForControllers];
 }
 
-#pragma mark - controller connect/disconect
+#pragma mark - device connect/disconect
 
-- (void)didConnectController:(NSNotification*)notification {
-    GCController *controller = notification.object;
-    if ([controller isKindOfClass:[GCController class]] && ![controllers containsObject:controller]) {
-        NSLog(@"CONTROLER DID CONNECT: %@", controller);
-        [controllers addObject:controller];
+- (void)didConnectDevice:(NSNotification*)notification {
+    NSObject *device = notification.object;
+    if (![controllers containsObject:device]) {
+        NSLog(@"DEVICE DID CONNECT: %@", device);
+        [controllers addObject:device];
         [self.tableView reloadData];
     }
 }
 
-- (void)didDisconnectController:(NSNotification*)notification {
-    GCController *controller = notification.object;
-    if ([controller isKindOfClass:[GCController class]] && [controllers containsObject:controller]) {
-        NSLog(@"CONTROLER DID DIS-CONNECT: %@", controller);
-        [controllers removeObject:controller];
+- (void)didDisconnectDevice:(NSNotification*)notification {
+    NSObject *device = notification.object;
+    if ([controllers containsObject:device]) {
+        NSLog(@"DEVICE DID DIS-CONNECT: %@", device);
+        [controllers removeObject:device];
         [self.tableView reloadData];
     }
 }
 
-#pragma mark - controller become current
+#pragma mark - device become current
 
-- (void)controllerDidBecomeCurrent:(NSNotification*)notification {
-    GCController *controller = notification.object;
-    if ([controller isKindOfClass:[GCController class]] && [controllers containsObject:controller]) {
-        NSLog(@"CONTROLER DID BECOME CURRENT: %@", controller);
-        [self.tableView reloadData];
+- (void)deviceDidBecomeCurrent:(NSNotification*)notification {
+    NSObject *device = notification.object;
+    if ([controllers containsObject:device]) {
+        NSLog(@"CONTROLER DID BECOME CURRENT: %@", device);
+        [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     }
 }
 
-- (void)controllerDidBecomeNonCurrent:(NSNotification*)notification {
-    GCController *controller = notification.object;
-    if ([controller isKindOfClass:[GCController class]] && [controllers containsObject:controller]) {
-        NSLog(@"CONTROLER DID BECOME NON-CURRENT: %@", controller);
-        [self.tableView reloadData];
-    }
-}
-
-#pragma mark - keyboard connect
-
-- (void)didConnectKeyboard:(NSNotification*)notification API_AVAILABLE(ios(14.0)) {
-    GCKeyboard *keyboard = notification.object;
-    if ([keyboard isKindOfClass:[GCKeyboard class]] && ![controllers containsObject:keyboard]) {
-        NSLog(@"KEYBOARD DID CONNECT: %@", keyboard);
-        //[controllers addObject:controller];
-        [self.tableView reloadData];
-    }
-}
-
-- (void)didDisconnectKeyboard:(NSNotification*)notification  API_AVAILABLE(ios(14.0)) {
-    GCKeyboard *keyboard = notification.object;
-    if ([keyboard isKindOfClass:[GCKeyboard class]] && [controllers containsObject:keyboard]) {
-        NSLog(@"KEYBOARD DID DIS-CONNECT: %@", keyboard);
-        //[controllers removeObject:keyboard];
-        [self.tableView reloadData];
-    }
-}
-
-#pragma mark - mouse connect
-
-- (void)didConnectMouse:(NSNotification*)notification API_AVAILABLE(ios(14.0)) {
-    GCMouse *mouse = notification.object;
-    if ([mouse isKindOfClass:[GCMouse class]] && ![controllers containsObject:mouse]) {
-        NSLog(@"MOUSE DID CONNECT: %@", mouse);
-        //[controllers addObject:mouse];
-        [self.tableView reloadData];
-    }
-}
-
-- (void)didDisconnectMouse:(NSNotification*)notification API_AVAILABLE(ios(14.0)) {
-    GCMouse *mouse = notification.object;
-    if ([mouse isKindOfClass:[GCMouse class]] && [controllers containsObject:mouse]) {
-        NSLog(@"MOUSE DID DIS-CONNECT: %@", mouse);
-        //[controllers removeObject:mouse];
-        [self.tableView reloadData];
-    }
-}
-
-- (void)mouseDidBecomeCurrent:(NSNotification*)notification API_AVAILABLE(ios(14.0))  {
-    GCMouse *mouse = notification.object;
-    if ([mouse isKindOfClass:[GCController class]] && [controllers containsObject:mouse]) {
-        NSLog(@"MOUSE DID BECOME CURRENT: %@", mouse);
-        [self.tableView reloadData];
-    }
-}
-
-- (void)mouseDidBecomeNonCurrent:(NSNotification*)notification API_AVAILABLE(ios(14.0)) {
-    GCMouse *mouse = notification.object;
-    if ([mouse isKindOfClass:[GCMouse class]] && [controllers containsObject:mouse]) {
-        NSLog(@"MOUSE DID BECOME NON-CURRENT: %@", mouse);
-        [self.tableView reloadData];
+- (void)deviceDidBecomeNonCurrent:(NSNotification*)notification {
+    NSObject *device = notification.object;
+    if ([controllers containsObject:device]) {
+        NSLog(@"DEVICE DID BECOME NON-CURRENT: %@", device);
+        [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     }
 }
 
@@ -185,6 +141,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     GCController *controller = controllers[section];
+    
     if (@available(iOS 13.0, *))
         return [NSString stringWithFormat:@"%@ (%@)", controller.vendorName, controller.productCategory];
     else
@@ -192,14 +149,62 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ControllerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"controller" forIndexPath:indexPath];
-    GCController *controller = controllers[indexPath.section];
-    cell.controller = controller;
+    NSObject *device = controllers[indexPath.section];
     
-    if (@available(iOS 14.0, *))
-        cell.selected = GCController.current == controller;
+    if ([device isKindOfClass:[GCController class]]) {
+        GCController *controller = (GCController *)device;
+
+        ControllerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"controller" forIndexPath:indexPath];
+        cell.controller = controller;
+
+        if (@available(iOS 14.0, *))
+            cell.backgroundColor = (GCController.controllers.count > 1 && GCController.current == controller) ? UIColor.orangeColor : UIColor.clearColor;
+
+        return cell;
+    }
     
-    return cell;
+    if (@available(iOS 14.0, *)) {
+        if ([device isKindOfClass:[GCMouse class]]) {
+            GCMouse *mouse = (GCMouse*)device;
+            
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
+            cell.textLabel.text = [mouse description];
+            
+            cell.backgroundColor = (GCMouse.mice.count > 1 && GCMouse.current == mouse) ? UIColor.orangeColor : UIColor.clearColor;
+
+            __weak UITableViewCell* _cell = cell;
+            [mouse.mouseInput setMouseMovedHandler:^(GCMouseInput* mouse, float deltaX, float deltaY) {
+                _cell.detailTextLabel.text = [NSString stringWithFormat:@"MOVE: %f, %f", deltaX, deltaY];
+            }];
+            [mouse.mouseInput.leftButton setValueChangedHandler:^(GCControllerButtonInput*  button, float value, BOOL pressed) {
+                _cell.detailTextLabel.text = [NSString stringWithFormat:@"LEFT BUTTON: %s", pressed ? "DOWN" : "UP"];
+            }];
+            [mouse.mouseInput.rightButton setValueChangedHandler:^(GCControllerButtonInput*  button, float value, BOOL pressed) {
+                _cell.detailTextLabel.text = [NSString stringWithFormat:@"RIGHT BUTTON: %s", pressed ? "DOWN" : "UP"];
+            }];
+            [mouse.mouseInput.scroll setValueChangedHandler:^(GCControllerDirectionPad* dpad, float xValue, float yValue) {
+                _cell.detailTextLabel.text = [NSString stringWithFormat:@"SCROLL: %f, %f", xValue, yValue];
+            }];
+
+            return cell;
+        }
+
+        if ([device isKindOfClass:[GCKeyboard class]]) {
+            GCKeyboard *keyboard = (GCKeyboard*)device;
+            
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
+            cell.textLabel.text = [keyboard description];
+            
+            __weak UITableViewCell* _cell = cell;
+            [keyboard.keyboardInput setKeyChangedHandler:^(GCKeyboardInput* keyboard, GCControllerButtonInput* key, GCKeyCode keyCode, BOOL pressed) {
+                _cell.detailTextLabel.text = [NSString stringWithFormat:@"Key: %@ (%ld) - %s",key, keyCode, pressed ? "DOWN" : "UP"];
+            }];
+            
+            return cell;
+        }
+    }
+
+    return nil;
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
