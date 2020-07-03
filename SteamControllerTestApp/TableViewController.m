@@ -39,6 +39,7 @@
     [nc addObserver:self selector:@selector(didConnectDevice:) name:GCControllerDidConnectNotification object:nil];
     [nc addObserver:self selector:@selector(didDisconnectDevice:) name:GCControllerDidDisconnectNotification object:nil];
 
+#ifdef __IPHONE_14_0
     if (@available(iOS 14.0, *)) {
         [nc addObserver:self selector:@selector(didConnectDevice:) name:GCKeyboardDidConnectNotification object:nil];
         [nc addObserver:self selector:@selector(didDisconnectDevice:) name:GCKeyboardDidDisconnectNotification object:nil];
@@ -52,6 +53,7 @@
         [nc addObserver:self selector:@selector(deviceDidBecomeCurrent:) name:GCMouseDidBecomeCurrentNotification object:nil];
         [nc addObserver:self selector:@selector(deviceDidBecomeNonCurrent:) name:GCMouseDidStopBeingCurrentNotification object:nil];
     }
+#endif
 
 #ifdef STEAMCONTROLLER_NO_PRIVATE_API
     [self scanForControllers:self];
@@ -65,14 +67,16 @@
     controllers = GCController.controllers.mutableCopy;
     [controllers addObjectsFromArray:SteamControllerManager.sharedManager.controllers];
 #endif
+#ifdef __IPHONE_14_0
     if (@available(iOS 14.0, *)) {
         for (GCMouse* mouse in GCMouse.mice) {
             [controllers addObject:mouse];
         }
-        for (GCKeyboard* keyboard in @[GCKeyboard.coalescedKeyboard]) {
-            [controllers addObject:keyboard];
+        if (GCKeyboard.coalescedKeyboard != nil) {
+            [controllers addObject:GCKeyboard.coalescedKeyboard];
         }
     }
+#endif
     [self.tableView reloadData];
 
     if (controllers.count == 0) {
@@ -116,7 +120,7 @@
 - (void)deviceDidBecomeCurrent:(NSNotification*)notification {
     NSObject *device = notification.object;
     if ([controllers containsObject:device]) {
-        NSLog(@"CONTROLER DID BECOME CURRENT: %@", device);
+        NSLog(@"DEVICE DID BECOME CURRENT: %@", device);
         [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     }
 }
@@ -157,12 +161,14 @@
         ControllerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"controller" forIndexPath:indexPath];
         cell.controller = controller;
 
+#ifdef __IPHONE_14_0
         if (@available(iOS 14.0, *))
             cell.backgroundColor = (GCController.controllers.count > 1 && GCController.current == controller) ? UIColor.orangeColor : UIColor.clearColor;
-
+#endif
         return cell;
     }
     
+#ifdef __IPHONE_14_0
     if (@available(iOS 14.0, *)) {
         if ([device isKindOfClass:[GCMouse class]]) {
             GCMouse *mouse = (GCMouse*)device;
@@ -203,6 +209,7 @@
             return cell;
         }
     }
+#endif
 
     return nil;
 }
