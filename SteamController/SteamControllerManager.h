@@ -8,9 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define STEAMCONTROLLER_NO_SWIZZLING
-#define STEAMCONTROLLER_NO_PRIVATE_API
-
 @class SteamController;
 
 NS_ASSUME_NONNULL_BEGIN
