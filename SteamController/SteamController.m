@@ -104,8 +104,26 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         extendedGamepad = [[SteamControllerExtendedGamepad alloc] initWithController:self];
         self.playerIndex = GCControllerPlayerIndexUnset;
         self.handlerQueue = dispatch_get_main_queue();
+        [self registerForAppLifecycleNotifications];
     }
     return self;
+}
+
+#pragma mark - App Lifecycle
+
+- (void)registerForAppLifecycleNotifications {
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [nc addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+}
+
+- (void)applicationWillResignActive:(NSNotification*)notification {
+    [self writeSteamControllerMode:SteamControllerModeKeyboardAndMouse];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification*)notification {
+    [self writeSteamControllerMode:_steamControllerMode];
 }
 
 #pragma mark - Accessors
@@ -164,23 +182,7 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
 
 - (void)setSteamControllerMode:(SteamControllerMode)steamControllerMode {
     _steamControllerMode = steamControllerMode;
-    if (reportCharacteristic == nil) {
-        return; // will do after discovering characteristic
-    }
-    NSData *packet = nil;
-    switch (steamControllerMode) {
-        case SteamControllerModeGameController:
-            packet = [NSData dataWithBytes:"\xC0\x87\x03\x08\x07\x00" length:6];
-            break;
-        case SteamControllerModeKeyboardAndMouse:
-            packet = [NSData dataWithBytes:"\xC0\x87\x03\x08\x00\x00" length:6];
-            break;
-        default:
-            break;
-    }
-    if (packet) {
-        [_peripheral writeValue:packet forCharacteristic:reportCharacteristic type:CBCharacteristicWriteWithResponse];
-    }
+    [self writeSteamControllerMode:steamControllerMode];
 }
 
 - (BOOL)isSnapshot {
@@ -429,6 +431,26 @@ static CBUUID *SteamControllerReportCharacteristicUUID;
         return controller;
     } else {
         return nil;
+    }
+}
+
+- (void)writeSteamControllerMode:(SteamControllerMode)steamControllerMode {
+    if (reportCharacteristic == nil) {
+        return; // will do after discovering characteristic
+    }
+    NSData *packet = nil;
+    switch (steamControllerMode) {
+        case SteamControllerModeGameController:
+            packet = [NSData dataWithBytes:"\xC0\x87\x03\x08\x07\x00" length:6];
+            break;
+        case SteamControllerModeKeyboardAndMouse:
+            packet = [NSData dataWithBytes:"\xC0\x87\x03\x08\x00\x00" length:6];
+            break;
+        default:
+            break;
+    }
+    if (packet) {
+        [_peripheral writeValue:packet forCharacteristic:reportCharacteristic type:CBCharacteristicWriteWithResponse];
     }
 }
 
