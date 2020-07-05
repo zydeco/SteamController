@@ -20,7 +20,7 @@
 
 @implementation TableViewController
 {
-    NSMutableArray<SteamController*> *controllers;
+    NSMutableArray<GCController*> *controllers;
 }
 
 - (void)viewDidLoad {
@@ -34,8 +34,24 @@
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(didConnectController:) name:GCControllerDidConnectNotification object:nil];
     [nc addObserver:self selector:@selector(didDisconnectController:) name:GCControllerDidDisconnectNotification object:nil];
-    controllers = [SteamControllerManager sharedManager].controllers.mutableCopy;
+
+#ifdef STEAMCONTROLLER_NO_PRIVATE_API
+    [self scanForControllers:self];
+#endif
+
+#ifndef STEAMCONTROLLER_NO_SWIZZLING
+    // get all controllers (steam, MFi) with a call to GCController
+    controllers = GCController.controllers.mutableCopy;
+#else
+    // need to call both SteamControllerManager and GCController
+    controllers = GCController.controllers.mutableCopy;
+    [controllers addObjectsFromArray:SteamControllerManager.sharedManager.controllers];
+#endif
     [self.tableView reloadData];
+
+    if (controllers.count == 0) {
+        [self scanForControllers:self];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -46,49 +62,68 @@
 }
 
 - (void)scanForControllers:(id)sender {
+    [GCController startWirelessControllerDiscoveryWithCompletionHandler:nil];
     [[SteamControllerManager sharedManager] scanForControllers];
 }
 
 - (void)didConnectController:(NSNotification*)notification {
-    SteamController *controller = notification.object;
-    if ([controller isKindOfClass:[SteamController class]]) {
+    GCController *controller = notification.object;
+    if ([controller isKindOfClass:[GCController class]] && ![controllers containsObject:controller]) {
         [controllers addObject:controller];
-        NSUInteger row = controllers.count - 1;
-        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView reloadData];
     }
 }
 
 - (void)didDisconnectController:(NSNotification*)notification {
-    SteamController *controller = notification.object;
-    NSUInteger row = [controllers indexOfObject:controller];
-    if (row != NSNotFound) {
-        [controllers removeObjectAtIndex:row];
-        [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    GCController *controller = notification.object;
+    if ([controller isKindOfClass:[GCController class]] && [controllers containsObject:controller]) {
+        [controllers removeObject:controller];
+        [self.tableView reloadData];
     }
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return controllers.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return controllers.count;
+    return 1;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    GCController *controller = controllers[section];
+    if (@available(iOS 13.0, *))
+        return [NSString stringWithFormat:@"%@ (%@)", controller.vendorName, controller.productCategory];
+    else
+        return [NSString stringWithFormat:@"%@", controller.vendorName];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ControllerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"controller" forIndexPath:indexPath];
-    SteamController *controller = controllers[indexPath.row];
+    GCController *controller = controllers[indexPath.section];
     cell.controller = controller;
     return cell;
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([sender isKindOfClass:[UITableViewCell class]]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        if (indexPath == nil)
+            return FALSE;
+        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+        return [controllers[indexPath.section] isKindOfClass:[SteamController class]];
+    }
+    return TRUE;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.destinationViewController isKindOfClass:[DetailViewController class]] && [sender isKindOfClass:[UITableViewCell class]]) {
         DetailViewController *detailViewController = (DetailViewController*)segue.destinationViewController;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        detailViewController.steamController = indexPath ? controllers[indexPath.row] : nil;
+        if (indexPath != nil && [controllers[indexPath.section] isKindOfClass:[SteamController class]])
+            detailViewController.steamController = (SteamController*)controllers[indexPath.section];
     }
 }
 
