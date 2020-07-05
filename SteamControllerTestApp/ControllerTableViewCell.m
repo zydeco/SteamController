@@ -10,7 +10,18 @@
 #import "XYView.h"
 #import "SteamController.h"
 
-@implementation ControllerTableViewCell
+// declare these selectors, so we can use them, and ARC wont complain
+@interface NSObject()
+-(GCControllerButtonInput*)buttonHome;
+-(GCControllerButtonInput*)buttonMenu;
+-(GCControllerButtonInput*)buttonOptions;
+@end
+
+@implementation ControllerTableViewCell {
+    GCControllerButtonInput* _buttonHome;
+    GCControllerButtonInput* _buttonMenu;
+    GCControllerButtonInput* _buttonOptions;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -33,11 +44,30 @@
     controller.extendedGamepad.valueChangedHandler = ^(GCExtendedGamepad * _Nonnull gamepad, GCControllerElement * _Nonnull element) {
         [self didUpdateElement:element inGamepad:gamepad];
     };
-    controller.controllerPausedHandler = ^(GCController * _Nonnull controller) {
-        self.pauseButton.selected = YES;
-        [self.pauseButton performSelector:@selector(setSelected:) withObject:nil afterDelay:0.2];
-    };
-    if ([controller isKindOfClass:[SteamController class]]) {
+
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wpartial-availability"
+    _buttonHome = [_controller.extendedGamepad respondsToSelector:@selector(buttonHome)] ? [_controller.extendedGamepad buttonHome] : nil;
+    _buttonMenu = [_controller.extendedGamepad respondsToSelector:@selector(buttonMenu)] ? [_controller.extendedGamepad buttonMenu] : nil;
+    _buttonOptions = [_controller.extendedGamepad respondsToSelector:@selector(buttonOptions)] ? [_controller.extendedGamepad buttonOptions] : nil;
+    #pragma clang diagnostic pop
+    
+    if (_buttonHome != nil) {
+        self.homeButton = self.pauseButton;
+        [self.homeButton setTitle:@"HOME" forState:UIControlStateNormal];
+    }
+    else if (_buttonMenu != nil) {
+        self.menuButton = self.pauseButton;
+        [self.menuButton setTitle:@"MENU" forState:UIControlStateNormal];
+    }
+    else {
+        controller.controllerPausedHandler = ^(GCController * _Nonnull controller) {
+            self.pauseButton.selected = YES;
+            [self.pauseButton performSelector:@selector(setSelected:) withObject:nil afterDelay:0.2];
+        };
+    }
+    // if steamButtonCombinationHandler == nil the STEAM/HOME button will act like a normal button, else it will have combo-only behaviour
+    if (_buttonHome == nil && [controller isKindOfClass:[SteamController class]]) {
         SteamController *steamController = (SteamController*)controller;
         steamController.steamButtonCombinationHandler = ^(SteamController *controller, SteamControllerButton button, BOOL isDown) {
             NSLog(@"Steam combo with button %@ %s", NSStringFromSteamControllerButton(button), isDown?"DOWN":"UP");
@@ -91,20 +121,13 @@
         [self.rightTrackpadView setX:gamepad.rightThumbstick.xAxis.value Y:gamepad.rightThumbstick.yAxis.value];
     }
     
-    if (@available(iOS 13, *)) {
-        if (element == gamepad.buttonOptions) {
-            self.backButton.selected = gamepad.buttonOptions.pressed;
-        } else if (element == gamepad.buttonMenu) {
-            self.forwardButton.selected = gamepad.buttonMenu.pressed;
-        }
-    } else {
-        if (element == gamepad.steamBackButton) {
-            self.backButton.selected = gamepad.steamBackButton.pressed;
-        } else if (element == gamepad.steamForwardButton) {
-            self.forwardButton.selected = gamepad.steamForwardButton.pressed;
-        }
-    }
-    
+    if (element == _buttonHome)
+        self.homeButton.selected = _buttonHome.pressed;
+    if (element == _buttonOptions)
+        self.backButton.selected = _buttonOptions.pressed;
+    if (element == _buttonMenu)
+        self.forwardButton.selected = _buttonMenu.pressed;
+
     if (@available(iOS 12.1, *)) {
         if (element == gamepad.leftThumbstickButton) {
             self.leftTrackpadView.backgroundColor = gamepad.leftThumbstickButton.pressed ? [UIColor darkGrayColor] : [UIColor lightGrayColor];

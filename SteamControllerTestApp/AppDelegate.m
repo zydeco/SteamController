@@ -18,7 +18,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+#ifndef STEAMCONTROLLER_NO_PRIVATE_API
     [SteamControllerManager listenForConnections];
+#endif
     return YES;
 }
 
