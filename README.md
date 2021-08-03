@@ -82,7 +82,7 @@ Everything should work like with MFi controllers. Depending on how your game wor
 - Bumpers/Shoulders: L1 / R1
 - Triggers: L2 / R2
 - Grip buttons: L3 / R3
-- Steam Button: Pause handler and combinations via `steamButtonCombinationHandler`
+- Steam Button: Pause handler and combinations via `steamButtonCombinationHandler`, or home button
 - Analog Stick click: L3 *(Default)*
 - Trackpad clicks: L3 / R3 (when click is not required for input)
 - Back: Options button
