@@ -271,7 +271,7 @@
                             <outlet property="delegate" destination="OBr-5A-1bC" id="hup-Rp-g8J"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Steam Controller" id="cVo-jK-rHu"/>
+                    <navigationItem key="navigationItem" title="Game Controllers" id="cVo-jK-rHu"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2bK-2B-ESZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

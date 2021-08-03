@@ -10,8 +10,14 @@
 #import "SteamController.h"
 
 @import CoreBluetooth;
+
+#ifndef STEAMCONTROLLER_NO_SWIZZLING
 @import ObjectiveC.runtime;
+#endif
+
+#ifndef STEAMCONTROLLER_NO_PRIVATE_API
 @import Darwin.POSIX.dlfcn;
+#endif
 
 @interface SteamController (Private)
 - (void)didConnect;
@@ -83,7 +89,7 @@
 }
 
 - (void)centralManagerDidUpdateState:(nonnull CBCentralManager *)central {
-    if (central.state == CBCentralManagerStatePoweredOn) {
+    if (central.state == CBManagerStatePoweredOn) {
         [self scanForControllers];
     }
 }
@@ -97,7 +103,7 @@
 }
 
 - (void)scanForControllers {
-    if (centralManager.state == CBCentralManagerStatePoweredOn) {
+    if (centralManager.state == CBManagerStatePoweredOn) {
         [centralManager scanForPeripheralsWithServices:@[controllerServiceUUID] options:nil];
         NSArray *peripherals = [centralManager retrieveConnectedPeripheralsWithServices:@[controllerServiceUUID]];
         for (CBPeripheral *peripheral in peripherals) {
@@ -109,6 +115,9 @@
     }
 }
 
+#pragma mark - Swizzling
+
+#ifndef STEAMCONTROLLER_NO_SWIZZLING
 + (void)load {
     Method m1 = class_getClassMethod([GCController class], @selector(controllers));
     Method m2 = class_getClassMethod([SteamControllerManager class], @selector(controllers));
@@ -126,6 +135,7 @@
     NSArray<GCController*>* steamControllers = [SteamControllerManager sharedManager].controllers;
     return [originalControllers arrayByAddingObjectsFromArray:steamControllers];
 }
+#endif
 
 @end
 
