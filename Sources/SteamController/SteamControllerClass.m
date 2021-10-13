@@ -6,7 +6,7 @@
 //  Copyright © 2018 namedfork. All rights reserved.
 //
 
-#import "SteamController.h"
+#import "include/SteamController/SteamControllerClass.h"
 #import "SteamControllerInput.h"
 #import "SteamControllerExtendedGamepad.h"
 

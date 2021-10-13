@@ -1,5 +1,5 @@
 //
-//  SteamController.h
+//  SteamControllerClass.h
 //  SteamController
 //
 //  Created by Jesús A. Álvarez on 20/12/2018.
