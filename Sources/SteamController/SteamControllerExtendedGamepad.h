@@ -7,7 +7,7 @@
 //
 
 #import <GameController/GameController.h>
-#import "SteamController.h"
+#import "include/SteamController/SteamControllerClass.h"
 #import "SteamControllerInput.h"
 
 #pragma pack(push, 1)

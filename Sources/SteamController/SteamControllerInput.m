@@ -7,7 +7,7 @@
 //
 
 #import "SteamControllerInput.h"
-#import "SteamController.h"
+#import "include/SteamController/SteamControllerClass.h"
 
 @implementation SteamControllerAxisInput
 {

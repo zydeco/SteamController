@@ -12,18 +12,14 @@
 		282F528B21CAC3F600B3A804 /* XYView.m in Sources */ = {isa = PBXBuildFile; fileRef = 282F528A21CAC3F600B3A804 /* XYView.m */; };
 		2830161D21CC0E2900E024C9 /* SteamController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2830161621CC0E2900E024C9 /* SteamController.framework */; };
 		2830161E21CC0E2900E024C9 /* SteamController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2830161621CC0E2900E024C9 /* SteamController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2830162221CC0E9300E024C9 /* SteamControllerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 282F527421C6D07700B3A804 /* SteamControllerManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2830162321CC0E9300E024C9 /* SteamControllerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 282F527521C6D07700B3A804 /* SteamControllerManager.m */; };
-		2830162421CC0E9300E024C9 /* SteamController.h in Headers */ = {isa = PBXBuildFile; fileRef = 282F527721C6F9C600B3A804 /* SteamController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2830162521CC0E9300E024C9 /* SteamController.m in Sources */ = {isa = PBXBuildFile; fileRef = 282F527821C6F9C600B3A804 /* SteamController.m */; };
+		2830162521CC0E9300E024C9 /* SteamControllerClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 282F527821C6F9C600B3A804 /* SteamControllerClass.m */; };
 		2830162621CC0E9300E024C9 /* SteamControllerExtendedGamepad.h in Headers */ = {isa = PBXBuildFile; fileRef = 282F527A21C985B400B3A804 /* SteamControllerExtendedGamepad.h */; };
 		2830162721CC0E9300E024C9 /* SteamControllerExtendedGamepad.m in Sources */ = {isa = PBXBuildFile; fileRef = 282F527B21C985B400B3A804 /* SteamControllerExtendedGamepad.m */; };
 		2830162821CC0E9300E024C9 /* SteamControllerInput.h in Headers */ = {isa = PBXBuildFile; fileRef = 282F528021C98C2400B3A804 /* SteamControllerInput.h */; };
 		2830162921CC0E9300E024C9 /* SteamControllerInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 282F528121C98C2400B3A804 /* SteamControllerInput.m */; };
-		2830164C21CC107000E024C9 /* SteamControllerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 282F527421C6D07700B3A804 /* SteamControllerManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2830164D21CC107000E024C9 /* SteamControllerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 282F527521C6D07700B3A804 /* SteamControllerManager.m */; };
-		2830164E21CC107000E024C9 /* SteamController.h in Headers */ = {isa = PBXBuildFile; fileRef = 282F527721C6F9C600B3A804 /* SteamController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2830164F21CC107000E024C9 /* SteamController.m in Sources */ = {isa = PBXBuildFile; fileRef = 282F527821C6F9C600B3A804 /* SteamController.m */; };
+		2830164F21CC107000E024C9 /* SteamControllerClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 282F527821C6F9C600B3A804 /* SteamControllerClass.m */; };
 		2830165021CC107000E024C9 /* SteamControllerExtendedGamepad.h in Headers */ = {isa = PBXBuildFile; fileRef = 282F527A21C985B400B3A804 /* SteamControllerExtendedGamepad.h */; };
 		2830165121CC107000E024C9 /* SteamControllerExtendedGamepad.m in Sources */ = {isa = PBXBuildFile; fileRef = 282F527B21C985B400B3A804 /* SteamControllerExtendedGamepad.m */; };
 		2830165221CC107000E024C9 /* SteamControllerInput.h in Headers */ = {isa = PBXBuildFile; fileRef = 282F528021C98C2400B3A804 /* SteamControllerInput.h */; };
@@ -39,6 +35,12 @@
 		2838E13120A750B00027CC92 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2838E13020A750B00027CC92 /* main.m */; };
 		2838E13920A752610027CC92 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2838E13820A752610027CC92 /* CoreBluetooth.framework */; };
 		28865A9C22063D500018D4C8 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28865A9B22063D500018D4C8 /* DetailViewController.m */; };
+		B31BC25526F0AFAD00CB29D2 /* SteamController.h in Headers */ = {isa = PBXBuildFile; fileRef = B31BC25426F0AFAD00CB29D2 /* SteamController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B31BC25626F0AFAD00CB29D2 /* SteamController.h in Headers */ = {isa = PBXBuildFile; fileRef = B31BC25426F0AFAD00CB29D2 /* SteamController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B31BC25C26F0B1D700CB29D2 /* SteamControllerClass.h in Headers */ = {isa = PBXBuildFile; fileRef = B31BC25926F0B1D700CB29D2 /* SteamControllerClass.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B31BC25D26F0B1D700CB29D2 /* SteamControllerClass.h in Headers */ = {isa = PBXBuildFile; fileRef = B31BC25926F0B1D700CB29D2 /* SteamControllerClass.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B31BC26026F0B1D700CB29D2 /* SteamControllerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B31BC25B26F0B1D700CB29D2 /* SteamControllerManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B31BC26126F0B1D700CB29D2 /* SteamControllerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B31BC25B26F0B1D700CB29D2 /* SteamControllerManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,10 +68,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		282F527421C6D07700B3A804 /* SteamControllerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SteamControllerManager.h; sourceTree = "<group>"; };
 		282F527521C6D07700B3A804 /* SteamControllerManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SteamControllerManager.m; sourceTree = "<group>"; };
-		282F527721C6F9C600B3A804 /* SteamController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SteamController.h; sourceTree = "<group>"; };
-		282F527821C6F9C600B3A804 /* SteamController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SteamController.m; sourceTree = "<group>"; };
+		282F527821C6F9C600B3A804 /* SteamControllerClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SteamControllerClass.m; sourceTree = "<group>"; };
 		282F527A21C985B400B3A804 /* SteamControllerExtendedGamepad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SteamControllerExtendedGamepad.h; sourceTree = "<group>"; };
 		282F527B21C985B400B3A804 /* SteamControllerExtendedGamepad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SteamControllerExtendedGamepad.m; sourceTree = "<group>"; };
 		282F528021C98C2400B3A804 /* SteamControllerInput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SteamControllerInput.h; sourceTree = "<group>"; };
@@ -98,6 +98,9 @@
 		283ADD3521FE17EA00760C97 /* Info-tvOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
 		28865A9A22063D500018D4C8 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		28865A9B22063D500018D4C8 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		B31BC25426F0AFAD00CB29D2 /* SteamController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SteamController.h; sourceTree = "<group>"; };
+		B31BC25926F0B1D700CB29D2 /* SteamControllerClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SteamControllerClass.h; sourceTree = "<group>"; };
+		B31BC25B26F0B1D700CB29D2 /* SteamControllerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SteamControllerManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,18 +137,17 @@
 		2830160521CC0DE200E024C9 /* SteamController */ = {
 			isa = PBXGroup;
 			children = (
-				2830160721CC0DE200E024C9 /* Info-iOS.plist */,
-				283ADD3521FE17EA00760C97 /* Info-tvOS.plist */,
-				282F527421C6D07700B3A804 /* SteamControllerManager.h */,
+				B31BC25726F0B1D700CB29D2 /* include */,
+				B31BC24926F0A61B00CB29D2 /* Supporting Files */,
 				282F527521C6D07700B3A804 /* SteamControllerManager.m */,
-				282F527721C6F9C600B3A804 /* SteamController.h */,
-				282F527821C6F9C600B3A804 /* SteamController.m */,
+				282F527821C6F9C600B3A804 /* SteamControllerClass.m */,
 				282F527A21C985B400B3A804 /* SteamControllerExtendedGamepad.h */,
 				282F527B21C985B400B3A804 /* SteamControllerExtendedGamepad.m */,
 				282F528021C98C2400B3A804 /* SteamControllerInput.h */,
 				282F528121C98C2400B3A804 /* SteamControllerInput.m */,
 			);
-			path = SteamController;
+			name = SteamController;
+			path = Sources/SteamController;
 			sourceTree = "<group>";
 		};
 		2838E11520A750AE0027CC92 = {
@@ -201,6 +203,33 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B31BC24926F0A61B00CB29D2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2830160721CC0DE200E024C9 /* Info-iOS.plist */,
+				283ADD3521FE17EA00760C97 /* Info-tvOS.plist */,
+				B31BC25426F0AFAD00CB29D2 /* SteamController.h */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B31BC25726F0B1D700CB29D2 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				B31BC25826F0B1D700CB29D2 /* SteamController */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		B31BC25826F0B1D700CB29D2 /* SteamController */ = {
+			isa = PBXGroup;
+			children = (
+				B31BC25926F0B1D700CB29D2 /* SteamControllerClass.h */,
+				B31BC25B26F0B1D700CB29D2 /* SteamControllerManager.h */,
+			);
+			path = SteamController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -208,8 +237,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2830162421CC0E9300E024C9 /* SteamController.h in Headers */,
-				2830162221CC0E9300E024C9 /* SteamControllerManager.h in Headers */,
+				B31BC25C26F0B1D700CB29D2 /* SteamControllerClass.h in Headers */,
+				B31BC26026F0B1D700CB29D2 /* SteamControllerManager.h in Headers */,
+				B31BC25526F0AFAD00CB29D2 /* SteamController.h in Headers */,
 				2830162621CC0E9300E024C9 /* SteamControllerExtendedGamepad.h in Headers */,
 				2830162821CC0E9300E024C9 /* SteamControllerInput.h in Headers */,
 			);
@@ -219,8 +249,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2830164C21CC107000E024C9 /* SteamControllerManager.h in Headers */,
-				2830164E21CC107000E024C9 /* SteamController.h in Headers */,
+				B31BC25D26F0B1D700CB29D2 /* SteamControllerClass.h in Headers */,
+				B31BC26126F0B1D700CB29D2 /* SteamControllerManager.h in Headers */,
+				B31BC25626F0AFAD00CB29D2 /* SteamController.h in Headers */,
 				2830165021CC107000E024C9 /* SteamControllerExtendedGamepad.h in Headers */,
 				2830165221CC107000E024C9 /* SteamControllerInput.h in Headers */,
 			);
@@ -356,7 +387,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2830162521CC0E9300E024C9 /* SteamController.m in Sources */,
+				2830162521CC0E9300E024C9 /* SteamControllerClass.m in Sources */,
 				2830162321CC0E9300E024C9 /* SteamControllerManager.m in Sources */,
 				2830162721CC0E9300E024C9 /* SteamControllerExtendedGamepad.m in Sources */,
 				2830162921CC0E9300E024C9 /* SteamControllerInput.m in Sources */,
@@ -367,7 +398,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2830164F21CC107000E024C9 /* SteamController.m in Sources */,
+				2830164F21CC107000E024C9 /* SteamControllerClass.m in Sources */,
 				2830164D21CC107000E024C9 /* SteamControllerManager.m in Sources */,
 				2830165121CC107000E024C9 /* SteamControllerExtendedGamepad.m in Sources */,
 				2830165321CC107000E024C9 /* SteamControllerInput.m in Sources */,
@@ -428,7 +459,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "SteamController/Info-iOS.plist";
+				INFOPLIST_FILE = "Sources/SteamController/Supporting Files/Info-iOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -459,7 +490,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "SteamController/Info-iOS.plist";
+				INFOPLIST_FILE = "Sources/SteamController/Supporting Files/Info-iOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -489,7 +520,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "SteamController/Info-tvOS.plist";
+				INFOPLIST_FILE = "Sources/SteamController/Supporting Files/Info-tvOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -521,7 +552,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "SteamController/Info-tvOS.plist";
+				INFOPLIST_FILE = "Sources/SteamController/Supporting Files/Info-tvOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -7,7 +7,7 @@
 //
 
 #import "SteamControllerExtendedGamepad.h"
-#import "SteamController.h"
+#import "include/SteamController/SteamControllerClass.h"
 #import "SteamControllerInput.h"
 
 @implementation SteamControllerExtendedGamepad
